@@ -1,0 +1,14 @@
+name = "github-stats"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[[kv_namespaces]]
+binding = "KV"
+id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+
+# Secrets (set via CLI, not stored here):
+# wrangler secret put GITHUB_TOKEN
+# wrangler secret put CACHE_BUST_TOKEN
+
+[vars]
+# Public vars (non-sensitive) can go here
