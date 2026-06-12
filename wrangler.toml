@@ -4,7 +4,7 @@ compatibility_date = "2024-01-01"
 
 [[kv_namespaces]]
 binding = "KV"
-id = "REPLACE_WITH_YOUR_KV_NAMESPACE_ID"
+id = "5a6b7584ef0f4bdb80ec2a542d568f2f"
 
 # Secrets (set via CLI, not stored here):
 # wrangler secret put GITHUB_TOKEN
