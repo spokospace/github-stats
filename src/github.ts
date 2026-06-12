@@ -21,10 +21,11 @@ async function gql(token: string, query: string, variables = {}): Promise<any> {
 
 const LANG_IGNORE = new Set(['HTML', 'CSS', 'SCSS', 'MDX', 'Markdown', 'Shell', 'Dockerfile', 'Batchfile']);
 
+// repositoryOwner works for both users AND organizations
 const REPOS_QUERY = `
-query($login: String!, $isSelf: Boolean!, $after: String) {
-  user: repositoryOwner(login: $login) {
-    repositories(first: 100, after: $after, ownerAffiliations: OWNER, privacy: null) {
+query($login: String!, $after: String) {
+  owner: repositoryOwner(login: $login) {
+    repositories(first: 100, after: $after, ownerAffiliations: OWNER) {
       pageInfo { hasNextPage endCursor }
       nodes {
         name
@@ -35,18 +36,15 @@ query($login: String!, $isSelf: Boolean!, $after: String) {
       }
     }
   }
-  viewer @include(if: $isSelf) { login }
 }
 `;
 
-async function fetchRepoLanguages(token: string, login: string, isSelf: boolean): Promise<LangData> {
+async function fetchRepoLanguages(token: string, login: string): Promise<LangData> {
   const totals: LangData = {};
   let after: string | null = null;
-
   do {
-    const data = await gql(token, REPOS_QUERY, { login, isSelf, after });
-    const { nodes, pageInfo } = data.user.repositories;
-
+    const data = await gql(token, REPOS_QUERY, { login, after });
+    const { nodes, pageInfo } = data.owner.repositories;
     for (const repo of nodes) {
       if (repo.isFork) continue;
       for (const edge of repo.languages.edges) {
@@ -58,14 +56,11 @@ async function fetchRepoLanguages(token: string, login: string, isSelf: boolean)
     }
     after = pageInfo.hasNextPage ? pageInfo.endCursor : null;
   } while (after);
-
   return totals;
 }
 
 export async function fetchLanguages(token: string, logins: string[]): Promise<LangData> {
-  const results = await Promise.all(
-    logins.map((login, i) => fetchRepoLanguages(token, login, i === 0))
-  );
+  const results = await Promise.all(logins.map(login => fetchRepoLanguages(token, login)));
   const merged: LangData = {};
   for (const result of results) {
     for (const [lang, bytes] of Object.entries(result)) {
@@ -78,6 +73,7 @@ export async function fetchLanguages(token: string, logins: string[]): Promise<L
 }
 
 // ── Stats ─────────────────────────────────────────────────────────────────────
+// Stats only work for user accounts (not orgs), so we use logins[0] = spokospace
 
 const STATS_QUERY = `
 query($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -108,8 +104,9 @@ export async function fetchStats(token: string, logins: string[]): Promise<Stats
   const now = new Date();
   const from = new Date(now.getFullYear(), 0, 1).toISOString();
   const to = now.toISOString();
-
-  const results = await Promise.all(logins.map(login => gql(token, STATS_QUERY, { login, from, to })));
+  // Only query user accounts (logins[0] = spokospace)
+  const userLogins = [logins[0]];
+  const results = await Promise.all(userLogins.map(login => gql(token, STATS_QUERY, { login, from, to })));
 
   let totalCommits = 0, totalPRs = 0, mergedPRs = 0, totalIssues = 0, closedIssues = 0;
   let totalStars = 0, totalForks = 0, totalRepos = 0, totalWatchers = 0;
@@ -118,47 +115,52 @@ export async function fetchStats(token: string, logins: string[]): Promise<Stats
 
   for (const data of results) {
     const u = data.user;
-    const cc = u.contributionsCollection;
-    totalCommits    += cc.totalCommitContributions;
-    totalPRs        += cc.totalPullRequestContributions;
-    reviewedPRs     += cc.totalPullRequestReviewContributions;
-    totalIssues     += cc.totalIssueContributions;
-    contributions   += cc.totalCommitContributions + cc.totalPullRequestContributions + cc.totalIssueContributions;
-    mergedPRs       += u.pullRequests.totalCount;
-    closedIssues    += u.issues.totalCount;
-    totalRepos      += u.repositories.totalCount;
-    discussionsStarted  += u.repositoryDiscussions.totalCount;
-    discussionsAnswered += u.repositoryDiscussionComments.totalCount;
-    followers       = Math.max(followers, u.followers.totalCount);
-    if (u.createdAt < createdAt) createdAt = u.createdAt;
-
-    for (const repo of u.repositories.nodes) {
-      totalStars    += repo.stargazerCount;
-      totalForks    += repo.forkCount;
-      totalWatchers += repo.watchers.totalCount;
+    const repos = u.repositories.nodes;
+    totalRepos += u.repositories.totalCount;
+    for (const r of repos) {
+      totalStars += r.stargazerCount;
+      totalForks += r.forkCount;
+      totalWatchers += r.watchers.totalCount;
     }
+    const c = u.contributionsCollection;
+    totalCommits += c.totalCommitContributions;
+    totalPRs += c.totalPullRequestContributions;
+    reviewedPRs += c.totalPullRequestReviewContributions;
+    totalIssues += c.totalIssueContributions;
+    contributions += c.totalCommitContributions + c.totalPullRequestContributions + c.totalIssueContributions;
+    mergedPRs += u.pullRequests.totalCount;
+    closedIssues += u.issues.totalCount;
+    followers += u.followers.totalCount;
+    discussionsStarted += u.repositoryDiscussions.totalCount;
+    discussionsAnswered += u.repositoryDiscussionComments.totalCount;
+    if (u.createdAt < createdAt) createdAt = u.createdAt;
   }
 
-  const experience = Math.floor((now.getTime() - new Date(createdAt).getTime()) / (1000 * 60 * 60 * 24 * 365));
+  const yearsOnGH = Math.floor((Date.now() - new Date(createdAt).getTime()) / (365.25 * 864e5));
 
   return {
-    totalCommits, totalPRs, mergedPRs, totalIssues, closedIssues,
+    totalCommits, totalPRs, mergedPRs, reviewedPRs,
+    totalIssues, closedIssues,
     totalStars, totalForks, totalRepos, totalWatchers,
     followers, contributions, discussionsStarted, discussionsAnswered,
-    reviewedPRs, experience,
-  } as any;
+    yearsOnGH,
+  };
 }
 
-// ── Streak ────────────────────────────────────────────────────────────────────
+// ── Streak ───────────────────────────────────────────────────────────────────
+// Streak uses contributionsCollection — user only (spokospace)
 
-const CONTRIB_QUERY = `
-query($login: String!, $from: DateTime!, $to: DateTime!) {
+const STREAK_QUERY = `
+query($login: String!) {
   user(login: $login) {
-    contributionsCollection(from: $from, to: $to) {
+    contributionsCollection {
       contributionCalendar {
         totalContributions
         weeks {
-          contributionDays { date contributionCount contributionLevel }
+          contributionDays {
+            date
+            contributionCount
+          }
         }
       }
     }
@@ -166,145 +168,114 @@ query($login: String!, $from: DateTime!, $to: DateTime!) {
 }
 `;
 
-export async function fetchStreak(token: string, login: string): Promise<StreakData> {
-  const now = new Date();
-  // fetch last 2 years to cover longest streak
-  const from = new Date(now.getFullYear() - 1, 0, 1).toISOString();
-  const to = now.toISOString();
-
-  const data = await gql(token, CONTRIB_QUERY, { login, from, to });
+export async function fetchStreak(token: string, logins: string[]): Promise<StreakData> {
+  const data = await gql(token, STREAK_QUERY, { login: logins[0] });
   const cal = data.user.contributionsCollection.contributionCalendar;
-  const days: Array<{ date: string; count: number }> = [];
+  const days = cal.weeks.flatMap((w: any) => w.contributionDays);
 
-  for (const week of cal.weeks) {
-    for (const day of week.contributionDays) {
-      days.push({ date: day.date, count: day.contributionCount });
-    }
-  }
+  let currentStreak = 0, longestStreak = 0, streak = 0;
+  let lastDate = '';
 
-  // Calculate streaks
-  let currentStreak = 0, longestStreak = 0, tempStreak = 0;
-  let currentStreakStart = '', currentStreakEnd = '', longestStreakStart = '', longestStreakEnd = '';
-  let tempStart = '';
-  let firstContribution = '';
-
-  for (let i = 0; i < days.length; i++) {
-    const day = days[i];
-    if (day.count > 0) {
-      if (!firstContribution) firstContribution = day.date;
-      if (tempStreak === 0) tempStart = day.date;
-      tempStreak++;
-      if (tempStreak > longestStreak) {
-        longestStreak = tempStreak;
-        longestStreakStart = tempStart;
-        longestStreakEnd = day.date;
-      }
+  for (const day of days) {
+    if (day.contributionCount > 0) {
+      streak++;
+      if (streak > longestStreak) longestStreak = streak;
     } else {
-      tempStreak = 0;
+      streak = 0;
     }
+    lastDate = day.date;
   }
 
-  // Current streak from today backwards
-  for (let i = days.length - 1; i >= 0; i--) {
-    if (days[i].count > 0) {
+  // Current streak: count backwards from today
+  const today = new Date().toISOString().slice(0, 10);
+  const reverseDays = [...days].reverse();
+  for (const day of reverseDays) {
+    if (day.date > today) continue;
+    if (day.contributionCount > 0) {
       currentStreak++;
-      currentStreakEnd = currentStreakEnd || days[i].date;
-      currentStreakStart = days[i].date;
-    } else if (currentStreak > 0) break;
+    } else {
+      break;
+    }
   }
 
   return {
     currentStreak,
     longestStreak,
-    currentStreakStart,
-    currentStreakEnd,
-    longestStreakStart,
-    longestStreakEnd,
     totalContributions: cal.totalContributions,
-    firstContribution,
+    lastContribution: lastDate,
   };
 }
 
-// ── Repos ─────────────────────────────────────────────────────────────────────
+// ── Repos ────────────────────────────────────────────────────────────────────
 
 const FEATURED_REPOS_QUERY = `
 query($login: String!) {
-  user(login: $login) {
-    pinnedItems(first: 6, types: REPOSITORY) {
+  owner: repositoryOwner(login: $login) {
+    repositories(first: 6, ownerAffiliations: OWNER, orderBy: { field: STARGAZERS, direction: DESC }, privacy: PUBLIC) {
       nodes {
-        ... on Repository {
-          name owner { login } description stargazerCount forkCount
-          watchers { totalCount }
-          primaryLanguage { name color }
-          isPrivate repositoryTopics(first: 5) { nodes { topic { name } } }
-          url updatedAt
-        }
-      }
-    }
-    repositories(first: 6, orderBy: { field: STARGAZERS, direction: DESC }, ownerAffiliations: OWNER, isFork: false) {
-      nodes {
-        name owner { login } description stargazerCount forkCount
-        watchers { totalCount }
-        primaryLanguage { name color }
-        isPrivate repositoryTopics(first: 5) { nodes { topic { name } } }
-        url updatedAt
+        name
+        description
+        stargazerCount
+        forkCount
+        primaryLanguage { name }
+        url
+        isPrivate
       }
     }
   }
 }
 `;
 
-export async function fetchRepos(token: string, login: string): Promise<RepoData[]> {
-  const data = await gql(token, FEATURED_REPOS_QUERY, { login });
-  const u = data.user;
-  const pinned = u.pinnedItems.nodes;
-  const top = u.repositories.nodes;
-  const seen = new Set<string>();
-  const repos: RepoData[] = [];
-
-  const mapRepo = (r: any): RepoData => ({
+function mapRepo(r: any, login: string): RepoData[number] {
+  return {
     name: r.name,
-    owner: r.owner.login,
-    description: r.description,
+    description: r.description ?? '',
     stars: r.stargazerCount,
     forks: r.forkCount,
-    watchers: r.watchers.totalCount,
-    language: r.primaryLanguage?.name ?? null,
-    languageColor: r.primaryLanguage?.color ?? null,
-    isPrivate: r.isPrivate,
-    topics: r.repositoryTopics.nodes.map((n: any) => n.topic.name),
+    language: r.primaryLanguage?.name ?? 'Unknown',
     url: r.url,
-    updatedAt: r.updatedAt,
-  });
-
-  for (const r of [...pinned, ...top]) {
-    if (!seen.has(r.name)) { seen.add(r.name); repos.push(mapRepo(r)); }
-    if (repos.length >= 6) break;
-  }
-  return repos;
+    isPrivate: r.isPrivate,
+    owner: login,
+  };
 }
 
-// ── Contribution Calendar ─────────────────────────────────────────────────────
+export async function fetchRepos(token: string, logins: string[]): Promise<RepoData> {
+  const results = await Promise.all(
+    logins.map(async login => {
+      const data = await gql(token, FEATURED_REPOS_QUERY, { login });
+      return data.owner.repositories.nodes.map((r: any) => mapRepo(r, login));
+    })
+  );
+  return results.flat().sort((a, b) => b.stars - a.stars).slice(0, 6);
+}
 
-export async function fetchContributions(token: string, login: string): Promise<ContribData> {
-  const now = new Date();
-  const from = new Date(now.getFullYear(), 0, 1).toISOString();
-  const to = now.toISOString();
-  const data = await gql(token, CONTRIB_QUERY, { login, from, to });
+// ── Contributions calendar ───────────────────────────────────────────────────
+// Contribution calendar — user only (spokospace)
+
+const CONTRIB_QUERY = `
+query($login: String!) {
+  user(login: $login) {
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+        weeks {
+          contributionDays {
+            date
+            contributionCount
+            color
+          }
+        }
+      }
+    }
+  }
+}
+`;
+
+export async function fetchContributions(token: string, logins: string[]): Promise<ContribData> {
+  const data = await gql(token, CONTRIB_QUERY, { login: logins[0] });
   const cal = data.user.contributionsCollection.contributionCalendar;
-
-  const levelMap: Record<string, 0 | 1 | 2 | 3 | 4> = {
-    NONE: 0, FIRST_QUARTILE: 1, SECOND_QUARTILE: 2, THIRD_QUARTILE: 3, FOURTH_QUARTILE: 4,
-  };
-
   return {
-    totalContributions: cal.totalContributions,
-    weeks: cal.weeks.map((w: any) => ({
-      days: w.contributionDays.map((d: any) => ({
-        date: d.date,
-        count: d.contributionCount,
-        level: levelMap[d.contributionLevel] ?? 0,
-      })),
-    })),
+    total: cal.totalContributions,
+    weeks: cal.weeks,
   };
 }
