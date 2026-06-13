@@ -64,15 +64,15 @@ export default {
           return svgResponse(renderStats(data, theme));
         }
         case '/streak': {
-          const data = await cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, PRIMARY));
+          const data = await cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY]));
           return svgResponse(renderStreak(data, theme));
         }
         case '/repos': {
-          const data = await cached(env.KV, 'repos', () => fetchRepos(env.GITHUB_TOKEN, PRIMARY));
+          const data = await cached(env.KV, 'repos', () => fetchRepos(env.GITHUB_TOKEN, OWNERS));
           return svgResponse(renderRepos(data, theme));
         }
         case '/contrib': {
-          const data = await cached(env.KV, 'contrib', () => fetchContributions(env.GITHUB_TOKEN, PRIMARY));
+          const data = await cached(env.KV, 'contrib', () => fetchContributions(env.GITHUB_TOKEN, [PRIMARY]));
           return svgResponse(renderContrib(data, theme));
         }
         case '/trophies': {

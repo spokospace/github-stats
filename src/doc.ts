@@ -10,6 +10,7 @@ export function renderDoc(baseUrl: string): string {
   ];
 
   const themeParams = [
+    { param: 'theme',    type: 'str', default: 'dark',   desc: 'Base palette — <code>light</code> or <code>dark</code> (default). Applies full light/dark preset; all other params override on top.' },
     { param: 'bg',       type: 'hex', default: '030620', desc: 'Main background color' },
     { param: 'card',     type: 'hex', default: '060d24', desc: 'Card/chip background' },
     { param: 'bar',      type: 'hex', default: '0d1a2e', desc: 'Progress bar background' },
@@ -339,8 +340,9 @@ export function renderDoc(baseUrl: string): string {
           </table>
         </div>
 
-        <h3>Example</h3>
-        <pre><code>${baseUrl}/langs?bg=0d1117&primary=58a6ff&text=c9d1d9&radius=6</code></pre>
+        <h3>Examples</h3>
+        <pre><code>${baseUrl}/langs?theme=light
+${baseUrl}/langs?bg=0d1117&primary=58a6ff&text=c9d1d9&radius=6</code></pre>
       </section>
 
       <section id="deploy">

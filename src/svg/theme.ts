@@ -46,28 +46,46 @@ export const DEFAULT_THEME: Theme = {
 // Build a theme from URL search params, falling back to defaults
 // Supported params: bg, card, bar, border, primary, text, muted, dim, radius
 export function buildTheme(params: URLSearchParams): Theme {
+  const base = params.get('theme') === 'light' ? LIGHT_THEME : DEFAULT_THEME;
   const p = (key: string, fallback: string) => {
     const v = params.get(key);
     return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
   };
-  const primary = p('primary', DEFAULT_THEME.primary);
+  const primary = p('primary', base.primary);
   return {
-    bg: p('bg', DEFAULT_THEME.bg),
-    bgCard: p('card', DEFAULT_THEME.bgCard),
-    bgBar: p('bar', DEFAULT_THEME.bgBar),
-    border: p('border', DEFAULT_THEME.border),
+    bg: p('bg', base.bg),
+    bgCard: p('card', base.bgCard),
+    bgBar: p('bar', base.bgBar),
+    border: p('border', base.border),
     primary,
-    primaryDark: p('primaryDark', DEFAULT_THEME.primaryDark),
-    text: p('text', DEFAULT_THEME.text),
-    textMuted: p('muted', DEFAULT_THEME.textMuted),
-    textDim: p('dim', DEFAULT_THEME.textDim),
-    success: p('success', DEFAULT_THEME.success),
-    warning: p('warning', DEFAULT_THEME.warning),
-    danger: p('danger', DEFAULT_THEME.danger),
-    radius: parseInt(params.get('radius') ?? '') || DEFAULT_THEME.radius,
-    font: params.get('font') ?? DEFAULT_THEME.font,
+    primaryDark: p('primaryDark', base.primaryDark),
+    text: p('text', base.text),
+    textMuted: p('muted', base.textMuted),
+    textDim: p('dim', base.textDim),
+    success: p('success', base.success),
+    warning: p('warning', base.warning),
+    danger: p('danger', base.danger),
+    radius: parseInt(params.get('radius') ?? '') || base.radius,
+    font: params.get('font') ?? base.font,
   };
 }
+
+export const LIGHT_THEME: Theme = {
+  bg: '#ffffff',
+  bgCard: '#f6f8fa',
+  bgBar: '#eef2f6',
+  border: '#d0d7de',
+  primary: '#0d87cd',
+  primaryDark: '#0a6ca4',
+  text: '#1a2332',
+  textMuted: '#506680',
+  textDim: '#8090a0',
+  success: '#16a34a',
+  warning: '#d97706',
+  danger: '#dc2626',
+  radius: 10,
+  font: 'ui-sans-serif,system-ui,sans-serif',
+};
 
 // Backwards-compatible default export for renderers that don't need customisation
 export const THEME = DEFAULT_THEME;
