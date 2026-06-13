@@ -28,10 +28,11 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT): string {
+export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT, opacity = 1): string {
   const filled = Math.max(2, Math.round(width * Math.min(pct, 1)));
+  const op = opacity < 1 ? ` opacity="${opacity}"` : '';
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${height / 2}" fill="${t.bgBar}"/>
-<rect x="${x}" y="${y}" width="${filled}" height="${height}" rx="${height / 2}" fill="${color}"/>`;
+<rect x="${x}" y="${y}" width="${filled}" height="${height}" rx="${height / 2}" fill="${color}"${op}/>`;
 }
 
 export function badge(x: number, y: number, label: string, color: string, t: Theme = DEFAULT): string {
@@ -52,7 +53,7 @@ export function chip(x: number, y: number, label: string, color: string, iconPat
     : '';
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${t.bgCard}" stroke="${color}" stroke-width="0.75" stroke-opacity="0.4"/>
 ${iconEl}
-${text(x + PAD_X + (iconPath ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: color, font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
+${text(x + PAD_X + (iconPath ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: '#ffffff', font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
 }
 
 export function formatNumber(n: number): string {
