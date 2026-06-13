@@ -8,6 +8,7 @@ import { renderContrib } from './renderers/contrib';
 import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
 import { buildTheme } from './svg/theme';
+import { renderDoc } from './doc';
 
 // ── Config ─────────────────────────────────────────────────────────────────
 // Override via wrangler.toml [vars] for your own deployment:
@@ -49,6 +50,11 @@ export default {
 
     try {
       switch (path) {
+        case '/': {
+          return new Response(renderDoc(url.origin), {
+            headers: { 'Content-Type': 'text/html; charset=utf-8' },
+          });
+        }
         case '/langs': {
           const data = await cached(env.KV, 'langs', () => fetchLanguages(env.GITHUB_TOKEN, OWNERS));
           return svgResponse(renderLangs(data, theme));
