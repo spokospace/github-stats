@@ -1,3 +1,5 @@
+import { esc } from '../svg/utils';
+
 // Single-color SVG icon renderer — viewBox 0 0 24 24
 // Paths sourced from Heroicons v2 solid (MIT) and Material Design Icons (Apache 2.0)
 const ICONS: Record<string, { path: string; rule?: 'evenodd' }> = {
@@ -20,10 +22,10 @@ const ICONS: Record<string, { path: string; rule?: 'evenodd' }> = {
   users:       { path: 'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z' },
 };
 
-export function renderIcon(name: string, color: string, size: number): string | null {
+export function renderIcon(name: string, color: string, size = 16): string | null {
   const icon = ICONS[name];
   if (!icon) return null;
+  const s = Math.min(Math.max(size, 8), 96);
   const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24"><path${rule} d="${icon.path}" fill="${color}"/></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24"><path${rule} d="${esc(icon.path)}" fill="${esc(color)}"/></svg>`;
 }
-

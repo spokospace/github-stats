@@ -172,7 +172,7 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
       if (!firstContribution) firstContribution = day.date;
       if (streak === 0) tempStart = day.date;
       streak++;
-      if (streak > longestStreak) {
+      if (streak >= longestStreak) {
         longestStreak = streak;
         longestStreakStart = tempStart;
         longestStreakEnd = day.date;
@@ -189,7 +189,6 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
 
   for (let i = days.length - 1; i >= 0; i--) {
     const day = days[i];
-    if (day.date > today) continue;
     if (day.date === today && day.contributionCount === 0) continue;
     if (day.contributionCount > 0) {
       if (currentStreak === 0) currentStreakEnd = day.date;

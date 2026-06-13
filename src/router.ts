@@ -9,7 +9,7 @@ import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
 import { renderProfile } from './renderers/profile';
 import { renderIcon } from './renderers/icon';
-import { buildTheme } from './svg/theme';
+import { buildTheme, normalizeHex } from './svg/theme';
 import { renderDoc } from './doc';
 
 // Override via wrangler.toml [vars] for your own deployment:
@@ -17,7 +17,7 @@ const OWNERS = ['spokospace', 'polo-blue'];
 const PRIMARY = OWNERS[0];
 const TTL = 86400; // 24h cache
 const STACK_TTL = TTL * 7;
-const CACHE_KEYS = ['langs', 'stats:2', 'streak:3', 'repos', 'contrib'];
+const CACHE_KEYS = ['langs', 'stats:2', 'streak:2', 'streak:3', 'repos', 'contrib'];
 
 function svgResponse(body: string, ttl = TTL): Response {
   return new Response(body, {
@@ -97,11 +97,10 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
       }
       case '/icon': {
         const name = params.get('name') ?? '';
-        const rawColor = params.get('color');
-        const color = rawColor ? (rawColor.startsWith('#') ? rawColor : '#' + rawColor) : theme.primary;
+        if (!name) return new Response('Missing param: name', { status: 400 });
+        const color = normalizeHex(params.get('color'), theme.primary);
         const rawSize = parseInt(params.get('size') ?? '', 10);
-        const size = Math.min(Math.max(isNaN(rawSize) ? 16 : rawSize, 8), 96);
-        const svg = renderIcon(name, color, size);
+        const svg = renderIcon(name, color, isNaN(rawSize) ? 16 : rawSize);
         if (!svg) return new Response(`Unknown icon: ${name}`, { status: 404 });
         return svgResponse(svg, STACK_TTL);
       }

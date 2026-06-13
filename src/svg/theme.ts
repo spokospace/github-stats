@@ -45,12 +45,13 @@ export const DEFAULT_THEME: Theme = {
 
 // Build a theme from URL search params, falling back to defaults
 // Supported params: bg, card, bar, border, primary, text, muted, dim, radius
+export function normalizeHex(v: string | null | undefined, fallback: string): string {
+  return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
+}
+
 export function buildTheme(params: URLSearchParams): Theme {
   const base = NAMED_THEMES[params.get('theme') ?? ''] ?? DEFAULT_THEME;
-  const p = (key: string, fallback: string) => {
-    const v = params.get(key);
-    return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
-  };
+  const p = (key: string, fallback: string) => normalizeHex(params.get(key), fallback);
   const primary = p('primary', base.primary);
   return {
     bg: p('bg', base.bg),
