@@ -28,6 +28,10 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+export function normalizeHex(v: string | null | undefined, fallback: string): string {
+  return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
+}
+
 function luminance(hex: string): number {
   const n = parseInt(hex.replace('#', ''), 16);
   const [r, g, b] = [n >> 16, (n >> 8) & 0xff, n & 0xff]

@@ -8,7 +8,9 @@ import { renderContrib } from './renderers/contrib';
 import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
 import { renderProfile } from './renderers/profile';
+import { renderIcon } from './renderers/icon';
 import { buildTheme } from './svg/theme';
+import { normalizeHex } from './svg/utils';
 import { renderDoc } from './doc';
 
 // Override via wrangler.toml [vars] for your own deployment:
@@ -16,7 +18,7 @@ const OWNERS = ['spokospace', 'polo-blue'];
 const PRIMARY = OWNERS[0];
 const TTL = 86400; // 24h cache
 const STACK_TTL = TTL * 7;
-const CACHE_KEYS = ['langs', 'stats', 'streak', 'repos', 'contrib'];
+const CACHE_KEYS = ['langs', 'stats:2', 'streak:2', 'streak:3', 'repos', 'contrib'];
 
 function svgResponse(body: string, ttl = TTL): Response {
   return new Response(body, {
@@ -62,7 +64,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         return svgResponse(renderStats(data, theme));
       }
       case '/streak': {
-        const data = await cached(env.KV, 'streak:2', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY]));
+        const data = await cached(env.KV, 'streak:3', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY]));
         return svgResponse(renderStreak(data, theme));
       }
       case '/repos': {
@@ -80,7 +82,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
       case '/profile': {
         const [pStats, pStreak] = await Promise.all([
           cached(env.KV, 'stats:2', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
-          cached(env.KV, 'streak:2', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
+          cached(env.KV, 'streak:3', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
         ]);
         const rawHide = params.get('hide');
         const hide = new Set(
@@ -94,6 +96,14 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         const techsParam = params.get('techs') ?? 'Laravel,Vue,Astro,TypeScript,Tailwind,PHP,Node.js,WordPress';
         return svgResponse(renderStack(techsParam.split(',').map(t => t.trim()).filter(Boolean), theme), STACK_TTL);
       }
+      case '/icon': {
+        const name = params.get('name') ?? '';
+        if (!name) return new Response('Missing param: name', { status: 400 });
+        const color = normalizeHex(params.get('color'), theme.primary);
+        const svg = renderIcon(name, color, parseInt(params.get('size') ?? '', 10) || 16);
+        if (!svg) return new Response(`Unknown icon: ${name}`, { status: 404 });
+        return svgResponse(svg, STACK_TTL);
+      }
       case '/bust-cache': {
         if (params.get('token') !== env.CACHE_BUST_TOKEN) {
           return new Response('Unauthorized', { status: 401 });
@@ -103,10 +113,11 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
       }
       default:
         return new Response(JSON.stringify({
-          endpoints: ['/langs', '/stats', '/streak', '/repos', '/contrib', '/trophies', '/stack', '/profile'],
+          endpoints: ['/langs', '/stats', '/streak', '/repos', '/contrib', '/trophies', '/stack', '/profile', '/icon'],
           usage: {
             theme: 'All endpoints accept ?primary=0d87cd&bg=030620&text=e5ecf6&radius=10',
             stack: '/stack?techs=Laravel,Vue,TypeScript',
+            icon: '/icon?name=bolt&color=0d87cd&size=20',
             cache: '/bust-cache?token=YOUR_TOKEN',
           },
         }, null, 2), {

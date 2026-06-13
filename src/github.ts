@@ -163,32 +163,43 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
   const cal = data.user.contributionsCollection.contributionCalendar;
   const days = cal.weeks.flatMap((w: any) => w.contributionDays);
 
-  let currentStreak = 0, longestStreak = 0, streak = 0;
-  let lastDate = '';
+  // Forward pass: longest streak + first contribution
+  let longestStreak = 0, streak = 0;
+  let firstContribution: string | undefined, tempStart = '', longestStreakStart: string | undefined, longestStreakEnd: string | undefined;
 
   for (const day of days) {
     if (day.contributionCount > 0) {
+      if (!firstContribution) firstContribution = day.date;
+      if (streak === 0) tempStart = day.date;
       streak++;
-      if (streak > longestStreak) longestStreak = streak;
+      if (streak >= longestStreak) {
+        longestStreak = streak;
+        longestStreakStart = tempStart;
+        longestStreakEnd = day.date;
+      }
     } else {
       streak = 0;
     }
-    lastDate = day.date;
   }
 
-  // Current streak: count backwards from today
+  // Current streak: walk backwards from today
+  // Skip today if it has no contributions yet (day not over)
   const today = new Date().toISOString().slice(0, 10);
-  const reverseDays = [...days].reverse();
-  for (const day of reverseDays) {
-    if (day.date > today) continue;
+  let currentStreak = 0, currentStreakStart: string | undefined, currentStreakEnd: string | undefined;
+
+  for (let i = days.length - 1; i >= 0; i--) {
+    const day = days[i];
+    if (day.date === today && day.contributionCount === 0) continue;
     if (day.contributionCount > 0) {
+      if (currentStreak === 0) currentStreakEnd = day.date;
       currentStreak++;
+      currentStreakStart = day.date;
     } else {
       break;
     }
   }
 
-  const weeklyContributions: number[] = cal.weeks
+  const weeklyContributions = cal.weeks
     .slice(-26)
     .map((w: any) => w.contributionDays.reduce((s: number, d: any) => s + d.contributionCount, 0));
 
@@ -196,7 +207,12 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
     currentStreak,
     longestStreak,
     totalContributions: cal.totalContributions,
-    lastContribution: lastDate,
+    lastContribution: days[days.length - 1]?.date,
+    firstContribution,
+    currentStreakStart,
+    currentStreakEnd,
+    longestStreakStart,
+    longestStreakEnd,
     weeklyContributions,
   };
 }
