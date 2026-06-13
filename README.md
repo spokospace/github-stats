@@ -14,7 +14,7 @@ Radar-style card with animated orbit dots (streak, commits, PRs, stars, repos, f
 ![Profile](https://github.spoko.space/profile)
 ```
 
-[![Profile](https://github.spoko.space/profile)](https://github.spoko.space/profile)
+[![Profile](https://github.spoko.space/profile?v=2)](https://github.spoko.space/profile)
 
 ### Stats
 Commits, PRs, stars, forks, issues, followers and more.
