@@ -6,6 +6,7 @@ export function renderDoc(baseUrl: string): string {
     { path: '/repos',    desc: 'Top 6 repos by stars — 2-column cards',                    preview: true },
     { path: '/contrib',  desc: 'Full-year contribution heatmap (GitHub-style calendar)',    preview: true },
     { path: '/trophies', desc: 'Achievement trophies — C to SSS tier based on stats',      preview: true },
+    { path: '/profile',  desc: 'Animated profile card — stats + orbital space animation',   preview: true },
     { path: '/stack',    desc: 'Tech stack chips — pass ?techs=Laravel,Vue,TypeScript',    preview: true },
   ];
 

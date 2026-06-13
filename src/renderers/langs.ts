@@ -2,7 +2,7 @@ import type { LangData } from '../types';
 import { THEME, langColor } from '../svg/theme';
 import { svgWrapper, sectionTitle, text, progressBar, formatNumber } from '../svg/utils';
 
-export function renderLangs(langs: LangData, _theme = THEME): string {
+export function renderLangs(langs: LangData, theme = THEME): string {
   const W = 460, P = 20;
   const entries = Object.entries(langs);
   const total = entries.reduce((s, [, v]) => s + v, 0);
@@ -36,16 +36,16 @@ export function renderLangs(langs: LangData, _theme = THEME): string {
     const pct = ((bytes / total) * 100).toFixed(1) + '%';
     return `<circle cx="${x + 6}" cy="${y + 4}" r="5" fill="${langColor(lang)}"/>
 ${text(x + 16, y + 8, lang, { size: 11 })}
-${text(x + barW / COLS - 2, y + 8, pct, { size: 11, fill: THEME.textMuted, anchor: 'end' })}`;
+${text(x + barW / COLS - 2, y + 8, pct, { size: 11, fill: theme.textMuted, anchor: 'end' }, theme)}`;
   }).join('');
 
   const inner = `
 ${sectionTitle(P, titleY, 'Most Used Languages')}
-<rect x="${P}" y="${barY}" width="${barW}" height="${BAR_H}" rx="4" fill="${THEME.bgBar}"/>
+<rect x="${P}" y="${barY}" width="${barW}" height="${BAR_H}" rx="4" fill="${theme.bgBar}"/>
 ${barSegs}
 ${legend}`;
 
-  return svgWrapper(W, H, inner, 'Most Used Languages');
+  return svgWrapper(W, H, inner, 'Most Used Languages', theme);
 }
 
 // theme-aware

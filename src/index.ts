@@ -7,6 +7,7 @@ import { renderRepos } from './renderers/repos';
 import { renderContrib } from './renderers/contrib';
 import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
+import { renderProfile } from './renderers/profile';
 import { buildTheme } from './svg/theme';
 import { renderDoc } from './doc';
 
@@ -78,6 +79,13 @@ export default {
         case '/trophies': {
           const data = await cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS));
           return svgResponse(renderTrophies(data, theme));
+        }
+        case '/profile': {
+          const [pStats, pStreak] = await Promise.all([
+            cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
+            cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
+          ]);
+          return svgResponse(renderProfile(pStats, pStreak, theme));
         }
         case '/stack': {
           // ?techs=Laravel,Vue,TypeScript,Astro,PHP  (comma-separated, URL-encoded)
