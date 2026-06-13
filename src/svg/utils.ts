@@ -28,6 +28,26 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+export function normalizeHex(v: string | null | undefined, fallback: string): string {
+  return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
+}
+
+function luminance(hex: string): number {
+  const n = parseInt(hex.replace('#', ''), 16);
+  const [r, g, b] = [n >> 16, (n >> 8) & 0xff, n & 0xff]
+    .map(c => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function contrastRatio(hex1: string, hex2: string): number {
+  const l1 = luminance(hex1), l2 = luminance(hex2);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+
+function a11yColor(fg: string, bg: string, fallback: string): string {
+  return contrastRatio(fg, bg) >= 4.5 ? fg : fallback;
+}
+
 export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT, opacity = 1): string {
   const filled = Math.max(2, Math.round(width * Math.min(pct, 1)));
   const op = opacity < 1 ? ` opacity="${opacity}"` : '';
