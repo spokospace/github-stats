@@ -1,5 +1,6 @@
 import type { ContribData } from '../types';
-import { THEME } from '../svg/theme';
+import type { Theme } from '../svg/theme';
+import { DEFAULT_THEME } from '../svg/theme';
 import { svgWrapper, sectionTitle, text } from '../svg/utils';
 
 const LEVEL_COLORS = ['#0d1a2e', '#0a4a7a', '#0a6ca4', '#0d87cd', '#4db8f0'];
@@ -12,10 +13,8 @@ function getLevel(count: number): number {
   return 4;
 }
 
-export function renderContrib(data: ContribData): string {
+export function renderContrib(data: ContribData, theme: Theme = DEFAULT_THEME): string {
   const W = 460, P = 20;
-  // Fit 53 weeks into available width: W - P*2 - 30 (day labels) = 390px
-  // 390 / 53 weeks = 7.36 -> STEP=7, CELL=6, GAP=1
   const CELL = 6, GAP = 1, STEP = CELL + GAP;
   const LABEL_W = 24;
   const gridW = W - P * 2 - LABEL_W;
@@ -26,7 +25,7 @@ export function renderContrib(data: ContribData): string {
 
   const dayNames = ['', 'Mon', '', 'Wed', '', 'Fri', ''];
   const dayLabels = dayNames.map((d, i) =>
-    d ? text(P, gridY + i * STEP + CELL - 1, d, { size: 8, fill: THEME.textMuted }) : ''
+    d ? text(P, gridY + i * STEP + CELL - 1, d, { size: 8, fill: theme.textMuted }, theme) : ''
   ).join('');
 
   const weekStep = weeks.length > 1 ? gridW / (weeks.length - 1) : STEP;
@@ -40,13 +39,15 @@ export function renderContrib(data: ContribData): string {
     }).join('');
   }).join('');
 
-  const totalText = text(P, H - 8, `${data.total ?? 0} contributions this year`, { size: 10, fill: THEME.textMuted });
+  const totalText = text(P, H - 8, `${data.total ?? 0} contributions this year`, { size: 10, fill: theme.textMuted }, theme);
 
   const inner = `
-${sectionTitle(P, titleY, 'Contribution Graph')}
+${sectionTitle(P, titleY, 'Contribution Graph', theme)}
 ${dayLabels}
 ${cells}
 ${totalText}`;
 
-  return svgWrapper(W, H, inner, 'Contribution Graph');
+  return svgWrapper(W, H, inner, 'Contribution Graph', theme);
 }
+
+// theme support v2
