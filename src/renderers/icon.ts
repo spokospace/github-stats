@@ -27,5 +27,5 @@ export function renderIcon(name: string, color: string, size = 16): string | nul
   if (!icon) return null;
   const s = Math.min(Math.max(size, 8), 96);
   const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24"><path${rule} d="${esc(icon.path)}" fill="${esc(color)}"/></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24"><path${rule} d="${icon.path}" fill="${esc(color)}"/></svg>`;
 }

@@ -9,7 +9,8 @@ import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
 import { renderProfile } from './renderers/profile';
 import { renderIcon } from './renderers/icon';
-import { buildTheme, normalizeHex } from './svg/theme';
+import { buildTheme } from './svg/theme';
+import { normalizeHex } from './svg/utils';
 import { renderDoc } from './doc';
 
 // Override via wrangler.toml [vars] for your own deployment:
@@ -99,8 +100,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         const name = params.get('name') ?? '';
         if (!name) return new Response('Missing param: name', { status: 400 });
         const color = normalizeHex(params.get('color'), theme.primary);
-        const rawSize = parseInt(params.get('size') ?? '', 10);
-        const svg = renderIcon(name, color, isNaN(rawSize) ? 16 : rawSize);
+        const svg = renderIcon(name, color, parseInt(params.get('size') ?? '', 10) || 16);
         if (!svg) return new Response(`Unknown icon: ${name}`, { status: 404 });
         return svgResponse(svg, STACK_TTL);
       }
