@@ -8,6 +8,7 @@ export function renderDoc(baseUrl: string): string {
     { path: '/trophies', desc: 'Achievement trophies — C to SSS tier based on stats',      preview: true },
     { path: '/profile',  desc: 'Animated profile card — stats + orbital space animation',   preview: true },
     { path: '/stack',    desc: 'Tech stack chips — pass ?techs=Laravel,Vue,TypeScript',    preview: true },
+    { path: '/icon',     desc: 'Single-color SVG icon — ?name=bolt&color=0d87cd&size=20 (no background)', preview: false },
   ];
 
   const themeParams = [
@@ -348,6 +349,13 @@ export function renderDoc(baseUrl: string): string {
 
         <h3>Stack endpoint</h3>
         <pre><code>${baseUrl}/stack?techs=Laravel,Vue,TypeScript,Tailwind,PHP,Node.js,WordPress</code></pre>
+
+        <h3>Icon endpoint</h3>
+        <p style="color:var(--muted);margin-bottom:8px">Bare single-color SVG icons for use inline in Markdown (replace emoji):</p>
+        <pre><code>&lt;img height="14" src="${baseUrl}/icon?name=building&amp;color=0d87cd" align="absmiddle" /&gt; Running SPOKO SPACE
+&lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
+&lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
+        <p style="color:var(--muted);margin-top:8px;font-size:13px">Available icons: <code>bolt</code>, <code>map-pin</code>, <code>star</code>, <code>globe</code>, <code>building</code>, <code>target</code>, <code>check</code>, <code>check-circle</code>, <code>code</code>, <code>rocket</code>, <code>clock</code>, <code>heart</code>, <code>info</code>, <code>sparkles</code>, <code>eye</code>, <code>trophy</code>, <code>users</code></p>
       </section>
 
       <section id="theme">
