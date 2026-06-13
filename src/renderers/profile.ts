@@ -1,7 +1,7 @@
 import type { StatsData, StreakData } from '../types';
 import type { Theme } from '../svg/theme';
 import { THEME } from '../svg/theme';
-import { svgWrapper, sectionTitle, text, formatNumber, progressBar } from '../svg/utils';
+import { svgWrapper, sectionTitle, text, esc, formatNumber, progressBar } from '../svg/utils';
 
 function makeRng(seed: number) {
   let s = seed >>> 0;
@@ -27,13 +27,13 @@ function starField(count: number, x1: number, y1: number, color: string): string
   }).join('');
 }
 
-interface OrbDot { r: number; startDeg: number; dur: string; size: number; fill: string; id: string; label: string; value: string; }
+interface OrbDot { r: number; startDeg: number; dur: number; size: number; fill: string; id: string; label: string; value: string; }
 
 function renderOrbDot(cx: number, cy: number, d: OrbDot): string {
   const from = `${d.startDeg} ${cx} ${cy}`;
   const to = `${d.startDeg + 360} ${cx} ${cy}`;
   return `<g>
-    <animateTransform attributeName="transform" type="rotate" from="${from}" to="${to}" dur="${d.dur}" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="rotate" from="${from}" to="${to}" dur="${d.dur}s" repeatCount="indefinite"/>
     <circle class="odot odot-${d.id}" cx="${cx + d.r}" cy="${cy}" r="8" fill="transparent"/>
     <circle cx="${cx + d.r}" cy="${cy}" r="${d.size}" fill="${d.fill}" filter="url(#pglow)" style="pointer-events:none"/>
   </g>`;
@@ -42,6 +42,22 @@ function renderOrbDot(cx: number, cy: number, d: OrbDot): string {
 function renderOrbLabel(cx: number, y: number, d: OrbDot): string {
   return `<g class="olabel olabel-${d.id}">
     <text x="${cx}" y="${y}" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,monospace"><tspan font-size="7" fill="${d.fill}" opacity="0.6" letter-spacing="1">${d.label.toUpperCase()} </tspan><tspan font-size="12" font-weight="700" fill="${d.fill}">${d.value}</tspan></text>
+  </g>`;
+}
+
+function renderOrbBadge(d: OrbDot, idx: number): string {
+  const beginOffset = -(d.startDeg / 360) * d.dur;
+  const label = d.id.toUpperCase();
+  const BW = 56;
+  return `<g opacity="0">
+    <animateMotion dur="${d.dur}s" repeatCount="indefinite" begin="${beginOffset}s" rotate="none">
+      <mpath href="#op${d.r}"/>
+    </animateMotion>
+    <animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;0.08;0.22;0.38;0.52;1" dur="24s" begin="${idx * 4}s" repeatCount="indefinite"/>
+    <rect x="${-BW / 2}" y="-34" width="${BW}" height="26" rx="5" fill="${d.fill}" fill-opacity="0.13" stroke="${d.fill}" stroke-width="0.8" stroke-opacity="0.5"/>
+    <line x1="0" y1="-8" x2="0" y2="-2" stroke="${d.fill}" stroke-width="1" stroke-opacity="0.4"/>
+    ${text(0, -20, d.value, { size: 12, weight: '700', fill: d.fill, anchor: 'middle', font: 'ui-monospace,SFMono-Regular,monospace' })}
+    ${text(0, -12, label, { size: 7, fill: d.fill, anchor: 'middle', font: 'ui-monospace,SFMono-Regular,monospace', opacity: 0.65 })}
   </g>`;
 }
 
@@ -107,6 +123,9 @@ export function renderProfile(s: StatsData, streak: StreakData, theme: Theme = T
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
     <clipPath id="orbClip"><circle cx="${CX}" cy="${CY}" r="76"/></clipPath>
+    <path id="op30" d="M ${CX+30},${CY} A 30,30,0,1,1,${CX-30},${CY} A 30,30,0,1,1,${CX+30},${CY}"/>
+    <path id="op53" d="M ${CX+53},${CY} A 53,53,0,1,1,${CX-53},${CY} A 53,53,0,1,1,${CX+53},${CY}"/>
+    <path id="op76" d="M ${CX+76},${CY} A 76,76,0,1,1,${CX-76},${CY} A 76,76,0,1,1,${CX+76},${CY}"/>
     ${avatarClip}
   </defs>`;
 
@@ -126,15 +145,16 @@ export function renderProfile(s: StatsData, streak: StreakData, theme: Theme = T
   </g>`;
 
   const dots: OrbDot[] = [
-    { r: 30, startDeg: 0,   dur: '28s', size: dotR(streak.currentStreak, 60),   fill: '#a78bfa',        id: 'streak',    label: 'Streak',       value: `${streak.currentStreak} days` },
-    { r: 53, startDeg: 0,   dur: '48s', size: dotR(s.totalCommits, 1500), fill: theme.primary,    id: 'commits',   label: 'Commits',      value: formatNumber(s.totalCommits) },
-    { r: 53, startDeg: 180, dur: '48s', size: dotR(s.totalPRs, 200),     fill: theme.success,    id: 'prs',       label: 'Pull Requests', value: formatNumber(s.totalPRs) },
-    { r: 76, startDeg: 0,   dur: '75s', size: dotR(s.totalStars, 500),   fill: theme.warning,    id: 'stars',     label: 'Stars',        value: formatNumber(s.totalStars) },
-    { r: 76, startDeg: 120, dur: '75s', size: dotR(s.totalRepos, 50),    fill: theme.textMuted,  id: 'repos',     label: 'Repos',        value: String(s.totalRepos) },
-    { r: 76, startDeg: 240, dur: '75s', size: dotR(s.followers, 200),    fill: theme.textMuted,  id: 'followers', label: 'Followers',    value: String(s.followers) },
+    { r: 30, startDeg: 0,   dur: 28, size: dotR(streak.currentStreak, 60),   fill: '#a78bfa',       id: 'streak',    label: 'Streak',        value: `${streak.currentStreak} days` },
+    { r: 53, startDeg: 0,   dur: 48, size: dotR(s.totalCommits, 1500), fill: theme.primary,   id: 'commits',   label: 'Commits',       value: formatNumber(s.totalCommits) },
+    { r: 53, startDeg: 180, dur: 48, size: dotR(s.totalPRs, 200),     fill: theme.success,   id: 'prs',       label: 'Pull Requests', value: formatNumber(s.totalPRs) },
+    { r: 76, startDeg: 0,   dur: 75, size: dotR(s.totalStars, 500),   fill: theme.warning,   id: 'stars',     label: 'Stars',         value: formatNumber(s.totalStars) },
+    { r: 76, startDeg: 120, dur: 75, size: dotR(s.totalRepos, 50),    fill: theme.textMuted, id: 'repos',     label: 'Repos',         value: String(s.totalRepos) },
+    { r: 76, startDeg: 240, dur: 75, size: dotR(s.followers, 200),    fill: theme.textMuted, id: 'followers', label: 'Followers',     value: String(s.followers) },
   ];
   const dotsSvg = dots.map(d => renderOrbDot(CX, CY, d)).join('');
   const labelsSvg = dots.map(d => renderOrbLabel(CX, H - 8, d)).join('');
+  const badgesSvg = dots.map((d, i) => renderOrbBadge(d, i)).join('');
 
   const orb = `
   <rect x="${CX - 92}" y="${CY - 92}" width="196" height="196" rx="98" fill="url(#pbg)"/>
@@ -161,7 +181,8 @@ export function renderProfile(s: StatsData, streak: StreakData, theme: Theme = T
   ${dotsSvg}
   ${radarSweep(CX, CY, 76, theme.primary)}
   ${center}
-  ${labelsSvg}`;
+  ${labelsSvg}
+  ${badgesSvg}`;
 
   const divX = 242;
   const divider = `<line x1="${divX}" y1="14" x2="${divX}" y2="${H - 14}" stroke="${theme.border}" stroke-width="1"/>`;

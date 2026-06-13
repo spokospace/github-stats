@@ -1,14 +1,14 @@
 export function renderDoc(baseUrl: string): string {
   const endpoints = [
-    { path: '/langs',    desc: 'Top 10 languages by bytes — segmented bar + legend',       preview: true },
-    { path: '/stats',    desc: 'Commits, PRs, stars, issues, forks — stat grid',            preview: true },
-    { path: '/streak',   desc: 'Current streak, longest streak, total contributions',       preview: true },
-    { path: '/repos',    desc: 'Top 6 repos by stars — 2-column cards',                    preview: true },
-    { path: '/contrib',  desc: 'Full-year contribution heatmap (GitHub-style calendar)',    preview: true },
-    { path: '/trophies', desc: 'Achievement trophies — C to SSS tier based on stats',      preview: true },
-    { path: '/profile',  desc: 'Animated profile card — stats + orbital space animation',   preview: true },
-    { path: '/stack',    desc: 'Tech stack chips — pass ?techs=Laravel,Vue,TypeScript',    preview: true },
-    { path: '/icon',     desc: 'Single-color SVG icon — ?name=bolt&color=0d87cd&size=20 (no background)', preview: false },
+    { path: '/langs',    desc: 'Top 10 languages by bytes — segmented bar + legend',       previewPath: '/langs' },
+    { path: '/stats',    desc: 'Commits, PRs, stars, issues, forks — stat grid',            previewPath: '/stats' },
+    { path: '/streak',   desc: 'Current streak, longest streak, total contributions',       previewPath: '/streak' },
+    { path: '/repos',    desc: 'Top 6 repos by stars — 2-column cards',                    previewPath: '/repos' },
+    { path: '/contrib',  desc: 'Full-year contribution heatmap (GitHub-style calendar)',    previewPath: '/contrib' },
+    { path: '/trophies', desc: 'Achievement trophies — C to SSS tier based on stats',      previewPath: '/trophies' },
+    { path: '/profile',  desc: 'Animated profile card — stats + orbital space animation',   previewPath: '/profile' },
+    { path: '/stack',    desc: 'Tech stack chips — pass ?techs=Laravel,Vue,TypeScript',    previewPath: '/stack' },
+    { path: '/icon',     desc: 'Single-color SVG icon — ?name=bolt&color=0d87cd&size=20 (no background)', previewPath: '/icon?name=bolt&color=0d87cd&size=48' },
   ];
 
   const themeParams = [
@@ -27,11 +27,9 @@ export function renderDoc(baseUrl: string): string {
 
   const previewRow = (ep: typeof endpoints[0]) => `
     <div class="preview-item">
-      <div class="preview-label"><code>${ep.path}</code></div>
+      <div class="preview-label"><code>${ep.previewPath}</code></div>
       <div class="preview-desc">${ep.desc}</div>
-      <div class="preview-img">
-        <img src="${baseUrl}${ep.path}" alt="${ep.path} widget" loading="lazy">
-      </div>
+      <div class="preview-img"><img src="${baseUrl}${ep.previewPath}" alt="${ep.path} widget" loading="lazy"></div>
     </div>`;
 
   const themeRow = (p: typeof themeParams[0]) => `

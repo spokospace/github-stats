@@ -73,7 +73,7 @@ export function chip(x: number, y: number, label: string, color: string, iconPat
     : '';
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${t.bgCard}" stroke="${color}" stroke-width="0.75" stroke-opacity="0.4"/>
 ${iconEl}
-${text(x + PAD_X + (iconPath ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: a11yColor(color, t.bgCard, t.text), font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
+${text(x + PAD_X + (iconPath ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: '#ffffff', font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
 }
 
 export function formatNumber(n: number): string {
