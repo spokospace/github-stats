@@ -7,7 +7,7 @@ function fmtDate(d: string): string {
   return new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
-export function renderStreak(s: StreakData): string {
+export function renderStreak(s: StreakData, _theme = THEME): string {
   const W = 460, P = 20;
   const titleY = P + 14;
   const H = 140;
