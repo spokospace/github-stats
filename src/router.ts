@@ -62,7 +62,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         return svgResponse(renderStats(data, theme));
       }
       case '/streak': {
-        const data = await cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY]));
+        const data = await cached(env.KV, 'streak:2', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY]));
         return svgResponse(renderStreak(data, theme));
       }
       case '/repos': {
@@ -80,7 +80,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
       case '/profile': {
         const [pStats, pStreak] = await Promise.all([
           cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
-          cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
+          cached(env.KV, 'streak:2', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
         ]);
         const rawHide = params.get('hide');
         const hide = new Set(
