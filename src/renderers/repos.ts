@@ -2,7 +2,7 @@ import type { RepoData } from '../types';
 import { THEME } from '../svg/theme';
 import { svgWrapper, sectionTitle, text, esc } from '../svg/utils';
 
-export function renderRepos(repos: RepoData[]): string {
+export function renderRepos(repos: RepoData[], _theme = THEME): string {
   const W = 460, P = 20;
   const titleY = P + 14;
   const COLS = 2;
