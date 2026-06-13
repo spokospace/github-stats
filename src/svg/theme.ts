@@ -3,6 +3,7 @@ import {
   siPhp, siNodedotjs, siWordpress, siPython, siReact, siDocker,
   siGit, siUnocss, siJavascript, siCss, siSass, siHtml5,
 } from 'simple-icons';
+import { normalizeHex } from './utils';
 
 // spoko.space color palette & shared design tokens
 // All colors can be overridden via URL query params:
@@ -47,10 +48,7 @@ export const DEFAULT_THEME: Theme = {
 // Supported params: bg, card, bar, border, primary, text, muted, dim, radius
 export function buildTheme(params: URLSearchParams): Theme {
   const base = NAMED_THEMES[params.get('theme') ?? ''] ?? DEFAULT_THEME;
-  const p = (key: string, fallback: string) => {
-    const v = params.get(key);
-    return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
-  };
+  const p = (key: string, fallback: string) => normalizeHex(params.get(key), fallback);
   const primary = p('primary', base.primary);
   return {
     bg: p('bg', base.bg),

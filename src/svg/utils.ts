@@ -28,6 +28,10 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+export function normalizeHex(v: string | null | undefined, fallback: string): string {
+  return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
+}
+
 export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT, opacity = 1): string {
   const filled = Math.max(2, Math.round(width * Math.min(pct, 1)));
   const op = opacity < 1 ? ` opacity="${opacity}"` : '';
