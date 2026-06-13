@@ -489,7 +489,7 @@ npm install</code></pre>
     if(!ship)ship={x:W*.16,y:H*.5,vx:1.1,vy:0,a:0,tx:W*.8,ty:H*.5,re:0};
   }
   function spawnEnemy(any){
-    return{x:any?R(W*.45,W+60):W+R(20,120),y:R(H*.12,H*.9),vx:R(-.55,-.22),vy:R(-.12,.12),s:R(7,11),wob:R(0,6.28),sp:pickSpecies()};
+    return{x:any?R(W*.45,W+60):W+R(20,120),y:R(H*.12,H*.9),vx:R(-.55,-.22),vy:R(-.12,.12),s:R(3,6),wob:R(0,6.28),sp:pickSpecies()};
   }
   function retarget(){ship.tx=R(W*.45,W*.96);ship.ty=R(H*.22,H*.8);ship.re=R(70,150);}
   function spawnBurst(x,y,col){
