@@ -165,7 +165,7 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
 
   // Forward pass: longest streak + first contribution
   let longestStreak = 0, streak = 0;
-  let firstContribution = '', tempStart = '', longestStreakStart = '', longestStreakEnd = '';
+  let firstContribution: string | undefined, tempStart = '', longestStreakStart: string | undefined, longestStreakEnd: string | undefined;
 
   for (const day of days) {
     if (day.contributionCount > 0) {
@@ -185,9 +185,10 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
   // Current streak: walk backwards from today
   // Skip today if it has no contributions yet (day not over)
   const today = new Date().toISOString().slice(0, 10);
-  let currentStreak = 0, currentStreakStart = '', currentStreakEnd = '';
+  let currentStreak = 0, currentStreakStart: string | undefined, currentStreakEnd: string | undefined;
 
-  for (const day of [...days].reverse()) {
+  for (let i = days.length - 1; i >= 0; i--) {
+    const day = days[i];
     if (day.date > today) continue;
     if (day.date === today && day.contributionCount === 0) continue;
     if (day.contributionCount > 0) {
@@ -208,11 +209,11 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
     longestStreak,
     totalContributions: cal.totalContributions,
     lastContribution: days[days.length - 1]?.date,
-    firstContribution: firstContribution || undefined,
-    currentStreakStart: currentStreakStart || undefined,
-    currentStreakEnd: currentStreakEnd || undefined,
-    longestStreakStart: longestStreakStart || undefined,
-    longestStreakEnd: longestStreakEnd || undefined,
+    firstContribution,
+    currentStreakStart,
+    currentStreakEnd,
+    longestStreakStart,
+    longestStreakEnd,
     weeklyContributions,
   };
 }

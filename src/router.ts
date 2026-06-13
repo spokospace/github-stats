@@ -8,7 +8,7 @@ import { renderContrib } from './renderers/contrib';
 import { renderTrophies } from './renderers/trophies';
 import { renderStack } from './renderers/stack';
 import { renderProfile } from './renderers/profile';
-import { renderIcon, ICON_NAMES } from './renderers/icon';
+import { renderIcon } from './renderers/icon';
 import { buildTheme } from './svg/theme';
 import { renderDoc } from './doc';
 
@@ -99,9 +99,10 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         const name = params.get('name') ?? '';
         const rawColor = params.get('color');
         const color = rawColor ? (rawColor.startsWith('#') ? rawColor : '#' + rawColor) : theme.primary;
-        const size = Math.min(Math.max(parseInt(params.get('size') ?? '16', 10) || 16, 8), 96);
+        const rawSize = parseInt(params.get('size') ?? '', 10);
+        const size = Math.min(Math.max(isNaN(rawSize) ? 16 : rawSize, 8), 96);
         const svg = renderIcon(name, color, size);
-        if (!svg) return new Response(JSON.stringify({ error: `Unknown icon: ${name}`, available: ICON_NAMES }), { status: 404, headers: { 'Content-Type': 'application/json' } });
+        if (!svg) return new Response(`Unknown icon: ${name}`, { status: 404 });
         return svgResponse(svg, STACK_TTL);
       }
       case '/bust-cache': {

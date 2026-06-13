@@ -27,4 +27,3 @@ export function renderIcon(name: string, color: string, size: number): string | 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24"><path${rule} d="${icon.path}" fill="${color}"/></svg>`;
 }
 
-export const ICON_NAMES = Object.keys(ICONS);
