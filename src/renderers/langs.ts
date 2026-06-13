@@ -47,3 +47,5 @@ ${legend}`;
 
   return svgWrapper(W, H, inner, 'Most Used Languages');
 }
+
+// theme-aware
