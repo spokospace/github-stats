@@ -58,7 +58,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         return svgResponse(renderLangs(data, theme));
       }
       case '/stats': {
-        const data = await cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS));
+        const data = await cached(env.KV, 'stats:2', () => fetchStats(env.GITHUB_TOKEN, OWNERS));
         return svgResponse(renderStats(data, theme));
       }
       case '/streak': {
@@ -74,12 +74,12 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         return svgResponse(renderContrib(data, theme));
       }
       case '/trophies': {
-        const data = await cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS));
+        const data = await cached(env.KV, 'stats:2', () => fetchStats(env.GITHUB_TOKEN, OWNERS));
         return svgResponse(renderTrophies(data, theme));
       }
       case '/profile': {
         const [pStats, pStreak] = await Promise.all([
-          cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
+          cached(env.KV, 'stats:2', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
           cached(env.KV, 'streak:2', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
         ]);
         const rawHide = params.get('hide');
