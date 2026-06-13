@@ -46,3 +46,5 @@ ${grid}`;
 
   return svgWrapper(W, H, inner, 'GitHub Stats', theme);
 }
+
+// theme support
