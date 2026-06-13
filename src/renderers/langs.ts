@@ -27,16 +27,19 @@ export function renderLangs(langs: LangData, theme = THEME): string {
     return seg;
   }).join('');
 
-  // Legend rows
+  // Legend rows — two columns with explicit gap so pct text and circle don't collide
+  const COL_GAP = 24;
+  const colW = (barW - COL_GAP) / COLS;
   const legend = entries.map(([lang, bytes], i) => {
     const col = i % COLS;
     const row = Math.floor(i / COLS);
-    const x = P + col * (barW / COLS);
+    const x = P + col * (colW + COL_GAP);
     const y = legendY + row * ROW_H;
     const pct = ((bytes / total) * 100).toFixed(1) + '%';
     return `<circle cx="${x + 6}" cy="${y + 4}" r="5" fill="${langColor(lang)}"/>
 ${text(x + 16, y + 8, lang, { size: 11 })}
-${text(x + barW / COLS - 2, y + 8, pct, { size: 11, fill: theme.textMuted, anchor: 'end' }, theme)}`;
+${text(x + colW - 2, y + 8, pct, { size: 11, fill: theme.textMuted, anchor: 'end' }, theme)}`;
+
   }).join('');
 
   const inner = `
