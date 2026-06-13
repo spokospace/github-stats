@@ -3,7 +3,7 @@ import { THEME, langColor } from '../svg/theme';
 import { svgWrapper, sectionTitle, text, progressBar, formatNumber } from '../svg/utils';
 
 export function renderLangs(langs: LangData): string {
-  const W = 340, P = 20;
+  const W = 460, P = 20;
   const entries = Object.entries(langs);
   const total = entries.reduce((s, [, v]) => s + v, 0);
   if (!total) return '<svg xmlns="http://www.w3.org/2000/svg"/>';
@@ -35,15 +35,15 @@ export function renderLangs(langs: LangData): string {
     const y = legendY + row * ROW_H;
     const pct = ((bytes / total) * 100).toFixed(1) + '%';
     return `<circle cx="${x + 6}" cy="${y + 4}" r="5" fill="${langColor(lang)}"/>
-    ${text(x + 16, y + 8, lang, { size: 11 })}
-    ${text(x + barW / COLS - 2, y + 8, pct, { size: 11, fill: THEME.textMuted, anchor: 'end' })}`;
+${text(x + 16, y + 8, lang, { size: 11 })}
+${text(x + barW / COLS - 2, y + 8, pct, { size: 11, fill: THEME.textMuted, anchor: 'end' })}`;
   }).join('');
 
   const inner = `
-  ${sectionTitle(P, titleY, 'Most Used Languages')}
-  <rect x="${P}" y="${barY}" width="${barW}" height="${BAR_H}" rx="4" fill="${THEME.bgBar}"/>
-  ${barSegs}
-  ${legend}`;
+${sectionTitle(P, titleY, 'Most Used Languages')}
+<rect x="${P}" y="${barY}" width="${barW}" height="${BAR_H}" rx="4" fill="${THEME.bgBar}"/>
+${barSegs}
+${legend}`;
 
   return svgWrapper(W, H, inner, 'Most Used Languages');
 }
