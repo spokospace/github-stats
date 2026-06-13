@@ -2,7 +2,7 @@ import type { LangData } from '../types';
 import { THEME, langColor } from '../svg/theme';
 import { svgWrapper, sectionTitle, text, progressBar, formatNumber } from '../svg/utils';
 
-export function renderLangs(langs: LangData): string {
+export function renderLangs(langs: LangData, _theme = THEME): string {
   const W = 460, P = 20;
   const entries = Object.entries(langs);
   const total = entries.reduce((s, [, v]) => s + v, 0);
