@@ -36,7 +36,7 @@ async function cached<T>(kv: KVNamespace, key: string, fn: () => Promise<T>): Pr
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    const path = url.pathname.replace(//+$/, '') || '/';
+    const path = url.pathname.replace(/\/+$/, '') || '/';
     const params = url.searchParams;
 
     // Build theme from URL params (all optional, fall back to defaults)
