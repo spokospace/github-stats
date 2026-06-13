@@ -1,4 +1,4 @@
-import type { Env } from './types';
+import type { Env, RepoData } from './types';
 import { fetchLanguages, fetchStats, fetchStreak, fetchRepos, fetchContributions } from './github';
 import { renderLangs } from './renderers/langs';
 import { renderStats } from './renderers/stats';
@@ -85,7 +85,14 @@ export default {
             cached(env.KV, 'stats', () => fetchStats(env.GITHUB_TOKEN, OWNERS)),
             cached(env.KV, 'streak', () => fetchStreak(env.GITHUB_TOKEN, [PRIMARY])),
           ]);
-          return svgResponse(renderProfile(pStats, pStreak, theme));
+          const rawHide = params.get('hide');
+          const hide = new Set(
+            rawHide === null
+              ? ['contributions', 'streak']
+              : rawHide.split(',').map((k: string) => k.trim().toLowerCase()).filter(Boolean)
+          );
+          const avatar = params.get('avatar') === '1';
+          return svgResponse(renderProfile(pStats, pStreak, theme, hide, avatar));
         }
         case '/stack': {
           // ?techs=Laravel,Vue,TypeScript,Astro,PHP  (comma-separated, URL-encoded)

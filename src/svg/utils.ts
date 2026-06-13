@@ -28,10 +28,11 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT): string {
+export function progressBar(x: number, y: number, width: number, height: number, pct: number, color: string, t: Theme = DEFAULT, opacity = 1): string {
   const filled = Math.max(2, Math.round(width * Math.min(pct, 1)));
+  const op = opacity < 1 ? ` opacity="${opacity}"` : '';
   return `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="${height / 2}" fill="${t.bgBar}"/>
-<rect x="${x}" y="${y}" width="${filled}" height="${height}" rx="${height / 2}" fill="${color}"/>`;
+<rect x="${x}" y="${y}" width="${filled}" height="${height}" rx="${height / 2}" fill="${color}"${op}/>`;
 }
 
 export function badge(x: number, y: number, label: string, color: string, t: Theme = DEFAULT): string {
