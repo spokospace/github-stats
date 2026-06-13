@@ -1,6 +1,6 @@
 # github-stats
 
-Cloudflare Worker generating SVG stats widgets for GitHub profile — styled with [spoko.space](https://spoko.space) colors.
+Cloudflare Pages project generating SVG stats widgets for GitHub profile — styled with [spoko.space](https://spoko.space) colors.
 Aggregates data from multiple accounts (`spokospace` + `polo-blue`) including private repositories.
 
 Live demo: **[github.spoko.space](https://github.spoko.space)**
@@ -14,7 +14,7 @@ Radar-style card with animated orbit dots (streak, commits, PRs, stars, repos, f
 ![Profile](https://github.spoko.space/profile)
 ```
 
-[![Profile](https://github.spoko.space/profile?v=2)](https://github.spoko.space/profile)
+[![Profile](https://github.spoko.space/profile)](https://github.spoko.space/profile)
 
 ### Stats
 Commits, PRs, stars, forks, issues, followers and more.
@@ -111,25 +111,17 @@ Named presets: `?theme=light`, `?theme=dracula`, `?theme=nord`, `?theme=gruvbox`
 
 ## Fork & deploy your own
 
-```bash
-git clone https://github.com/spokospace/github-stats
-cd github-stats
-npm install
-
-# Create KV namespace and copy the id into wrangler.toml
-wrangler kv namespace create STATS_KV
-
-# Add secrets
-wrangler secret put GITHUB_TOKEN        # PAT: scopes repo + read:org
-wrangler secret put CACHE_BUST_TOKEN    # any random string
-
-npm run deploy
-```
-
-Edit `OWNERS` and `PRIMARY` in `src/index.ts` to point at your own accounts.
+1. Fork this repo on GitHub
+2. Connect it to **Cloudflare Pages** in the dashboard (no build command needed)
+3. Create a KV namespace in your Cloudflare account and add its ID to `wrangler.toml`
+4. In the Pages project settings add these environment variables / secrets:
+   - `GITHUB_TOKEN` — PAT with scopes `repo` + `read:org`
+   - `CACHE_BUST_TOKEN` — any random string
+5. Edit `OWNERS` and `PRIMARY` in `src/router.ts` to point at your own accounts
+6. Push to `main` — Pages auto-deploys on every push
 
 ## Stack
-- Cloudflare Workers (TypeScript)
+- Cloudflare Pages + Functions (TypeScript)
 - GitHub GraphQL API v4
 - Cloudflare KV — 24h cache
 - [simple-icons](https://simpleicons.org/) — tech stack icons
