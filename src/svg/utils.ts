@@ -30,9 +30,9 @@ export function esc(s: string): string {
 
 function luminance(hex: string): number {
   const n = parseInt(hex.replace('#', ''), 16);
-  return [n >> 16, (n >> 8) & 0xff, n & 0xff]
-    .map(c => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; })
-    .reduce((acc, c, i) => acc + c * [0.2126, 0.7152, 0.0722][i], 0);
+  const [r, g, b] = [n >> 16, (n >> 8) & 0xff, n & 0xff]
+    .map(c => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
 function contrastRatio(hex1: string, hex2: string): number {
