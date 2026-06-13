@@ -102,8 +102,32 @@ export function renderDoc(baseUrl: string): string {
 
     /* ── Header ─────────────────────────────────────── */
     header {
+      position: relative;
+      overflow: hidden;
       border-bottom: 1px solid var(--border);
       padding: 48px 0 36px;
+    }
+
+    #heroCanvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-scrim {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, var(--bg) 38%, transparent 72%);
+      z-index: 0;
+      pointer-events: none;
     }
 
     header h1 {
@@ -291,11 +315,15 @@ export function renderDoc(baseUrl: string): string {
 <body>
   <div class="container">
     <header>
-      <h1>github<span>-stats</span></h1>
-      <p>Dynamic SVG stats widgets for GitHub profiles — built on Cloudflare Workers + KV</p>
-      <div class="header-links">
-        <a class="btn btn-primary" href="https://github.com/spokospace/github-stats">GitHub</a>
-        <a class="btn" href="${baseUrl}/stack">Try /stack →</a>
+      <canvas id="heroCanvas" aria-hidden="true"></canvas>
+      <div class="hero-scrim"></div>
+      <div class="hero-content">
+        <h1>github<span>-stats</span></h1>
+        <p>Dynamic SVG stats widgets for GitHub profiles — built on Cloudflare Workers + KV</p>
+        <div class="header-links">
+          <a class="btn btn-primary" href="https://github.com/spokospace/github-stats">GitHub</a>
+          <a class="btn" href="${baseUrl}/stack">Try /stack →</a>
+        </div>
       </div>
     </header>
 
@@ -387,9 +415,156 @@ npm install</code></pre>
       <div class="container" style="padding:0">
         github-stats &mdash; MIT &mdash;
         <a href="https://github.com/spokospace/github-stats">spokospace/github-stats</a>
+        &mdash; built by <a href="https://spoko.space" rel="author">spoko.space — modern &amp; fast websites</a>
       </div>
     </footer>
   </div>
+  <script>
+(function(){
+  var canvas=document.getElementById('heroCanvas');
+  if(!canvas)return;
+  var ctx=canvas.getContext('2d');
+  var hero=canvas.closest('header');
+  var reduceMq=window.matchMedia('(prefers-reduced-motion:reduce)');
+  var reduce=reduceMq.matches;
+  var W=0,H=0,dpr=Math.min(window.devicePixelRatio||1,2);
+  var stars=[],enemies=[],shots=[],bursts=[];
+  var ship,running=false,raf=0,fireCd=0,tick=0;
+  var lastW=0,lastH=0;
+  var C={ship:'#39a0f4',shipDk:'#1f86e0',laser:'#5bb6ff'};
+  var SPECIES={
+    crab:{color:'#46e0d8',cols:11,rows:8,frames:[
+      ['00100000100','00010001000','00111111100','01101110110','11111111111','10111111101','10100000101','00011011000'],
+      ['00100000100','10010001001','10111111101','11101110111','11111111111','00111111100','00100000100','01000000010']]},
+    octopus:{color:'#999999',cols:12,rows:8,frames:[
+      ['000011110000','001111111100','011111111110','111001001111','111111111111','000110011000','001101101100','110000000011'],
+      ['000011110000','001111111100','011111111110','111001001111','111111111111','001110011100','011000001100','000011110000']]},
+    squid:{color:'#5fe06a',cols:8,rows:8,frames:[
+      ['00100100','01111110','11111111','11011011','11111111','00111100','01000010','00100100'],
+      ['00100100','01111110','11111111','11011011','11111111','00111100','00100100','01011010']]},
+  };
+  function pickSpecies(){var r=Math.random();return r<0.42?'octopus':r<0.74?'crab':'squid';}
+  function drawInvader(ctx,sp,frame,cx,cy,k){
+    var sd=SPECIES[sp],p=sd.frames[frame];
+    var ox=cx-sd.cols*k/2,oy=cy-sd.rows*k/2;
+    for(var r=0;r<sd.rows;r++){var row=p[r];for(var c=0;c<sd.cols;c++){if(row.charCodeAt(c)===49)ctx.fillRect(ox+c*k,oy+r*k,k+0.4,k+0.4);}}
+  }
+  function drawFighter(ctx,tick){
+    var f=5+Math.sin(tick*0.4)*1.6+Math.random()*2.4;
+    ctx.fillStyle='rgba(120,200,255,.55)';
+    ctx.beginPath();ctx.moveTo(-10,-3.1);ctx.lineTo(-10-f,0);ctx.lineTo(-10,3.1);ctx.closePath();ctx.fill();
+    ctx.fillStyle=C.shipDk;
+    ctx.beginPath();ctx.moveTo(1,-3);ctx.lineTo(-7,-12);ctx.lineTo(-11,-11);ctx.lineTo(-6,-3);ctx.closePath();ctx.fill();
+    ctx.beginPath();ctx.moveTo(1,3);ctx.lineTo(-7,12);ctx.lineTo(-11,11);ctx.lineTo(-6,3);ctx.closePath();ctx.fill();
+    ctx.shadowColor='rgba(57,160,244,.7)';ctx.shadowBlur=12;ctx.fillStyle=C.ship;
+    ctx.beginPath();ctx.moveTo(15,0);ctx.lineTo(2,-4.5);ctx.lineTo(-9,-4);ctx.lineTo(-12,-2.5);ctx.lineTo(-12,2.5);ctx.lineTo(-9,4);ctx.lineTo(2,4.5);ctx.closePath();ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#dff0ff';ctx.beginPath();ctx.ellipse(2.5,0,3,2,0,0,Math.PI*2);ctx.fill();
+  }
+  function R(a,b){return a+Math.random()*(b-a);}
+  function size(){
+    var rect=hero.getBoundingClientRect();
+    var nW=Math.max(1,rect.width),nH=Math.max(1,rect.height);
+    var wc=Math.abs(nW-lastW)>2,hc=Math.abs(nH-lastH)>1;
+    if(!wc&&!hc&&ship)return;
+    W=nW;H=nH;
+    canvas.width=W*dpr;canvas.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(wc||!ship){seed();}
+    else if(hc&&lastH>0){var ratio=H/lastH;ship.y*=ratio;ship.ty*=ratio;}
+    lastW=nW;lastH=nH;
+  }
+  function seed(){
+    var n=Math.round(W*H/6500);stars=[];
+    for(var i=0;i<n;i++)stars.push({x:R(0,W),y:R(0,H),s:R(.6,2.6),sp:R(.15,.95)});
+    enemies=[];
+    var en=Math.max(3,Math.round(W/520));
+    for(var i=0;i<en;i++)enemies.push(spawnEnemy(true));
+    if(!ship)ship={x:W*.16,y:H*.5,vx:1.1,vy:0,a:0,tx:W*.8,ty:H*.5,re:0};
+  }
+  function spawnEnemy(any){
+    return{x:any?R(W*.45,W+60):W+R(20,120),y:R(H*.12,H*.9),vx:R(-.55,-.22),vy:R(-.12,.12),s:R(7,11),wob:R(0,6.28),sp:pickSpecies()};
+  }
+  function retarget(){ship.tx=R(W*.45,W*.96);ship.ty=R(H*.22,H*.8);ship.re=R(70,150);}
+  function spawnBurst(x,y,col){
+    bursts.push({x:x,y:y,r:3,ring:1,col:col});
+    for(var i=0;i<11;i++){var a=Math.random()*6.28,s=R(.8,3.4);bursts.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,sz:R(1.5,3),col:col});}
+  }
+  function step(){
+    tick++;
+    for(var i=0;i<stars.length;i++){var s=stars[i];s.x-=s.sp;if(s.x<-2){s.x=W+2;s.y=R(0,H);}}
+    ship.re--;if(ship.re<=0||Math.hypot(ship.tx-ship.x,ship.ty-ship.y)<50)retarget();
+    var ang=Math.atan2(ship.ty-ship.y,ship.tx-ship.x);
+    ship.vx+=Math.cos(ang)*.02+.006;ship.vy+=Math.sin(ang)*.02;
+    var sp2=Math.hypot(ship.vx,ship.vy),mx=1.35;
+    if(sp2>mx){ship.vx*=mx/sp2;ship.vy*=mx/sp2;}
+    ship.vx*=.99;ship.vy*=.97;ship.x+=ship.vx;ship.y+=ship.vy;
+    if(ship.x>W+30){ship.x=-30;ship.y=R(H*.3,H*.7);}
+    if(ship.x<-30)ship.x=W+30;
+    if(ship.y<20){ship.y=20;ship.vy*=-.5;}
+    if(ship.y>H-20){ship.y=H-20;ship.vy*=-.5;}
+    ship.a=Math.atan2(ship.vy,ship.vx);
+    fireCd--;
+    if(fireCd<=0){fireCd=9;shots.push({x:ship.x+Math.cos(ship.a)*14,y:ship.y+Math.sin(ship.a)*14,vx:Math.cos(ship.a)*5.2,vy:Math.sin(ship.a)*5.2,a:ship.a,life:1});}
+    for(var i=0;i<shots.length;i++){var sh=shots[i];sh.x+=sh.vx;sh.y+=sh.vy;sh.life-=.012;}
+    for(var i=0;i<enemies.length;i++){
+      var e=enemies[i];e.wob+=.03;e.x+=e.vx;e.y+=e.vy+Math.sin(e.wob)*.25;
+      if(e.x<-40||e.y<-40||e.y>H+40){enemies[i]=spawnEnemy(false);continue;}
+      for(var j=0;j<shots.length;j++){
+        var sh2=shots[j];
+        if(sh2.life>0&&Math.abs(sh2.x-e.x)<e.s+4&&Math.abs(sh2.y-e.y)<e.s+4){
+          sh2.life=0;spawnBurst(e.x,e.y,SPECIES[e.sp].color);enemies[i]=spawnEnemy(false);break;
+        }
+      }
+    }
+    shots=shots.filter(function(s){return s.life>0&&s.x<W+20&&s.x>-20&&s.y>-20&&s.y<H+20;});
+    for(var i=0;i<bursts.length;i++){var b=bursts[i];if(b.ring!==undefined){b.r+=2.3;b.ring-=.06;}else{b.x+=b.vx;b.y+=b.vy;b.vx*=.9;b.vy*=.9;b.life-=.035;}}
+    bursts=bursts.filter(function(b){return b.ring!==undefined?b.ring>0:b.life>0;});
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(var i=0;i<stars.length;i++){var s=stars[i],a=Math.min(s.s/3,0.85);ctx.fillStyle='rgba(226,237,250,'+a.toFixed(3)+')';ctx.fillRect(s.x,s.y,s.s,s.s);}
+    ctx.globalAlpha=0.65;ctx.shadowBlur=7;
+    for(var i=0;i<enemies.length;i++){
+      var e=enemies[i],col=SPECIES[e.sp].color;
+      ctx.fillStyle=col;ctx.shadowColor=col;
+      drawInvader(ctx,e.sp,(Math.sin(e.wob*2)>0)?0:1,e.x,e.y,e.s/3.6);
+    }
+    ctx.shadowBlur=0;ctx.globalAlpha=1;
+    ctx.lineCap='round';ctx.strokeStyle=C.laser;ctx.lineWidth=3;
+    for(var i=0;i<shots.length;i++){
+      var sh=shots[i];ctx.globalAlpha=Math.max(0,Math.min(1,sh.life));
+      ctx.shadowColor='rgba(91,182,255,.8)';ctx.shadowBlur=8;
+      ctx.beginPath();ctx.moveTo(sh.x,sh.y);ctx.lineTo(sh.x-Math.cos(sh.a)*9,sh.y-Math.sin(sh.a)*9);ctx.stroke();
+    }
+    ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.shadowBlur=7;
+    for(var i=0;i<bursts.length;i++){
+      var b=bursts[i];ctx.shadowColor=b.col;
+      if(b.ring!==undefined){ctx.globalAlpha=Math.max(0,b.ring*.6);ctx.strokeStyle=b.col;ctx.lineWidth=2;ctx.beginPath();ctx.arc(b.x,b.y,b.r,0,6.28);ctx.stroke();}
+      else{ctx.globalAlpha=Math.max(0,b.life);ctx.fillStyle=b.col;ctx.fillRect(b.x-b.sz/2,b.y-b.sz/2,b.sz,b.sz);}
+    }
+    ctx.globalAlpha=1;ctx.shadowBlur=0;
+    ctx.save();ctx.translate(ship.x,ship.y);ctx.rotate(ship.a);drawFighter(ctx,tick);ctx.restore();
+  }
+  function loop(){step();draw();raf=requestAnimationFrame(loop);}
+  function start(){if(running||reduce)return;running=true;loop();}
+  function stop(){running=false;cancelAnimationFrame(raf);}
+  size();
+  if(reduce){draw();}
+  else{
+    start();
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?start():stop();});},{threshold:0});
+      io.observe(hero);
+    }
+  }
+  var rt;
+  function onResize(){clearTimeout(rt);rt=setTimeout(function(){dpr=Math.min(window.devicePixelRatio||1,2);size();if(reduce)draw();},120);}
+  window.addEventListener('resize',onResize);
+  if('ResizeObserver' in window){var ro=new ResizeObserver(onResize);ro.observe(hero);}
+  if(reduceMq.addEventListener){reduceMq.addEventListener('change',function(e){reduce=e.matches;if(reduce){stop();draw();}else{start();}});}
+})();
+  </script>
 </body>
 </html>`;
 }

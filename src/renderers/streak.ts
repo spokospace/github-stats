@@ -20,19 +20,19 @@ export function renderStreak(s: StreakData, theme = THEME): string {
     {
       big: formatNumber(s.totalContributions),
       label: 'Total Contributions',
-      sub: `Since ${fmtDate(s.firstContribution)}`,
+      sub: s.firstContribution ? `Since ${fmtDate(s.firstContribution)}` : '—',
       color: theme.primary,
     },
     {
       big: String(s.currentStreak),
       label: 'Current Streak',
-      sub: s.currentStreak > 0 ? `${fmtDate(s.currentStreakStart)} – ${fmtDate(s.currentStreakEnd)}` : 'No active streak',
+      sub: s.currentStreak > 0 && s.currentStreakStart && s.currentStreakEnd ? `${fmtDate(s.currentStreakStart)} – ${fmtDate(s.currentStreakEnd)}` : 'No active streak',
       color: '#22c55e',
     },
     {
       big: String(s.longestStreak),
       label: 'Longest Streak',
-      sub: s.longestStreak > 0 ? `${fmtDate(s.longestStreakStart)} – ${fmtDate(s.longestStreakEnd)}` : '—',
+      sub: s.longestStreak > 0 && s.longestStreakStart && s.longestStreakEnd ? `${fmtDate(s.longestStreakStart)} – ${fmtDate(s.longestStreakEnd)}` : '—',
       color: '#f59e0b',
     },
   ];

@@ -78,6 +78,8 @@ export async function fetchLanguages(token: string, logins: string[]): Promise<L
 const STATS_QUERY = `
 query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
+    login
+    avatarUrl(size: 120)
     repositories(first: 100, ownerAffiliations: OWNER, isFork: false) {
       nodes { stargazerCount forkCount watchers { totalCount } }
       totalCount
@@ -105,45 +107,33 @@ export async function fetchStats(token: string, logins: string[]): Promise<Stats
   const from = new Date(now.getFullYear(), 0, 1).toISOString();
   const to = now.toISOString();
   // Only query user accounts (logins[0] = spokospace)
-  const userLogins = [logins[0]];
-  const results = await Promise.all(userLogins.map(login => gql(token, STATS_QUERY, { login, from, to })));
+  const { user: u } = await gql(token, STATS_QUERY, { login: logins[0], from, to });
 
-  let totalCommits = 0, totalPRs = 0, mergedPRs = 0, totalIssues = 0, closedIssues = 0;
-  let totalStars = 0, totalForks = 0, totalRepos = 0, totalWatchers = 0;
-  let followers = 0, contributions = 0, discussionsStarted = 0, discussionsAnswered = 0, reviewedPRs = 0;
-  let createdAt = now.toISOString();
-
-  for (const data of results) {
-    const u = data.user;
-    const repos = u.repositories.nodes;
-    totalRepos += u.repositories.totalCount;
-    for (const r of repos) {
-      totalStars += r.stargazerCount;
-      totalForks += r.forkCount;
-      totalWatchers += r.watchers.totalCount;
-    }
-    const c = u.contributionsCollection;
-    totalCommits += c.totalCommitContributions;
-    totalPRs += c.totalPullRequestContributions;
-    reviewedPRs += c.totalPullRequestReviewContributions;
-    totalIssues += c.totalIssueContributions;
-    contributions += c.totalCommitContributions + c.totalPullRequestContributions + c.totalIssueContributions;
-    mergedPRs += u.pullRequests.totalCount;
-    closedIssues += u.issues.totalCount;
-    followers += u.followers.totalCount;
-    discussionsStarted += u.repositoryDiscussions.totalCount;
-    discussionsAnswered += u.repositoryDiscussionComments.totalCount;
-    if (u.createdAt < createdAt) createdAt = u.createdAt;
+  const repos = u.repositories.nodes;
+  let totalStars = 0, totalForks = 0, totalWatchers = 0;
+  for (const r of repos) {
+    totalStars += r.stargazerCount;
+    totalForks += r.forkCount;
+    totalWatchers += r.watchers.totalCount;
   }
 
-  const yearsOnGH = Math.floor((Date.now() - new Date(createdAt).getTime()) / (365.25 * 864e5));
+  const c = u.contributionsCollection;
+  const totalCommits = c.totalCommitContributions;
+  const totalPRs = c.totalPullRequestContributions;
+  const reviewedPRs = c.totalPullRequestReviewContributions;
+  const totalIssues = c.totalIssueContributions;
+  const contributions = totalCommits + totalPRs + totalIssues;
+
+  const yearsOnGH = Math.floor((Date.now() - new Date(u.createdAt).getTime()) / (365.25 * 864e5));
 
   return {
-    totalCommits, totalPRs, mergedPRs, reviewedPRs,
-    totalIssues, closedIssues,
-    totalStars, totalForks, totalRepos, totalWatchers,
-    followers, contributions, discussionsStarted, discussionsAnswered,
-    yearsOnGH,
+    totalCommits, totalPRs, mergedPRs: u.pullRequests.totalCount, reviewedPRs,
+    totalIssues, closedIssues: u.issues.totalCount,
+    totalStars, totalForks, totalRepos: u.repositories.totalCount, totalWatchers,
+    followers: u.followers.totalCount, contributions,
+    discussionsStarted: u.repositoryDiscussions.totalCount,
+    discussionsAnswered: u.repositoryDiscussionComments.totalCount,
+    yearsOnGH, avatarUrl: u.avatarUrl as string | undefined, login: u.login as string | undefined,
   };
 }
 
@@ -198,11 +188,16 @@ export async function fetchStreak(token: string, logins: string[]): Promise<Stre
     }
   }
 
+  const weeklyContributions: number[] = cal.weeks
+    .slice(-26)
+    .map((w: any) => w.contributionDays.reduce((s: number, d: any) => s + d.contributionCount, 0));
+
   return {
     currentStreak,
     longestStreak,
     totalContributions: cal.totalContributions,
     lastContribution: lastDate,
+    weeklyContributions,
   };
 }
 
@@ -226,7 +221,7 @@ query($login: String!) {
 }
 `;
 
-function mapRepo(r: any, login: string): RepoData[number] {
+function mapRepo(r: any, login: string): RepoData {
   return {
     name: r.name,
     description: r.description ?? '',
@@ -236,10 +231,14 @@ function mapRepo(r: any, login: string): RepoData[number] {
     url: r.url,
     isPrivate: r.isPrivate,
     owner: login,
+    watchers: 0,
+    languageColor: null,
+    topics: [],
+    updatedAt: '',
   };
 }
 
-export async function fetchRepos(token: string, logins: string[]): Promise<RepoData> {
+export async function fetchRepos(token: string, logins: string[]): Promise<RepoData[]> {
   const results = await Promise.all(
     logins.map(async login => {
       const data = await gql(token, FEATURED_REPOS_QUERY, { login });

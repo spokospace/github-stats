@@ -1,6 +1,7 @@
 export interface Env {
   GITHUB_TOKEN: string;
   KV: KVNamespace;
+  CACHE_BUST_TOKEN: string;
 }
 
 export interface LangData {
@@ -22,17 +23,22 @@ export interface StatsData {
   discussionsStarted: number;
   discussionsAnswered: number;
   reviewedPRs: number;
+  yearsOnGH?: number;
+  avatarUrl?: string;
+  login?: string;
 }
 
 export interface StreakData {
   currentStreak: number;
   longestStreak: number;
-  currentStreakStart: string;
-  currentStreakEnd: string;
-  longestStreakStart: string;
-  longestStreakEnd: string;
   totalContributions: number;
-  firstContribution: string;
+  lastContribution?: string;
+  firstContribution?: string;
+  currentStreakStart?: string;
+  currentStreakEnd?: string;
+  longestStreakStart?: string;
+  longestStreakEnd?: string;
+  weeklyContributions?: number[];
 }
 
 export interface RepoData {
@@ -68,6 +74,6 @@ export interface ContribDay {
 }
 
 export interface ContribData {
-  weeks: Array<{ days: ContribDay[] }>;
-  totalContributions: number;
+  weeks: Array<{ contributionDays: ContribDay[] }>;
+  total: number;
 }
