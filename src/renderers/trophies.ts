@@ -24,7 +24,7 @@ function getTier(value: number, thresholds: [string, number, string][]): { tier:
   return { tier: '—', color: THEME.textDim };
 }
 
-export function renderTrophies(s: StatsData): string {
+export function renderTrophies(s: StatsData, _theme = THEME): string {
   const W = 460, P = 20;
   const titleY = P + 14;
   const values = [s.totalCommits, s.totalPRs, s.totalIssues, s.totalStars, s.followers, s.totalRepos];
@@ -52,3 +52,5 @@ export function renderTrophies(s: StatsData): string {
 
   return svgWrapper(W, H, sectionTitle(P, titleY, 'Trophies') + cards, 'Trophies');
 }
+
+// theme support
