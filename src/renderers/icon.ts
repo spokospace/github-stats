@@ -27,6 +27,7 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   if (!icon) return null;
   const s = Math.min(Math.max(size, 8), 96);
   const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
-  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${esc(color)}" fill-opacity="0.05"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${rule} d="${icon.path}" fill="${esc(color)}"/></svg>`;
+  const c = esc(color);
+  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="0.2"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${rule}${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${icon.path}" fill="${c}"/></svg>`;
 }
