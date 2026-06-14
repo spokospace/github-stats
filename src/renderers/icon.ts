@@ -59,12 +59,13 @@ const ICONS: Record<string, { path: string; rule?: 'evenodd' }> = {
   'git-branch': { path: 'M6 2a3 3 0 0 1 3 3c0 1.28-.81 2.38-2 2.83V10h6a2 2 0 0 1 2 2h2a2 2 0 0 1 4 0 2 2 0 0 1-4 0h-2a2 2 0 0 1-2 2H7v2.17A3 3 0 0 1 6 22a3 3 0 0 1-3-3c0-1.28.81-2.38 2-2.83V7.83A3 3 0 0 1 6 2z' },
 };
 
-export function renderIcon(name: string, color: string, size = 16, circle = false): string | null {
+export function renderIcon(name: string, color: string, size = 16, circle = false, opacity = 0.2): string | null {
   const icon = ICONS[name];
   if (!icon) return null;
   const s = Math.min(Math.max(size, 8), 96);
   const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
   const c = esc(color);
-  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="0.2"/>` : '';
+  const op = Math.min(Math.max(opacity, 0), 1);
+  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/>` : '';
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${rule}${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${icon.path}" fill="${c}"/></svg>`;
 }
