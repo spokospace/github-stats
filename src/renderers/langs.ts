@@ -43,7 +43,7 @@ ${text(x + colW - 2, y + 8, pct, { size: 11, fill: theme.textMuted, anchor: 'end
   }).join('');
 
   const inner = `
-${sectionTitle(P, titleY, 'Most Used Languages')}
+${sectionTitle(P, titleY, 'Most Used Languages', theme)}
 <rect x="${P}" y="${barY}" width="${barW}" height="${BAR_H}" rx="4" fill="${theme.bgBar}"/>
 ${barSegs}
 ${legend}`;

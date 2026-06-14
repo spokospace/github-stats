@@ -48,7 +48,7 @@ export function renderStreak(s: StreakData, theme = THEME): string {
   }).join('');
 
   const inner = `
-  ${sectionTitle(P, titleY, 'Contribution Streak')}
+  ${sectionTitle(P, titleY, 'Contribution Streak', theme)}
   ${grid}`;
 
   return svgWrapper(W, H, inner, 'Contribution Streak', theme);
