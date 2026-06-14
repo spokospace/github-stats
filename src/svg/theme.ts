@@ -220,4 +220,7 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Git':        { path: siGit.path,         color: `#${siGit.hex}` },
   'UnoCSS':     { path: siUnocss.path,      color: `#${siUnocss.hex}` },
   'JavaScript': { path: siJavascript.path, color: `#${siJavascript.hex}` },
+  'CSS':        { path: siCss.path,        color: `#${siCss.hex}` },
+  'HTML':       { path: siHtml5.path,      color: `#${siHtml5.hex}` },
+  'SCSS':       { path: siSass.path,       color: `#${siSass.hex}` },
 };
