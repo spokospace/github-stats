@@ -231,7 +231,7 @@ export function renderProfile(s: StatsData, streak: StreakData, theme: Theme = T
 
   const statsEl = `
   ${sectionTitle(20, 34, 'GitHub Profile', theme)}
-  ${s.login ? text(STAT_X + STAT_W, 34, `@${s.login}`, { size: 9, fill: theme.textMuted, anchor: 'end', font: 'ui-monospace,SFMono-Regular,monospace' }, theme) : ''}
+  ${s.login ? text(STAT_X + STAT_W, 34, `@${s.login}`, { size: 11, fill: theme.textMuted, anchor: 'end', font: 'ui-monospace,SFMono-Regular,monospace' }, theme) : ''}
   ${statBlocks}
   ${barChart}`;
 
