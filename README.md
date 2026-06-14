@@ -158,7 +158,7 @@ Single-color SVG icons for inline use in Markdown. Two variants:
 <img height="40" src="https://github.spoko.space/icon?name=trophy&color=f0a030&size=40&circle=1" />
 <img height="40" src="https://github.spoko.space/icon?name=sparkles&color=c07af0&size=40&circle=1" />
 
-Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `check`, `check-circle`, `code`, `rocket`, `clock`, `heart`, `info`, `sparkles`, `eye`, `trophy`, `users`
+Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `check`, `check-circle`, `code`, `rocket`, `clock`, `heart`, `info`, `sparkles`, `eye`, `trophy`, `users`, `home`, `search`, `plus`, `minus`, `close`, `arrow-right`, `external-link`, `share`, `download`, `upload`, `filter`, `mail`, `phone`, `bell`, `chat`, `bookmark`, `tag`, `folder`, `file`, `image`, `terminal`, `database`, `cloud`, `calendar`, `chart-bar`, `briefcase`, `link`, `lock`, `shield`, `flag`, `user`, `git-branch`
 
 ## Theme customisation
 
