@@ -100,7 +100,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         const name = params.get('name') ?? '';
         if (!name) return new Response('Missing param: name', { status: 400 });
         const color = normalizeHex(params.get('color'), theme.primary);
-        const svg = renderIcon(name, color, parseInt(params.get('size') ?? '', 10) || 16);
+        const svg = renderIcon(name, color, parseInt(params.get('size') ?? '', 10) || 16, params.get('circle') === '1');
         if (!svg) return new Response(`Unknown icon: ${name}`, { status: 404 });
         return svgResponse(svg, STACK_TTL);
       }
