@@ -28,11 +28,16 @@ export function esc(s: string): string {
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
+const SVG_KEYWORDS = new Set(['transparent', 'none', 'currentcolor']);
+
 export function normalizeHex(v: string | null | undefined, fallback: string): string {
-  return v ? (v.startsWith('#') ? v : '#' + v) : fallback;
+  if (!v) return fallback;
+  if (SVG_KEYWORDS.has(v.toLowerCase()) || v.startsWith('#')) return v;
+  return '#' + v;
 }
 
 function luminance(hex: string): number {
+  if (!hex.startsWith('#')) return 0;
   const n = parseInt(hex.replace('#', ''), 16);
   const [r, g, b] = [n >> 16, (n >> 8) & 0xff, n & 0xff]
     .map(c => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; });
