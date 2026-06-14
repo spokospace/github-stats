@@ -5,79 +5,129 @@ Aggregates data from multiple accounts (`spokospace` + `polo-blue`) including pr
 
 Live demo: **[github.spoko.space](https://github.spoko.space)**
 
+> Widgets switch between dark and light theme automatically via `prefers-color-scheme`. Use the `<picture>` snippet below each widget for your own README.
+
 ## Widgets
 
 ### Profile HUD
 Radar-style card with animated orbit dots (streak, commits, PRs, stars, repos, followers) and hover labels.
 
-```markdown
-![Profile](https://github.spoko.space/profile)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/profile?theme=light">
+  <img src="https://github.spoko.space/profile" alt="Profile">
+</picture>
 ```
 
-[![Profile](https://github.spoko.space/profile?v=3)](https://github.spoko.space/profile)
+<a href="https://github.spoko.space/profile"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/profile?theme=light&v=3">
+  <img src="https://github.spoko.space/profile?v=3" alt="Profile HUD">
+</picture></a>
 
 ### Stats
 Commits, PRs, stars, forks, issues, followers and more.
 
-```markdown
-![Stats](https://github.spoko.space/stats)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stats?theme=light">
+  <img src="https://github.spoko.space/stats" alt="Stats">
+</picture>
 ```
 
-[![Stats](https://github.spoko.space/stats)](https://github.spoko.space/stats)
+<a href="https://github.spoko.space/stats"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stats?theme=light">
+  <img src="https://github.spoko.space/stats" alt="Stats">
+</picture></a>
 
 ### Languages
 Most used languages by bytes of code (top 10, forks excluded).
 
-```markdown
-![Langs](https://github.spoko.space/langs)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/langs?theme=light">
+  <img src="https://github.spoko.space/langs" alt="Languages">
+</picture>
 ```
 
-[![Langs](https://github.spoko.space/langs)](https://github.spoko.space/langs)
+<a href="https://github.spoko.space/langs"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/langs?theme=light">
+  <img src="https://github.spoko.space/langs" alt="Languages">
+</picture></a>
 
 ### Contribution Streak
 Current streak, longest streak, total contributions.
 
-```markdown
-![Streak](https://github.spoko.space/streak)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/streak?theme=light">
+  <img src="https://github.spoko.space/streak" alt="Streak">
+</picture>
 ```
 
-[![Streak](https://github.spoko.space/streak)](https://github.spoko.space/streak)
+<a href="https://github.spoko.space/streak"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/streak?theme=light">
+  <img src="https://github.spoko.space/streak" alt="Streak">
+</picture></a>
 
 ### Tech Stack
 Customisable chip row with simple-icons icons and official brand colors.
 
-```markdown
-![Stack](https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP&theme=light">
+  <img src="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP" alt="Stack">
+</picture>
 ```
 
-[![Stack](https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP)](https://github.spoko.space/stack)
+<a href="https://github.spoko.space/stack"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP&theme=light">
+  <img src="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP" alt="Tech Stack">
+</picture></a>
 
 ### Contribution Calendar
 Full-year heatmap.
 
-```markdown
-![Contrib](https://github.spoko.space/contrib)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/contrib?theme=light">
+  <img src="https://github.spoko.space/contrib" alt="Contributions">
+</picture>
 ```
 
-[![Contrib](https://github.spoko.space/contrib)](https://github.spoko.space/contrib)
+<a href="https://github.spoko.space/contrib"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/contrib?theme=light">
+  <img src="https://github.spoko.space/contrib" alt="Contribution Calendar">
+</picture></a>
 
 ### Trophies
 Achievement trophies ranked C → SSS.
 
-```markdown
-![Trophies](https://github.spoko.space/trophies)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/trophies?theme=light">
+  <img src="https://github.spoko.space/trophies" alt="Trophies">
+</picture>
 ```
 
-[![Trophies](https://github.spoko.space/trophies)](https://github.spoko.space/trophies)
+<a href="https://github.spoko.space/trophies"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/trophies?theme=light">
+  <img src="https://github.spoko.space/trophies" alt="Trophies">
+</picture></a>
 
 ### Featured Repos
 Top repositories by stars.
 
-```markdown
-![Repos](https://github.spoko.space/repos)
+```html
+<picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/repos?theme=light">
+  <img src="https://github.spoko.space/repos" alt="Repos">
+</picture>
 ```
 
-[![Repos](https://github.spoko.space/repos)](https://github.spoko.space/repos)
+<a href="https://github.spoko.space/repos"><picture>
+  <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/repos?theme=light">
+  <img src="https://github.spoko.space/repos" alt="Featured Repos">
+</picture></a>
 
 ## Theme customisation
 
@@ -107,6 +157,7 @@ Named presets: `?theme=light`, `?theme=dracula`, `?theme=nord`, `?theme=gruvbox`
 | `/contrib` | Contribution calendar (full year) |
 | `/trophies` | Achievement trophies C → SSS |
 | `/stack` | Tech stack chips (`?techs=Laravel,Vue,...`) |
+| `/icon` | Single SVG icon (`?name=bolt&color=0d87cd&size=20`, add `&circle=1` for badge style) |
 | `/bust-cache?token=SECRET` | Clear KV cache |
 
 ## Fork & deploy your own
