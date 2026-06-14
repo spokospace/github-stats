@@ -141,7 +141,7 @@ Single-color SVG icons for inline use in Markdown. Two variants:
 <img height="14" src="https://github.spoko.space/icon?name=map-pin&color=0d87cd" align="absmiddle" /> Bielsko-Biała
 ```
 
-**Circle** (`&circle=1`) — icon scaled to 75% inside a semi-transparent circular badge. Useful for feature grids:
+**Circle** (`&circle=1`) — icon scaled to 75% inside a semi-transparent circular badge. Add `&opacity=0.15` (default `0.2`) to control background opacity. Useful for feature grids:
 
 ```html
 <img height="40" src="https://github.spoko.space/icon?name=rocket&color=0d87cd&size=40&circle=1" />
