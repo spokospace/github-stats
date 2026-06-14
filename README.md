@@ -19,10 +19,10 @@ Radar-style card with animated orbit dots (streak, commits, PRs, stars, repos, f
 </picture>
 ```
 
-<a href="https://github.spoko.space/profile"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/profile?theme=light&v=3">
   <img src="https://github.spoko.space/profile?v=3" alt="Profile HUD">
-</picture></a>
+</picture>
 
 ### Stats
 Commits, PRs, stars, forks, issues, followers and more.
@@ -34,10 +34,10 @@ Commits, PRs, stars, forks, issues, followers and more.
 </picture>
 ```
 
-<a href="https://github.spoko.space/stats"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stats?theme=light">
   <img src="https://github.spoko.space/stats" alt="Stats">
-</picture></a>
+</picture>
 
 ### Languages
 Most used languages by bytes of code (top 10, forks excluded).
@@ -49,10 +49,10 @@ Most used languages by bytes of code (top 10, forks excluded).
 </picture>
 ```
 
-<a href="https://github.spoko.space/langs"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/langs?theme=light">
   <img src="https://github.spoko.space/langs" alt="Languages">
-</picture></a>
+</picture>
 
 ### Contribution Streak
 Current streak, longest streak, total contributions.
@@ -64,10 +64,10 @@ Current streak, longest streak, total contributions.
 </picture>
 ```
 
-<a href="https://github.spoko.space/streak"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/streak?theme=light">
   <img src="https://github.spoko.space/streak" alt="Streak">
-</picture></a>
+</picture>
 
 ### Tech Stack
 Customisable chip row with simple-icons icons and official brand colors.
@@ -79,10 +79,10 @@ Customisable chip row with simple-icons icons and official brand colors.
 </picture>
 ```
 
-<a href="https://github.spoko.space/stack"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP&theme=light">
   <img src="https://github.spoko.space/stack?techs=Laravel,Vue,TypeScript,Astro,PHP" alt="Tech Stack">
-</picture></a>
+</picture>
 
 ### Contribution Calendar
 Full-year heatmap.
@@ -94,10 +94,10 @@ Full-year heatmap.
 </picture>
 ```
 
-<a href="https://github.spoko.space/contrib"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/contrib?theme=light">
   <img src="https://github.spoko.space/contrib" alt="Contribution Calendar">
-</picture></a>
+</picture>
 
 ### Trophies
 Achievement trophies ranked C → SSS.
@@ -109,10 +109,10 @@ Achievement trophies ranked C → SSS.
 </picture>
 ```
 
-<a href="https://github.spoko.space/trophies"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/trophies?theme=light">
   <img src="https://github.spoko.space/trophies" alt="Trophies">
-</picture></a>
+</picture>
 
 ### Featured Repos
 Top repositories by stars.
@@ -124,10 +124,10 @@ Top repositories by stars.
 </picture>
 ```
 
-<a href="https://github.spoko.space/repos"><picture>
+<picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/repos?theme=light">
   <img src="https://github.spoko.space/repos" alt="Featured Repos">
-</picture></a>
+</picture>
 
 ## Theme customisation
 
