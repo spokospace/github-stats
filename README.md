@@ -129,6 +129,37 @@ Top repositories by stars.
   <img src="https://github.spoko.space/repos" alt="Featured Repos">
 </picture>
 
+### Icons
+
+Single-color SVG icons for inline use in Markdown. Two variants:
+
+**Bare** — icon only, no background. Replace emoji in profile headers:
+
+```html
+<img height="14" src="https://github.spoko.space/icon?name=building&color=0d87cd" align="absmiddle" /> Running SPOKO SPACE
+<img height="14" src="https://github.spoko.space/icon?name=bolt&color=0d87cd" align="absmiddle" /> 15+ years experience
+<img height="14" src="https://github.spoko.space/icon?name=map-pin&color=0d87cd" align="absmiddle" /> Bielsko-Biała
+```
+
+**Circle** (`&circle=1`) — icon scaled to 75% inside a semi-transparent circular badge. Useful for feature grids:
+
+```html
+<img height="40" src="https://github.spoko.space/icon?name=rocket&color=0d87cd&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=star&color=5fe06a&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=heart&color=e05f7a&size=40&circle=1" />
+```
+
+<img height="40" src="https://github.spoko.space/icon?name=bolt&color=0d87cd&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=rocket&color=5bb6ff&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=star&color=5fe06a&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=heart&color=e05f7a&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=code&color=f0c060&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=globe&color=46e0d8&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=trophy&color=f0a030&size=40&circle=1" />
+<img height="40" src="https://github.spoko.space/icon?name=sparkles&color=c07af0&size=40&circle=1" />
+
+Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `check`, `check-circle`, `code`, `rocket`, `clock`, `heart`, `info`, `sparkles`, `eye`, `trophy`, `users`
+
 ## Theme customisation
 
 All endpoints accept query params to override the default color palette:
