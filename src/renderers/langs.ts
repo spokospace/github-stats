@@ -37,7 +37,7 @@ export function renderLangs(langs: LangData, theme = THEME): string {
     const y = legendY + row * ROW_H;
     const pct = ((bytes / total) * 100).toFixed(1) + '%';
     return `<circle cx="${x + 6}" cy="${y + 4}" r="5" fill="${langColor(lang)}"/>
-${text(x + 16, y + 8, lang, { size: 11 })}
+${text(x + 16, y + 8, lang, { size: 11 }, theme)}
 ${text(x + colW - 2, y + 8, pct, { size: 11, fill: theme.textMuted, anchor: 'end' }, theme)}`;
 
   }).join('');
