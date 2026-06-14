@@ -354,6 +354,22 @@ export function renderDoc(baseUrl: string): string {
 &lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
 &lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
         <p style="color:var(--muted);margin-top:8px;font-size:13px">Available icons: <code>bolt</code>, <code>map-pin</code>, <code>star</code>, <code>globe</code>, <code>building</code>, <code>target</code>, <code>check</code>, <code>check-circle</code>, <code>code</code>, <code>rocket</code>, <code>clock</code>, <code>heart</code>, <code>info</code>, <code>sparkles</code>, <code>eye</code>, <code>trophy</code>, <code>users</code></p>
+
+        <h3>Circle variant</h3>
+        <p style="color:var(--muted);margin-bottom:8px">Add <code>circle=1</code> to render the icon inside a circular badge — icon is scaled down to 75% and placed on a semi-transparent background of the same color. Useful for profile READMEs and feature grids:</p>
+        <pre><code>&lt;img height="40" src="${baseUrl}/icon?name=rocket&amp;color=0d87cd&amp;size=40&amp;circle=1" /&gt;
+&lt;img height="40" src="${baseUrl}/icon?name=star&amp;color=5fe06a&amp;size=40&amp;circle=1" /&gt;
+&lt;img height="40" src="${baseUrl}/icon?name=heart&amp;color=e05f7a&amp;size=40&amp;circle=1" /&gt;</code></pre>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;padding:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);margin-top:12px">
+          <img src="${baseUrl}/icon?name=bolt&color=0d87cd&size=44&circle=1" alt="bolt" width="44" height="44">
+          <img src="${baseUrl}/icon?name=rocket&color=5bb6ff&size=44&circle=1" alt="rocket" width="44" height="44">
+          <img src="${baseUrl}/icon?name=star&color=5fe06a&size=44&circle=1" alt="star" width="44" height="44">
+          <img src="${baseUrl}/icon?name=heart&color=e05f7a&size=44&circle=1" alt="heart" width="44" height="44">
+          <img src="${baseUrl}/icon?name=code&color=f0c060&size=44&circle=1" alt="code" width="44" height="44">
+          <img src="${baseUrl}/icon?name=globe&color=46e0d8&size=44&circle=1" alt="globe" width="44" height="44">
+          <img src="${baseUrl}/icon?name=trophy&color=f0a030&size=44&circle=1" alt="trophy" width="44" height="44">
+          <img src="${baseUrl}/icon?name=sparkles&color=c07af0&size=44&circle=1" alt="sparkles" width="44" height="44">
+        </div>
       </section>
 
       <section id="theme">
