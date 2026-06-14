@@ -219,4 +219,5 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Docker':     { path: siDocker.path,      color: `#${siDocker.hex}` },
   'Git':        { path: siGit.path,         color: `#${siGit.hex}` },
   'UnoCSS':     { path: siUnocss.path,      color: `#${siUnocss.hex}` },
+  'JavaScript': { path: siJavascript.path, color: `#${siJavascript.hex}` },
 };
