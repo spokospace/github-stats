@@ -349,11 +349,30 @@ export function renderDoc(baseUrl: string): string {
         <pre><code>${baseUrl}/stack?techs=Laravel,Vue,TypeScript,Tailwind,PHP,Node.js,WordPress</code></pre>
 
         <h3>Icon endpoint</h3>
-        <p style="color:var(--muted);margin-bottom:8px">Bare single-color SVG icons for use inline in Markdown (replace emoji):</p>
+        <p style="color:var(--muted);margin-bottom:16px"><strong>UI Icons</strong> — Bare single-color SVG icons for use inline in Markdown. Sourced from Phosphor Icons (thin weight):</p>
         <pre><code>&lt;img height="14" src="${baseUrl}/icon?name=building&amp;color=0d87cd" align="absmiddle" /&gt; Running SPOKO SPACE
 &lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
 &lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
-        <p style="color:var(--muted);margin-top:8px;font-size:13px">Available icons: <code>bolt</code>, <code>map-pin</code>, <code>star</code>, <code>globe</code>, <code>building</code>, <code>target</code>, <code>check</code>, <code>check-circle</code>, <code>code</code>, <code>rocket</code>, <code>clock</code>, <code>heart</code>, <code>info</code>, <code>sparkles</code>, <code>eye</code>, <code>trophy</code>, <code>users</code>, <code>home</code>, <code>search</code>, <code>plus</code>, <code>minus</code>, <code>close</code>, <code>arrow-right</code>, <code>external-link</code>, <code>share</code>, <code>download</code>, <code>upload</code>, <code>filter</code>, <code>mail</code>, <code>phone</code>, <code>bell</code>, <code>chat</code>, <code>bookmark</code>, <code>tag</code>, <code>folder</code>, <code>file</code>, <code>image</code>, <code>terminal</code>, <code>database</code>, <code>cloud</code>, <code>calendar</code>, <code>chart-bar</code>, <code>briefcase</code>, <code>link</code>, <code>lock</code>, <code>shield</code>, <code>flag</code>, <code>user</code>, <code>git-branch</code></p>
+        <p style="color:var(--muted);margin-top:8px;margin-bottom:16px;font-size:13px">
+          <strong>Basics:</strong> <code>bolt</code>, <code>star</code>, <code>rocket</code>, <code>sparkles</code>, <code>trophy</code>, <code>heart</code><br>
+          <strong>Navigation & Status:</strong> <code>map-pin</code>, <code>globe</code>, <code>eye</code>, <code>link</code>, <code>home</code><br>
+          <strong>Common Actions:</strong> <code>check</code>, <code>x</code>, <code>plus</code>, <code>minus</code>, <code>download</code>, <code>upload</code>, <code>copy</code>, <code>trash</code><br>
+          <strong>Information & Warnings:</strong> <code>info</code>, <code>warning</code>, <code>bell</code><br>
+          <strong>Organization:</strong> <code>folder</code>, <code>file</code>, <code>list</code>, <code>bookmark</code>, <code>calendar</code>, <code>chart-bar</code><br>
+          <strong>Workspace:</strong> <code>code</code>, <code>terminal</code>, <code>database</code>, <code>git-branch</code>, <code>book</code>, <code>bug</code><br>
+          <strong>Security & Control:</strong> <code>lock</code>, <code>shield</code>, <code>key</code>, <code>gear</code>, <code>user</code>, <code>users</code>, <code>building</code>, <code>target</code>, <code>briefcase</code>, <code>mail</code>, <code>cloud</code>
+        </p>
+
+        <p style="color:var(--muted);margin-bottom:16px"><strong>Tech Stack Icons</strong> — 50+ tech icons with official brand colors. Use in <code>/icon?name=&lt;tech&gt;&amp;color=...</code> or via <code>/stack?techs=&lt;tech1&gt;,&lt;tech2&gt;,...</code></p>
+        <div style="columns:2;gap:24px;column-gap:32px;font-size:13px">
+          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Frameworks & Languages:</strong> Laravel, Vue, Astro, React, TypeScript, PHP, Node.js, Python, Next.js, Nuxt, Svelte, Angular, Remix, Solid, Express, NestJS, FastAPI, Django, Flask, Symfony, Rails, Ruby, Go, Rust, Kotlin, Swift, .NET</p>
+          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Databases:</strong> MySQL, PostgreSQL, MongoDB, Redis, SQLite, Prisma, Supabase, Firebase</p>
+          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Build & Testing:</strong> Vite, Webpack, GraphQL, Jest, Vitest, ESLint, Storybook, Figma, Turbopack, Turborepo, pnpm, Yarn, Rollup, Babel, esbuild, Playwright, Cypress</p>
+          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Cloud & Hosting:</strong> AWS, Azure, GCP, Cloudflare, Cloudflare Workers, Heroku, Railway, Render, DigitalOcean</p>
+          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Infrastructure:</strong> Kubernetes, Nginx, Linux, GitHub Actions, Terraform, Ansible, Grafana, Prometheus, RabbitMQ, Elasticsearch</p>
+          <p style="color:var(--muted);margin:0 0 0;column-span:all"><strong>Other:</strong> Docker, Git, UnoCSS, Bun, Deno, Strapi, Sanity, Hono, tRPC, Drizzle, Flutter, Dart, Electron, Tauri, WebAssembly, Solidity, MDX</p>
+        </div>
+        <p style="color:var(--dim);margin-top:16px;font-size:12px">Tech icons sourced from <a href="https://simpleicons.org/" style="color:var(--dim);text-decoration:underline">simple-icons</a> and <a href="https://icon-sets.iconify.design/logos/" style="color:var(--dim);text-decoration:underline">@iconify-icons/logos</a> with official brand colors.</p>
 
         <h3>Circle variant</h3>
         <p style="color:var(--muted);margin-bottom:8px">Add <code>circle=1</code> to render the icon inside a circular badge — icon is scaled down to 75% and placed on a semi-transparent background of the same color. Control background opacity with <code>opacity</code> (0–1, default <code>0.2</code>). Useful for profile READMEs and feature grids:</p>

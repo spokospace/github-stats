@@ -13,6 +13,8 @@
     "wrangler": "^3.60.0"
   },
   "dependencies": {
+    "@iconify-icons/logos": "^1.2.36",
+    "@phosphor-icons/core": "^2.1.1",
     "simple-icons": "^16.23.0"
   }
 }
