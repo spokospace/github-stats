@@ -158,7 +158,25 @@ Single-color SVG icons for inline use in Markdown. Two variants:
 <img height="40" src="https://github.spoko.space/icon?name=trophy&color=f0a030&size=40&circle=1" />
 <img height="40" src="https://github.spoko.space/icon?name=sparkles&color=c07af0&size=40&circle=1" />
 
+#### UI Icons (Phosphor thin)
 Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `check`, `check-circle`, `code`, `rocket`, `clock`, `heart`, `info`, `sparkles`, `eye`, `trophy`, `users`, `home`, `search`, `plus`, `minus`, `close`, `arrow-right`, `external-link`, `share`, `download`, `upload`, `filter`, `mail`, `phone`, `bell`, `chat`, `bookmark`, `tag`, `folder`, `file`, `image`, `terminal`, `database`, `cloud`, `calendar`, `chart-bar`, `briefcase`, `link`, `lock`, `shield`, `flag`, `user`, `git-branch`
+
+#### Tech Stack Icons (50+)
+Use in `/icon?name=<tech>&color=...` or `/stack?techs=<tech1>,<tech2>,...`
+
+**Frameworks & Languages:** Laravel, Vue, Astro, React, TypeScript, PHP, Node.js, Python, Next.js, Nuxt, Svelte, Angular, Remix, Solid, Express, NestJS, FastAPI, Django, Flask, Symfony, Rails, Ruby, Go, Rust, Kotlin, Swift, .NET
+
+**Databases:** MySQL, PostgreSQL, MongoDB, Redis, SQLite, Prisma, Supabase, Firebase
+
+**Build & Testing:** Vite, Webpack, GraphQL, Jest, Vitest, ESLint, Storybook, Figma, Turbopack, Turborepo, pnpm, Yarn, Rollup, Babel, esbuild, Playwright, Cypress
+
+**Cloud & Hosting:** AWS, Azure, GCP, Cloudflare, Cloudflare Workers, Heroku, Railway, Render, DigitalOcean
+
+**Infrastructure:** Kubernetes, Nginx, Linux, GitHub Actions, Terraform, Ansible, Grafana, Prometheus, RabbitMQ, Elasticsearch
+
+**Other:** Docker, Git, UnoCSS, Bun, Deno, Strapi, Sanity, Hono, tRPC, Drizzle, Flutter, Dart, Electron, Tauri, WebAssembly, Solidity, MDX
+
+All icons are sourced from [simple-icons](https://simpleicons.org/) and [@iconify-icons/logos](https://icon-sets.iconify.design/logos/) with official brand colors.
 
 ## Theme customisation
 
