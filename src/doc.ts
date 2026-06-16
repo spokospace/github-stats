@@ -1,3 +1,5 @@
+import { UI_ICON_GROUPS, TECH_ICON_GROUPS } from './svg/icon-groups';
+
 export function renderDoc(baseUrl: string): string {
   const endpoints = [
     { path: '/langs',    desc: 'Top 10 languages by bytes — segmented bar + legend',       previewPath: '/langs' },
@@ -39,25 +41,6 @@ export function renderDoc(baseUrl: string): string {
       <td><code>${p.default}</code></td>
       <td>${p.desc}</td>
     </tr>`;
-
-  const uiIconGroups = [
-    { title: 'Basics',                  names: ['bolt', 'star', 'rocket', 'sparkles', 'trophy', 'heart'] },
-    { title: 'Navigation & Status',     names: ['map-pin', 'globe', 'eye', 'link', 'home'] },
-    { title: 'Common Actions',          names: ['check', 'x', 'plus', 'minus', 'download', 'upload', 'copy', 'trash'] },
-    { title: 'Information & Warnings',  names: ['info', 'warning', 'bell'] },
-    { title: 'Organization',            names: ['folder', 'file', 'list', 'bookmark', 'calendar', 'chart-bar'] },
-    { title: 'Workspace',               names: ['code', 'terminal', 'database', 'git-branch', 'book', 'bug'] },
-    { title: 'Security & Control',      names: ['lock', 'shield', 'key', 'gear', 'user', 'users', 'building', 'target', 'briefcase', 'mail', 'cloud'] },
-  ];
-
-  const techIconGroups = [
-    { title: 'Frameworks & Languages', names: ['Laravel', 'Vue', 'Astro', 'React', 'TypeScript', 'PHP', 'Node.js', 'Python', 'Next.js', 'Nuxt', 'Svelte', 'Angular', 'Remix', 'Solid', 'Express', 'NestJS', 'FastAPI', 'Django', 'Flask', 'Symfony', 'Rails', 'Ruby', 'Go', 'Rust', 'Kotlin', 'Swift', '.NET'] },
-    { title: 'Databases',              names: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Prisma', 'Supabase', 'Firebase'] },
-    { title: 'Build & Testing',        names: ['Vite', 'Webpack', 'GraphQL', 'Jest', 'Vitest', 'ESLint', 'Storybook', 'Figma', 'Turbopack', 'Turborepo', 'pnpm', 'Yarn', 'Rollup', 'Babel', 'esbuild', 'Playwright', 'Cypress'] },
-    { title: 'Cloud & Hosting',        names: ['AWS', 'Azure', 'GCP', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'] },
-    { title: 'Infrastructure',         names: ['Kubernetes', 'Nginx', 'Linux', 'GitHub Actions', 'Terraform', 'Ansible', 'Grafana', 'Prometheus', 'RabbitMQ', 'Elasticsearch'] },
-    { title: 'Other',                  names: ['Docker', 'Git', 'UnoCSS', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'] },
-  ];
 
   const iconChip = (name: string, color: string) => `
         <div class="icon-chip" title="${name}">
@@ -426,12 +409,12 @@ export function renderDoc(baseUrl: string): string {
 &lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
 &lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
         <div class="icon-gallery">
-          ${uiIconGroups.map(g => iconGroup(g, '0d87cd')).join('')}
+          ${UI_ICON_GROUPS.map(g => iconGroup(g, '0d87cd')).join('')}
         </div>
 
         <p style="color:var(--muted);margin-bottom:16px"><strong>Tech Stack Icons</strong> — 50+ tech icons with official brand colors. Use in <code>/icon?name=&lt;tech&gt;&amp;color=...</code> or via <code>/stack?techs=&lt;tech1&gt;,&lt;tech2&gt;,...</code></p>
         <div class="icon-gallery">
-          ${techIconGroups.map(g => iconGroup(g, 'e5ecf6')).join('')}
+          ${TECH_ICON_GROUPS.map(g => iconGroup(g, 'e5ecf6')).join('')}
         </div>
         <p style="color:var(--dim);margin-top:16px;font-size:12px">Tech icons sourced from <a href="https://simpleicons.org/" style="color:var(--dim);text-decoration:underline">simple-icons</a> and <a href="https://icon-sets.iconify.design/logos/" style="color:var(--dim);text-decoration:underline">@iconify-icons/logos</a> with official brand colors.</p>
 

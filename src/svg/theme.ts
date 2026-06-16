@@ -232,6 +232,15 @@ export function langColor(lang: string): string {
 // @iconify-icons/logos entries are full multi-color SVG bodies (raw=true) with
 // their own native viewBox — embed as-is, do not recolor or force a 24x24 box.
 export type TechIcon = { path: string; color: string; viewBox?: string; raw?: boolean };
+
+// Inner SVG markup + viewBox for a tech icon, encoding the simple-icons vs
+// multi-color-logo distinction in one place. raw logos keep their own body and
+// native viewBox (and ignore color); simple-icons are a single recolored 24x24 path.
+export function techIconBody(icon: TechIcon, color: string): { viewBox: string; inner: string } {
+  return icon.raw
+    ? { viewBox: icon.viewBox!, inner: icon.path }
+    : { viewBox: '0 0 24 24', inner: `<path d="${icon.path}" fill="${color}"/>` };
+}
 export const TECH_ICONS: Record<string, TechIcon> = {
   'Laravel':    { path: siLaravel.path,     color: `#${siLaravel.hex}` },
   'Vue':        { path: siVuedotjs.path,    color: `#${siVuedotjs.hex}` },

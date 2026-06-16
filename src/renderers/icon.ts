@@ -1,5 +1,5 @@
 import { esc } from '../svg/utils';
-import { TECH_ICONS } from '../svg/theme';
+import { TECH_ICONS, techIconBody } from '../svg/theme';
 
 // Single-color SVG icon renderer — viewBox 0 0 256 256
 // Paths sourced from Phosphor Icons (MIT) — thin weight
@@ -73,12 +73,12 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   }
   const techIcon = TECH_ICONS_LOWER[name.toLowerCase()];
   if (!techIcon) return null;
-  // @iconify-icons/logos: full multi-color body with its own viewBox — embed as-is.
-  // preserveAspectRatio (default) scales it to fit the square box without distortion.
-  if (techIcon.raw) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${techIcon.viewBox}">${techIcon.path}</svg>`;
+  // Circle variant only applies to recolorable simple-icons (raw logos keep their own fills).
+  if (circle && !techIcon.raw) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/><path transform="translate(3,3) scale(0.75)" d="${techIcon.path}" fill="${c}"/></svg>`;
   }
-  // simple-icons: single 24x24 path we recolor. Circle scales the icon to 75% and centers it.
-  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
+  // Raw logos embed their native viewBox (preserveAspectRatio keeps them undistorted);
+  // simple-icons render a recolored path in a 24x24 box.
+  const { viewBox, inner } = techIconBody(techIcon, c);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${viewBox}">${inner}</svg>`;
 }

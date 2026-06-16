@@ -1,5 +1,5 @@
 import type { Theme, TechIcon } from './theme';
-import { THEME as DEFAULT } from './theme';
+import { THEME as DEFAULT, techIconBody } from './theme';
 
 // All util functions accept an optional theme param; fallback to DEFAULT
 
@@ -74,11 +74,10 @@ export function chip(x: number, y: number, label: string, color: string, icon: T
   const w = PAD_X * 2 + (icon ? ICON + GAP : 0) + textW;
   const h = ICON + PAD_Y * 2;
   let iconEl = '';
-  if (icon?.raw) {
-    // Multi-color logo body with its own viewBox — embed in a nested svg that scales to fit.
-    iconEl = `<svg x="${x + PAD_X}" y="${y + PAD_Y}" width="${ICON}" height="${ICON}" viewBox="${icon.viewBox}">${icon.path}</svg>`;
-  } else if (icon) {
-    iconEl = `<g transform="translate(${x + PAD_X},${y + PAD_Y}) scale(${ICON / 24})"><path d="${icon.path}" fill="${color}"/></g>`;
+  if (icon) {
+    // Nested svg scales any tech icon (recolored path or raw logo body) into the ICON box.
+    const { viewBox, inner } = techIconBody(icon, color);
+    iconEl = `<svg x="${x + PAD_X}" y="${y + PAD_Y}" width="${ICON}" height="${ICON}" viewBox="${viewBox}">${inner}</svg>`;
   }
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${t.bgCard}" stroke="${color}" stroke-width="0.75" stroke-opacity="0.4"/>
 ${iconEl}

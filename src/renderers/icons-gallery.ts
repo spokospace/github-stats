@@ -1,35 +1,17 @@
 import type { Theme } from '../svg/theme';
-
-const UI_ICONS = {
-  'Basics': ['bolt', 'star', 'rocket', 'sparkles', 'trophy', 'heart'],
-  'Navigation & Status': ['map-pin', 'globe', 'eye', 'link', 'home'],
-  'Common Actions': ['check', 'x', 'plus', 'minus', 'download', 'upload', 'copy', 'trash'],
-  'Information': ['info', 'warning', 'bell'],
-  'Organization': ['folder', 'file', 'list', 'bookmark', 'calendar', 'chart-bar'],
-  'Workspace': ['code', 'terminal', 'database', 'git-branch', 'book', 'bug'],
-  'Security': ['lock', 'shield', 'key', 'gear', 'user', 'users', 'building', 'target', 'briefcase', 'mail', 'cloud'],
-};
-
-const TECH_CATEGORIES = {
-  'Frameworks & Languages': ['Laravel', 'Vue', 'Astro', 'React', 'TypeScript', 'PHP', 'Node.js', 'Python', 'Next.js', 'Nuxt', 'Svelte', 'Angular', 'Remix', 'Solid', 'Express', 'NestJS', 'FastAPI', 'Django', 'Flask', 'Symfony', 'Rails', 'Ruby', 'Go', 'Rust', 'Kotlin', 'Swift', '.NET'],
-  'Databases': ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Prisma', 'Supabase', 'Firebase'],
-  'Build & Testing': ['Vite', 'Webpack', 'GraphQL', 'Jest', 'Vitest', 'ESLint', 'Storybook', 'Figma', 'Turbopack', 'Turborepo', 'pnpm', 'Yarn', 'Rollup', 'Babel', 'esbuild', 'Playwright', 'Cypress'],
-  'Cloud & Hosting': ['AWS', 'Azure', 'GCP', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'],
-  'Infrastructure': ['Kubernetes', 'Nginx', 'Linux', 'GitHub Actions', 'Terraform', 'Ansible', 'Grafana', 'Prometheus', 'RabbitMQ', 'Elasticsearch'],
-  'Other': ['Docker', 'Git', 'UnoCSS', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'],
-};
+import { UI_ICON_GROUPS, TECH_ICON_GROUPS } from '../svg/icon-groups';
 
 export function renderIconsGallery(baseUrl: string, theme: Theme): string {
   const primaryColor = theme.primary;
 
   const colorHex = primaryColor.replace('#', '');
 
-  const uiIconsHtml = Object.entries(UI_ICONS).map(([category, icons]) => `
+  const uiIconsHtml = UI_ICON_GROUPS.map(({ title, names }) => `
     <div class="icon-section">
-      <h3>${category}</h3>
+      <h3>${title}</h3>
       <table class="icon-table">
         <tbody>
-          ${icons.map(name => `
+          ${names.map(name => `
               <tr>
                 <td class="icon-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=28" alt="${name}" /></td>
                 <td class="icon-circle-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=32&circle=1" alt="${name} circle" /></td>
@@ -45,12 +27,12 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
     </div>
   `).join('');
 
-  const techIconsHtml = Object.entries(TECH_CATEGORIES).map(([category, techs]) => `
+  const techIconsHtml = TECH_ICON_GROUPS.map(({ title, names }) => `
     <div class="icon-section">
-      <h3>${category}</h3>
+      <h3>${title}</h3>
       <table class="icon-table">
         <tbody>
-          ${techs.map(tech => `
+          ${names.map(tech => `
               <tr>
                 <td class="icon-preview"><img src="${baseUrl}/icon?name=${tech}&color=${colorHex}&size=28" alt="${tech}" /></td>
                 <td class="icon-name-cell"><code>${tech}</code></td>
