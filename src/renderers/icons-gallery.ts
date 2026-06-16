@@ -181,15 +181,17 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
     }
 
     .icon-preview {
-      width: 56px;
+      width: 64px;
       text-align: center;
     }
 
+    /* No fixed size — the preview reflects the SVG's intrinsic size (the &size= param,
+       capped at 48 by the configurator) so the Size control visibly resizes it. */
     .icon-preview img {
       display: block;
       margin: 0 auto;
-      width: 28px;
-      height: 28px;
+      max-width: 48px;
+      max-height: 48px;
     }
 
     .icon-name-cell {
