@@ -12,6 +12,7 @@ import { renderIcon } from './renderers/icon';
 import { buildTheme } from './svg/theme';
 import { normalizeHex } from './svg/utils';
 import { renderDoc } from './doc';
+import { renderIconsGallery } from './renderers/icons-gallery';
 
 // Override via wrangler.toml [vars] for your own deployment:
 const OWNERS = ['spokospace', 'polo-blue'];
@@ -96,6 +97,11 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         const techsParam = params.get('techs') ?? 'Laravel,Vue,Astro,TypeScript,Tailwind,PHP,Node.js,WordPress';
         return svgResponse(renderStack(techsParam.split(',').map(t => t.trim()).filter(Boolean), theme), STACK_TTL);
       }
+      case '/icons': {
+        return new Response(renderIconsGallery(url.origin, theme), {
+          headers: { 'Content-Type': 'text/html; charset=utf-8' },
+        });
+      }
       case '/icon': {
         const name = params.get('name') ?? '';
         if (!name) return new Response('Missing param: name', { status: 400 });
@@ -115,11 +121,12 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
       }
       default:
         return new Response(JSON.stringify({
-          endpoints: ['/langs', '/stats', '/streak', '/repos', '/contrib', '/trophies', '/stack', '/profile', '/icon'],
+          endpoints: ['/langs', '/stats', '/streak', '/repos', '/contrib', '/trophies', '/stack', '/profile', '/icon', '/icons'],
           usage: {
             theme: 'All endpoints accept ?primary=0d87cd&bg=030620&text=e5ecf6&radius=10',
             stack: '/stack?techs=Laravel,Vue,TypeScript',
             icon: '/icon?name=bolt&color=0d87cd&size=20',
+            icons: '/icons — full icons gallery',
             cache: '/bust-cache?token=YOUR_TOKEN',
           },
         }, null, 2), {
