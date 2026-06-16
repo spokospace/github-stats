@@ -21,6 +21,12 @@ import {
   // Mobile / other
   siFlutter, siDart, siElectron, siTauri, siWebassembly, siSolidity,
 } from 'simple-icons';
+import { default as logosAws } from '@iconify-icons/logos/aws';
+import { default as logosAzure } from '@iconify-icons/logos/azure';
+import { default as logosGoogleCloud } from '@iconify-icons/logos/google-cloud';
+import { default as logosHeroku } from '@iconify-icons/logos/heroku';
+import { default as logosTurbopack } from '@iconify-icons/logos/turbopack';
+import { default as logosPlaywright } from '@iconify-icons/logos/playwright';
 import { normalizeHex } from './utils';
 
 // spoko.space color palette & shared design tokens
@@ -295,12 +301,14 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Sanity':     { path: siSanity.path,       color: `#${siSanity.hex}` },
   'MDX':        { path: siMdx.path,          color: `#${siMdx.hex}` },
   // JS ecosystem (build, package managers, testing)
+  'Turbopack':  { path: logosTurbopack.body, color: '#000000' },
   'Turborepo':  { path: siTurborepo.path,    color: `#${siTurborepo.hex}` },
   'pnpm':       { path: siPnpm.path,         color: `#${siPnpm.hex}` },
   'Yarn':       { path: siYarn.path,         color: `#${siYarn.hex}` },
   'Rollup':     { path: siRollupdotjs.path,  color: `#${siRollupdotjs.hex}` },
   'Babel':      { path: siBabel.path,        color: `#${siBabel.hex}` },
   'esbuild':    { path: siEsbuild.path,      color: `#${siEsbuild.hex}` },
+  'Playwright': { path: logosPlaywright.body, color: '#2EAD33' },
   'Cypress':    { path: siCypress.path,      color: `#${siCypress.hex}` },
   // CSS / UI frameworks & component libraries
   'Radix UI':   { path: siRadixui.path,      color: `#${siRadixui.hex}` },
@@ -323,8 +331,11 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'RabbitMQ':   { path: siRabbitmq.path,     color: `#${siRabbitmq.hex}` },
   'Elasticsearch': { path: siElasticsearch.path, color: `#${siElasticsearch.hex}` },
   // Cloud & hosting providers
+  'AWS':        { path: logosAws.body,       color: '#FF9900' },
+  'Azure':      { path: logosAzure.body,     color: '#0078D4' },
   'GCP':        { path: siGooglecloud.path,  color: `#${siGooglecloud.hex}` },
   'Cloudflare': { path: siCloudflare.path,   color: `#${siCloudflare.hex}` },
+  'Heroku':     { path: logosHeroku.body,    color: '#430098' },
   'Railway':    { path: siRailway.path,      color: `#${siRailway.hex}` },
   'Render':     { path: siRender.path,       color: `#${siRender.hex}` },
   'DigitalOcean': { path: siDigitalocean.path, color: `#${siDigitalocean.hex}` },
