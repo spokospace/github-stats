@@ -159,7 +159,7 @@ Single-color SVG icons for inline use in Markdown. Two variants:
 <img height="40" src="https://github.spoko.space/icon?name=sparkles&color=c07af0&size=40&circle=1" />
 
 #### UI Icons (Phosphor thin)
-Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `check`, `check-circle`, `code`, `rocket`, `clock`, `heart`, `info`, `sparkles`, `eye`, `trophy`, `users`, `home`, `search`, `plus`, `minus`, `close`, `arrow-right`, `external-link`, `share`, `download`, `upload`, `filter`, `mail`, `phone`, `bell`, `chat`, `bookmark`, `tag`, `folder`, `file`, `image`, `terminal`, `database`, `cloud`, `calendar`, `chart-bar`, `briefcase`, `link`, `lock`, `shield`, `flag`, `user`, `git-branch`
+Available icon names: `bolt`, `map-pin`, `star`, `globe`, `building`, `target`, `eye`, `sparkles`, `trophy`, `code`, `rocket`, `heart`, `user`, `users`, `link`, `database`, `terminal`, `cloud`, `git-branch`, `lock`, `shield`, `mail`, `bell`, `calendar`, `folder`, `file`, `bookmark`, `chart-bar`, `briefcase`
 
 #### Tech Stack Icons (50+)
 Use in `/icon?name=<tech>&color=...` or `/stack?techs=<tech1>,<tech2>,...`
