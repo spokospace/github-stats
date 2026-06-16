@@ -37,7 +37,10 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
                 <td class="icon-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=28" alt="${name}" /></td>
                 <td class="icon-circle-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=32&circle=1" alt="${name} circle" /></td>
                 <td class="icon-name-cell"><code>${name}</code></td>
-                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${name}&amp;color=${colorHex}" /&gt;</code></td>
+                <td class="icon-usage">
+                  <img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=14" alt="${name}" />
+                  <code>&lt;img src="${baseUrl}/icon?name=${name}&amp;color=${colorHex}" /&gt;</code>
+                </td>
               </tr>
             `).join('')}
         </tbody>
@@ -54,7 +57,10 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
               <tr>
                 <td class="icon-preview"><img src="${baseUrl}/icon?name=${tech}&color=${colorHex}&size=28" alt="${tech}" /></td>
                 <td class="icon-name-cell"><code>${tech}</code></td>
-                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${tech}&amp;color=${colorHex}" /&gt;</code></td>
+                <td class="icon-usage">
+                  <img src="${baseUrl}/icon?name=${tech}&color=${colorHex}&size=14" alt="${tech}" />
+                  <code>&lt;img src="${baseUrl}/icon?name=${tech}&amp;color=${colorHex}" /&gt;</code>
+                </td>
               </tr>
             `).join('')}
         </tbody>
@@ -195,12 +201,23 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
       color: var(--muted);
       font-size: 12px;
       word-break: break-all;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .icon-usage img {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
     }
 
     .icon-usage code {
       background: var(--bg);
       padding: 2px 4px;
       font-size: 11px;
+      flex: 1;
+      word-break: break-all;
     }
 
     .usage {
