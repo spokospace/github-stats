@@ -25,23 +25,21 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
   const iconSize = 28;
   const primaryColor = theme.primary;
 
+  const colorHex = primaryColor.replace('#', '');
+
   const uiIconsHtml = Object.entries(UI_ICONS).map(([category, icons]) => `
     <div class="icon-section">
       <h3>${category}</h3>
       <table class="icon-table">
         <tbody>
-          ${icons.map(name => {
-            const svg = renderIcon(name, primaryColor, iconSize);
-            const circleSvg = renderIcon(name, primaryColor, 32, true);
-            return svg ? `
+          ${icons.map(name => `
               <tr>
-                <td class="icon-preview">${svg}</td>
-                <td class="icon-circle-preview">${circleSvg}</td>
+                <td class="icon-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=28" alt="${name}" /></td>
+                <td class="icon-circle-preview"><img src="${baseUrl}/icon?name=${name}&color=${colorHex}&size=32&circle=1" alt="${name} circle" /></td>
                 <td class="icon-name-cell"><code>${name}</code></td>
-                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${name}&amp;color=${primaryColor.replace('#', '')}" /&gt;</code></td>
+                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${name}&amp;color=${colorHex}" /&gt;</code></td>
               </tr>
-            ` : '';
-          }).join('')}
+            `).join('')}
         </tbody>
       </table>
     </div>
@@ -52,16 +50,13 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
       <h3>${category}</h3>
       <table class="icon-table">
         <tbody>
-          ${techs.map(tech => {
-            const svg = renderIcon(tech, primaryColor, iconSize);
-            return svg ? `
+          ${techs.map(tech => `
               <tr>
-                <td class="icon-preview">${svg}</td>
+                <td class="icon-preview"><img src="${baseUrl}/icon?name=${tech}&color=${colorHex}&size=28" alt="${tech}" /></td>
                 <td class="icon-name-cell"><code>${tech}</code></td>
-                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${tech}&amp;color=${primaryColor.replace('#', '')}" /&gt;</code></td>
+                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${tech}&amp;color=${colorHex}" /&gt;</code></td>
               </tr>
-            ` : `<tr><td colspan="3" style="color: var(--muted); font-size: 12px;">${tech} — not found</td></tr>`;
-          }).join('')}
+            `).join('')}
         </tbody>
       </table>
     </div>
