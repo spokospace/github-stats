@@ -1,6 +1,4 @@
 import type { Theme } from '../svg/theme';
-import { TECH_ICONS } from '../svg/theme';
-import { renderIcon } from './icon';
 
 const UI_ICONS = {
   'Basics': ['bolt', 'star', 'rocket', 'sparkles', 'trophy', 'heart'],
@@ -22,7 +20,6 @@ const TECH_CATEGORIES = {
 };
 
 export function renderIconsGallery(baseUrl: string, theme: Theme): string {
-  const iconSize = 28;
   const primaryColor = theme.primary;
 
   const colorHex = primaryColor.replace('#', '');
@@ -79,11 +76,11 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
 
     :root {
       --bg: ${theme.bg};
-      --card: ${theme.card};
+      --card: ${theme.bgCard};
       --border: ${theme.border};
       --primary: ${theme.primary};
       --text: ${theme.text};
-      --muted: ${theme.muted};
+      --muted: ${theme.textMuted};
       --radius: ${theme.radius}px;
     }
 

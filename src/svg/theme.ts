@@ -23,7 +23,6 @@ import {
 } from 'simple-icons';
 import { default as logosAws } from '@iconify-icons/logos/aws';
 import { default as logosAzure } from '@iconify-icons/logos/azure';
-import { default as logosGoogleCloud } from '@iconify-icons/logos/google-cloud';
 import { default as logosHeroku } from '@iconify-icons/logos/heroku';
 import { default as logosTurbopack } from '@iconify-icons/logos/turbopack';
 import { default as logosPlaywright } from '@iconify-icons/logos/playwright';
@@ -229,8 +228,11 @@ export function langColor(lang: string): string {
   return LANG_COLORS[lang] ?? LANG_COLORS.default;
 }
 
-// Tech stack icons — sourced from simple-icons (MIT), viewBox 0 0 24 24
-export const TECH_ICONS: Record<string, { path: string; color: string }> = {
+// Tech stack icons. simple-icons (MIT) are single 24x24 paths we recolor.
+// @iconify-icons/logos entries are full multi-color SVG bodies (raw=true) with
+// their own native viewBox — embed as-is, do not recolor or force a 24x24 box.
+export type TechIcon = { path: string; color: string; viewBox?: string; raw?: boolean };
+export const TECH_ICONS: Record<string, TechIcon> = {
   'Laravel':    { path: siLaravel.path,     color: `#${siLaravel.hex}` },
   'Vue':        { path: siVuedotjs.path,    color: `#${siVuedotjs.hex}` },
   'Astro':      { path: siAstro.path,       color: `#${siAstro.hex}` },
@@ -302,14 +304,14 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Sanity':     { path: siSanity.path,       color: `#${siSanity.hex}` },
   'MDX':        { path: siMdx.path,          color: `#${siMdx.hex}` },
   // JS ecosystem (build, package managers, testing)
-  'Turbopack':  { path: logosTurbopack.body, color: '#000000' },
+  'Turbopack':  { path: logosTurbopack.body, color: '#000000', viewBox: '0 0 512 79', raw: true },
   'Turborepo':  { path: siTurborepo.path,    color: `#${siTurborepo.hex}` },
   'pnpm':       { path: siPnpm.path,         color: `#${siPnpm.hex}` },
   'Yarn':       { path: siYarn.path,         color: `#${siYarn.hex}` },
   'Rollup':     { path: siRollupdotjs.path,  color: `#${siRollupdotjs.hex}` },
   'Babel':      { path: siBabel.path,        color: `#${siBabel.hex}` },
   'esbuild':    { path: siEsbuild.path,      color: `#${siEsbuild.hex}` },
-  'Playwright': { path: logosPlaywright.body, color: '#2EAD33' },
+  'Playwright': { path: logosPlaywright.body, color: '#2EAD33', viewBox: '0 0 256 192', raw: true },
   'Cypress':    { path: siCypress.path,      color: `#${siCypress.hex}` },
   // CSS / UI frameworks & component libraries
   'Radix UI':   { path: siRadixui.path,      color: `#${siRadixui.hex}` },
@@ -332,12 +334,12 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'RabbitMQ':   { path: siRabbitmq.path,     color: `#${siRabbitmq.hex}` },
   'Elasticsearch': { path: siElasticsearch.path, color: `#${siElasticsearch.hex}` },
   // Cloud & hosting providers
-  'AWS':        { path: logosAws.body,       color: '#FF9900' },
-  'Azure':      { path: logosAzure.body,     color: '#0078D4' },
+  'AWS':        { path: logosAws.body,       color: '#FF9900', viewBox: '0 0 256 153', raw: true },
+  'Azure':      { path: logosAzure.body,     color: '#0078D4', viewBox: '0 0 512 148', raw: true },
   'GCP':        { path: siGooglecloud.path,  color: `#${siGooglecloud.hex}` },
   'Cloudflare': { path: siCloudflare.path,   color: `#${siCloudflare.hex}` },
-  'Cloudflare Workers': { path: logosCloudfareWorkers.body, color: '#F38020' },
-  'Heroku':     { path: logosHeroku.body,    color: '#430098' },
+  'Cloudflare Workers': { path: logosCloudfareWorkers.body, color: '#F38020', viewBox: '0 0 512 136', raw: true },
+  'Heroku':     { path: logosHeroku.body,    color: '#430098', viewBox: '0 0 512 144', raw: true },
   'Railway':    { path: siRailway.path,      color: `#${siRailway.hex}` },
   'Render':     { path: siRender.path,       color: `#${siRender.hex}` },
   'DigitalOcean': { path: siDigitalocean.path, color: `#${siDigitalocean.hex}` },

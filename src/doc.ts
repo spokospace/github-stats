@@ -40,6 +40,37 @@ export function renderDoc(baseUrl: string): string {
       <td>${p.desc}</td>
     </tr>`;
 
+  const uiIconGroups = [
+    { title: 'Basics',                  names: ['bolt', 'star', 'rocket', 'sparkles', 'trophy', 'heart'] },
+    { title: 'Navigation & Status',     names: ['map-pin', 'globe', 'eye', 'link', 'home'] },
+    { title: 'Common Actions',          names: ['check', 'x', 'plus', 'minus', 'download', 'upload', 'copy', 'trash'] },
+    { title: 'Information & Warnings',  names: ['info', 'warning', 'bell'] },
+    { title: 'Organization',            names: ['folder', 'file', 'list', 'bookmark', 'calendar', 'chart-bar'] },
+    { title: 'Workspace',               names: ['code', 'terminal', 'database', 'git-branch', 'book', 'bug'] },
+    { title: 'Security & Control',      names: ['lock', 'shield', 'key', 'gear', 'user', 'users', 'building', 'target', 'briefcase', 'mail', 'cloud'] },
+  ];
+
+  const techIconGroups = [
+    { title: 'Frameworks & Languages', names: ['Laravel', 'Vue', 'Astro', 'React', 'TypeScript', 'PHP', 'Node.js', 'Python', 'Next.js', 'Nuxt', 'Svelte', 'Angular', 'Remix', 'Solid', 'Express', 'NestJS', 'FastAPI', 'Django', 'Flask', 'Symfony', 'Rails', 'Ruby', 'Go', 'Rust', 'Kotlin', 'Swift', '.NET'] },
+    { title: 'Databases',              names: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Prisma', 'Supabase', 'Firebase'] },
+    { title: 'Build & Testing',        names: ['Vite', 'Webpack', 'GraphQL', 'Jest', 'Vitest', 'ESLint', 'Storybook', 'Figma', 'Turbopack', 'Turborepo', 'pnpm', 'Yarn', 'Rollup', 'Babel', 'esbuild', 'Playwright', 'Cypress'] },
+    { title: 'Cloud & Hosting',        names: ['AWS', 'Azure', 'GCP', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'] },
+    { title: 'Infrastructure',         names: ['Kubernetes', 'Nginx', 'Linux', 'GitHub Actions', 'Terraform', 'Ansible', 'Grafana', 'Prometheus', 'RabbitMQ', 'Elasticsearch'] },
+    { title: 'Other',                  names: ['Docker', 'Git', 'UnoCSS', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'] },
+  ];
+
+  const iconChip = (name: string, color: string) => `
+        <div class="icon-chip" title="${name}">
+          <img src="${baseUrl}/icon?name=${encodeURIComponent(name)}&color=${color}&size=28" alt="${name}" loading="lazy" width="28" height="28">
+          <code>${name}</code>
+        </div>`;
+
+  const iconGroup = (g: { title: string; names: string[] }, color: string) => `
+      <div class="icon-group">
+        <h4>${g.title}</h4>
+        <div class="icon-chips">${g.names.map(n => iconChip(n, color)).join('')}</div>
+      </div>`;
+
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -231,6 +262,47 @@ export function renderDoc(baseUrl: string): string {
       border-radius: 6px;
     }
 
+    /* ── Icon gallery ───────────────────────────────── */
+    .icon-group { margin-bottom: 20px; }
+
+    .icon-group h4 {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 10px;
+    }
+
+    .icon-chips {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(92px, 1fr));
+      gap: 8px;
+    }
+
+    .icon-chip {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .icon-chip img { display: block; }
+
+    .icon-chip code {
+      background: none;
+      padding: 0;
+      font-size: 11px;
+      color: var(--muted);
+      word-break: break-word;
+      line-height: 1.3;
+    }
+
     /* ── Tables ─────────────────────────────────────── */
     .table-wrap { overflow-x: auto; }
 
@@ -353,24 +425,13 @@ export function renderDoc(baseUrl: string): string {
         <pre><code>&lt;img height="14" src="${baseUrl}/icon?name=building&amp;color=0d87cd" align="absmiddle" /&gt; Running SPOKO SPACE
 &lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
 &lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
-        <p style="color:var(--muted);margin-top:8px;margin-bottom:16px;font-size:13px">
-          <strong>Basics:</strong> <code>bolt</code>, <code>star</code>, <code>rocket</code>, <code>sparkles</code>, <code>trophy</code>, <code>heart</code><br>
-          <strong>Navigation & Status:</strong> <code>map-pin</code>, <code>globe</code>, <code>eye</code>, <code>link</code>, <code>home</code><br>
-          <strong>Common Actions:</strong> <code>check</code>, <code>x</code>, <code>plus</code>, <code>minus</code>, <code>download</code>, <code>upload</code>, <code>copy</code>, <code>trash</code><br>
-          <strong>Information & Warnings:</strong> <code>info</code>, <code>warning</code>, <code>bell</code><br>
-          <strong>Organization:</strong> <code>folder</code>, <code>file</code>, <code>list</code>, <code>bookmark</code>, <code>calendar</code>, <code>chart-bar</code><br>
-          <strong>Workspace:</strong> <code>code</code>, <code>terminal</code>, <code>database</code>, <code>git-branch</code>, <code>book</code>, <code>bug</code><br>
-          <strong>Security & Control:</strong> <code>lock</code>, <code>shield</code>, <code>key</code>, <code>gear</code>, <code>user</code>, <code>users</code>, <code>building</code>, <code>target</code>, <code>briefcase</code>, <code>mail</code>, <code>cloud</code>
-        </p>
+        <div class="icon-gallery">
+          ${uiIconGroups.map(g => iconGroup(g, '0d87cd')).join('')}
+        </div>
 
         <p style="color:var(--muted);margin-bottom:16px"><strong>Tech Stack Icons</strong> — 50+ tech icons with official brand colors. Use in <code>/icon?name=&lt;tech&gt;&amp;color=...</code> or via <code>/stack?techs=&lt;tech1&gt;,&lt;tech2&gt;,...</code></p>
-        <div style="columns:2;gap:24px;column-gap:32px;font-size:13px">
-          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Frameworks & Languages:</strong> Laravel, Vue, Astro, React, TypeScript, PHP, Node.js, Python, Next.js, Nuxt, Svelte, Angular, Remix, Solid, Express, NestJS, FastAPI, Django, Flask, Symfony, Rails, Ruby, Go, Rust, Kotlin, Swift, .NET</p>
-          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Databases:</strong> MySQL, PostgreSQL, MongoDB, Redis, SQLite, Prisma, Supabase, Firebase</p>
-          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Build & Testing:</strong> Vite, Webpack, GraphQL, Jest, Vitest, ESLint, Storybook, Figma, Turbopack, Turborepo, pnpm, Yarn, Rollup, Babel, esbuild, Playwright, Cypress</p>
-          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Cloud & Hosting:</strong> AWS, Azure, GCP, Cloudflare, Cloudflare Workers, Heroku, Railway, Render, DigitalOcean</p>
-          <p style="color:var(--muted);margin:0 0 12px;column-span:all"><strong>Infrastructure:</strong> Kubernetes, Nginx, Linux, GitHub Actions, Terraform, Ansible, Grafana, Prometheus, RabbitMQ, Elasticsearch</p>
-          <p style="color:var(--muted);margin:0 0 0;column-span:all"><strong>Other:</strong> Docker, Git, UnoCSS, Bun, Deno, Strapi, Sanity, Hono, tRPC, Drizzle, Flutter, Dart, Electron, Tauri, WebAssembly, Solidity, MDX</p>
+        <div class="icon-gallery">
+          ${techIconGroups.map(g => iconGroup(g, 'e5ecf6')).join('')}
         </div>
         <p style="color:var(--dim);margin-top:16px;font-size:12px">Tech icons sourced from <a href="https://simpleicons.org/" style="color:var(--dim);text-decoration:underline">simple-icons</a> and <a href="https://icon-sets.iconify.design/logos/" style="color:var(--dim);text-decoration:underline">@iconify-icons/logos</a> with official brand colors.</p>
 

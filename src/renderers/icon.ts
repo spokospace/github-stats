@@ -73,6 +73,12 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   }
   const techIcon = TECH_ICONS_LOWER[name.toLowerCase()];
   if (!techIcon) return null;
-  const bg = circle ? `<circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256">${bg}<path${circle ? ' transform="translate(32,32) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
+  // @iconify-icons/logos: full multi-color body with its own viewBox — embed as-is.
+  // preserveAspectRatio (default) scales it to fit the square box without distortion.
+  if (techIcon.raw) {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${techIcon.viewBox}">${techIcon.path}</svg>`;
+  }
+  // simple-icons: single 24x24 path we recolor. Circle scales the icon to 75% and centers it.
+  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
 }
