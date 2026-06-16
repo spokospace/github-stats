@@ -22,41 +22,48 @@ const TECH_CATEGORIES = {
 };
 
 export function renderIconsGallery(baseUrl: string, theme: Theme): string {
-  const iconSize = 32;
+  const iconSize = 28;
   const primaryColor = theme.primary;
 
   const uiIconsHtml = Object.entries(UI_ICONS).map(([category, icons]) => `
     <div class="icon-section">
       <h3>${category}</h3>
-      <div class="icon-grid">
-        ${icons.map(name => {
-          const svg = renderIcon(name, primaryColor, iconSize);
-          return svg ? `
-            <div class="icon-item" title="${name}">
-              <div class="icon-bare">${svg}</div>
-              <div class="icon-name">${name}</div>
-              <div class="icon-circle">${renderIcon(name, primaryColor, 40, true)}</div>
-            </div>
-          ` : '';
-        }).join('')}
-      </div>
+      <table class="icon-table">
+        <tbody>
+          ${icons.map(name => {
+            const svg = renderIcon(name, primaryColor, iconSize);
+            const circleSvg = renderIcon(name, primaryColor, 32, true);
+            return svg ? `
+              <tr>
+                <td class="icon-preview">${svg}</td>
+                <td class="icon-circle-preview">${circleSvg}</td>
+                <td class="icon-name-cell"><code>${name}</code></td>
+                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${name}&amp;color=${primaryColor.replace('#', '')}" /&gt;</code></td>
+              </tr>
+            ` : '';
+          }).join('')}
+        </tbody>
+      </table>
     </div>
   `).join('');
 
   const techIconsHtml = Object.entries(TECH_CATEGORIES).map(([category, techs]) => `
     <div class="icon-section">
       <h3>${category}</h3>
-      <div class="icon-grid">
-        ${techs.map(tech => {
-          const svg = renderIcon(tech, primaryColor, iconSize);
-          return svg ? `
-            <div class="icon-item" title="${tech}">
-              <div class="icon-bare">${svg}</div>
-              <div class="icon-name">${tech}</div>
-            </div>
-          ` : '';
-        }).join('')}
-      </div>
+      <table class="icon-table">
+        <tbody>
+          ${techs.map(tech => {
+            const svg = renderIcon(tech, primaryColor, iconSize);
+            return svg ? `
+              <tr>
+                <td class="icon-preview">${svg}</td>
+                <td class="icon-name-cell"><code>${tech}</code></td>
+                <td class="icon-usage"><code>&lt;img src="${baseUrl}/icon?name=${tech}&amp;color=${primaryColor.replace('#', '')}" /&gt;</code></td>
+              </tr>
+            ` : `<tr><td colspan="3" style="color: var(--muted); font-size: 12px;">${tech} — not found</td></tr>`;
+          }).join('')}
+        </tbody>
+      </table>
     </div>
   `).join('');
 
@@ -130,63 +137,75 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
       margin-bottom: 32px;
     }
 
-    .icon-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-      gap: 16px;
+    .icon-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
     }
 
-    .icon-item {
+    .icon-table tr {
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+
+    .icon-table tr:hover {
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 16px 12px;
+    }
+
+    .icon-table td {
+      padding: 12px;
+      vertical-align: middle;
+    }
+
+    .icon-preview {
+      width: 50px;
       text-align: center;
-      transition: all 0.2s;
-      cursor: pointer;
+      flex-shrink: 0;
     }
 
-    .icon-item:hover {
-      background: var(--bg);
-      border-color: var(--primary);
-      transform: translateY(-2px);
-    }
-
-    .icon-bare {
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 12px;
-    }
-
-    .icon-bare svg {
+    .icon-preview svg {
       display: block;
+      margin: 0 auto;
     }
 
-    .icon-circle {
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 8px;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: all 0.2s;
+    .icon-circle-preview {
+      width: 50px;
+      text-align: center;
+      display: none;
     }
 
-    .icon-item:hover .icon-circle {
-      opacity: 1;
-      max-height: 48px;
-      margin-top: 8px;
+    .icon-circle-preview svg {
+      display: block;
+      margin: 0 auto;
     }
 
-    .icon-name {
-      font-size: 12px;
-      color: var(--muted);
-      word-break: break-word;
+    @media (min-width: 768px) {
+      .icon-circle-preview {
+        display: table-cell;
+      }
+    }
+
+    .icon-name-cell {
+      width: 120px;
+      flex-shrink: 0;
       font-weight: 500;
+    }
+
+    .icon-name-cell code {
+      background: var(--bg);
+      padding: 4px 8px;
+    }
+
+    .icon-usage {
+      color: var(--muted);
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    .icon-usage code {
+      background: var(--bg);
+      padding: 2px 4px;
+      font-size: 11px;
     }
 
     .usage {
@@ -251,12 +270,12 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
 
     <section>
       <h2>UI Icons (Phosphor thin)</h2>
-      <p style="color: var(--muted); margin-bottom: 24px;">Hover to see circle variant</p>
+      <p style="color: var(--muted); margin-bottom: 24px;">44 icons organized by category — click to copy usage code</p>
       ${uiIconsHtml}
     </section>
 
     <section>
-      <h2>Tech Stack Icons</h2>
+      <h2>Tech Stack Icons (50+)</h2>
       <p style="color: var(--muted); margin-bottom: 24px;">Official brand colors from simple-icons & @iconify-icons/logos</p>
       ${techIconsHtml}
     </section>
