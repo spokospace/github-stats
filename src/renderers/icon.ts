@@ -73,12 +73,13 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   }
   const techIcon = TECH_ICONS_LOWER[name.toLowerCase()];
   if (!techIcon) return null;
-  // Circle variant only applies to recolorable simple-icons (raw logos keep their own fills).
-  if (circle && !techIcon.raw) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24"><circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/><path transform="translate(3,3) scale(0.75)" d="${techIcon.path}" fill="${c}"/></svg>`;
-  }
-  // Raw logos embed their native viewBox (preserveAspectRatio keeps them undistorted);
-  // simple-icons render a recolored path in a 24x24 box.
+  // Inner markup keeps raw logos' own fills/viewBox; simple-icons become a recolored 24x24 path.
   const { viewBox, inner } = techIconBody(techIcon, c);
+  if (circle) {
+    // Square canvas: tinted circle + the icon scaled to 75% and centered via a nested svg.
+    // Recolorable icons tint the circle with the chosen color; raw logos use their brand color.
+    const bg = techIcon.raw ? esc(techIcon.color) : c;
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="${bg}" fill-opacity="${op}"/><svg x="32" y="32" width="192" height="192" viewBox="${viewBox}">${inner}</svg></svg>`;
+  }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${viewBox}">${inner}</svg>`;
 }
