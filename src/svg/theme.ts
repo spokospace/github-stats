@@ -9,6 +9,17 @@ import {
   siVercel, siNetlify, siKubernetes, siNginx, siLinux, siGithubactions,
   siVite, siWebpack, siGraphql, siJest, siVitest, siFigma, siStorybook, siEslint,
   siBun, siDeno, siStrapi, siSanity,
+  // JS ecosystem
+  siTurborepo, siPnpm, siYarn, siRollupdotjs, siBabel, siEsbuild, siCypress,
+  // CSS / UI
+  siRadixui, siShadcnui, siFramer, siBootstrap, siMui, siAntdesign, siChakraui, siDaisyui,
+  // Backend / infra
+  siHono, siTrpc, siDrizzle, siTerraform, siAnsible,
+  siGrafana, siPrometheus, siRabbitmq, siElasticsearch,
+  // Cloud / hosting
+  siGooglecloud, siCloudflare, siRailway, siRender, siDigitalocean,
+  // Mobile / other
+  siFlutter, siDart, siElectron, siTauri, siWebassembly, siSolidity,
 } from 'simple-icons';
 import { normalizeHex } from './utils';
 
@@ -283,4 +294,45 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Strapi':     { path: siStrapi.path,       color: `#${siStrapi.hex}` },
   'Sanity':     { path: siSanity.path,       color: `#${siSanity.hex}` },
   'MDX':        { path: siMdx.path,          color: `#${siMdx.hex}` },
+  // JS ecosystem (build, package managers, testing)
+  'Turborepo':  { path: siTurborepo.path,    color: `#${siTurborepo.hex}` },
+  'pnpm':       { path: siPnpm.path,         color: `#${siPnpm.hex}` },
+  'Yarn':       { path: siYarn.path,         color: `#${siYarn.hex}` },
+  'Rollup':     { path: siRollupdotjs.path,  color: `#${siRollupdotjs.hex}` },
+  'Babel':      { path: siBabel.path,        color: `#${siBabel.hex}` },
+  'esbuild':    { path: siEsbuild.path,      color: `#${siEsbuild.hex}` },
+  'Cypress':    { path: siCypress.path,      color: `#${siCypress.hex}` },
+  // CSS / UI frameworks & component libraries
+  'Radix UI':   { path: siRadixui.path,      color: `#${siRadixui.hex}` },
+  'shadcn/ui':  { path: siShadcnui.path,     color: `#${siShadcnui.hex}` },
+  'Framer Motion': { path: siFramer.path,    color: `#${siFramer.hex}` },
+  'Bootstrap':  { path: siBootstrap.path,    color: `#${siBootstrap.hex}` },
+  'MUI':        { path: siMui.path,          color: `#${siMui.hex}` },
+  'Ant Design': { path: siAntdesign.path,    color: `#${siAntdesign.hex}` },
+  'Chakra UI':  { path: siChakraui.path,     color: `#${siChakraui.hex}` },
+  'daisyUI':    { path: siDaisyui.path,      color: `#${siDaisyui.hex}` },
+  // Backend frameworks & tools
+  'Hono':       { path: siHono.path,         color: `#${siHono.hex}` },
+  'tRPC':       { path: siTrpc.path,         color: `#${siTrpc.hex}` },
+  'Drizzle':    { path: siDrizzle.path,      color: `#${siDrizzle.hex}` },
+  'Terraform':  { path: siTerraform.path,    color: `#${siTerraform.hex}` },
+  'Ansible':    { path: siAnsible.path,      color: `#${siAnsible.hex}` },
+  // Monitoring & orchestration
+  'Grafana':    { path: siGrafana.path,      color: `#${siGrafana.hex}` },
+  'Prometheus': { path: siPrometheus.path,   color: `#${siPrometheus.hex}` },
+  'RabbitMQ':   { path: siRabbitmq.path,     color: `#${siRabbitmq.hex}` },
+  'Elasticsearch': { path: siElasticsearch.path, color: `#${siElasticsearch.hex}` },
+  // Cloud & hosting providers
+  'GCP':        { path: siGooglecloud.path,  color: `#${siGooglecloud.hex}` },
+  'Cloudflare': { path: siCloudflare.path,   color: `#${siCloudflare.hex}` },
+  'Railway':    { path: siRailway.path,      color: `#${siRailway.hex}` },
+  'Render':     { path: siRender.path,       color: `#${siRender.hex}` },
+  'DigitalOcean': { path: siDigitalocean.path, color: `#${siDigitalocean.hex}` },
+  // Mobile & other platforms
+  'Flutter':    { path: siFlutter.path,      color: `#${siFlutter.hex}` },
+  'Dart':       { path: siDart.path,         color: `#${siDart.hex}` },
+  'Electron':   { path: siElectron.path,     color: `#${siElectron.hex}` },
+  'Tauri':      { path: siTauri.path,        color: `#${siTauri.hex}` },
+  'WebAssembly': { path: siWebassembly.path, color: `#${siWebassembly.hex}` },
+  'Solidity':   { path: siSolidity.path,     color: `#${siSolidity.hex}` },
 };
