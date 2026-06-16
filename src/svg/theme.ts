@@ -27,6 +27,7 @@ import { default as logosGoogleCloud } from '@iconify-icons/logos/google-cloud';
 import { default as logosHeroku } from '@iconify-icons/logos/heroku';
 import { default as logosTurbopack } from '@iconify-icons/logos/turbopack';
 import { default as logosPlaywright } from '@iconify-icons/logos/playwright';
+import { default as logosCloudfareWorkers } from '@iconify-icons/logos/cloudflare-workers';
 import { normalizeHex } from './utils';
 
 // spoko.space color palette & shared design tokens
@@ -335,6 +336,7 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Azure':      { path: logosAzure.body,     color: '#0078D4' },
   'GCP':        { path: siGooglecloud.path,  color: `#${siGooglecloud.hex}` },
   'Cloudflare': { path: siCloudflare.path,   color: `#${siCloudflare.hex}` },
+  'Cloudflare Workers': { path: logosCloudfareWorkers.body, color: '#F38020' },
   'Heroku':     { path: logosHeroku.body,    color: '#430098' },
   'Railway':    { path: siRailway.path,      color: `#${siRailway.hex}` },
   'Render':     { path: siRender.path,       color: `#${siRender.hex}` },
