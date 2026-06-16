@@ -67,11 +67,11 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   const icon = ICONS[name];
   if (icon) {
     const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
-    const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/>` : '';
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${rule}${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${icon.path}" fill="${c}"/></svg>`;
+    const bg = circle ? `<circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/>` : '';
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256">${bg}<path${rule}${circle ? ' transform="translate(48,48) scale(0.75)"' : ''} d="${icon.path}" fill="${c}"/></svg>`;
   }
   const techIcon = TECH_ICONS_LOWER[name.toLowerCase()];
   if (!techIcon) return null;
-  const bg = circle ? `<circle cx="12" cy="12" r="12" fill="${c}" fill-opacity="${op}"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 24 24">${bg}<path${circle ? ' transform="translate(3,3) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
+  const bg = circle ? `<circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/>` : '';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256">${bg}<path${circle ? ' transform="translate(48,48) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
 }
