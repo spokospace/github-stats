@@ -1,7 +1,7 @@
 import {
   siLaravel, siVuedotjs, siAstro, siTypescript, siTailwindcss,
   siPhp, siNodedotjs, siWordpress, siPython, siReact, siDocker,
-  siGit, siUnocss, siJavascript, siCss, siSass, siHtml5,
+  siGit, siUnocss, siJavascript, siCss, siSass, siHtml5, siMdx,
   siNextdotjs, siNuxt, siSvelte, siAngular, siRemix, siSolid,
   siExpress, siNestjs, siFastapi, siDjango, siFlask, siSymfony, siRubyonrails, siRuby,
   siGo, siRust, siKotlin, siSwift, siDotnet,
@@ -282,4 +282,5 @@ export const TECH_ICONS: Record<string, { path: string; color: string }> = {
   'Deno':       { path: siDeno.path,         color: `#${siDeno.hex}` },
   'Strapi':     { path: siStrapi.path,       color: `#${siStrapi.hex}` },
   'Sanity':     { path: siSanity.path,       color: `#${siSanity.hex}` },
+  'MDX':        { path: siMdx.path,          color: `#${siMdx.hex}` },
 };
