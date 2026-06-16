@@ -353,7 +353,15 @@ export function renderDoc(baseUrl: string): string {
         <pre><code>&lt;img height="14" src="${baseUrl}/icon?name=building&amp;color=0d87cd" align="absmiddle" /&gt; Running SPOKO SPACE
 &lt;img height="14" src="${baseUrl}/icon?name=bolt&amp;color=0d87cd" align="absmiddle" /&gt; 15+ years experience
 &lt;img height="14" src="${baseUrl}/icon?name=map-pin&amp;color=0d87cd" align="absmiddle" /&gt; Bielsko-Biała</code></pre>
-        <p style="color:var(--muted);margin-top:8px;margin-bottom:16px;font-size:13px"><strong>Available UI icons:</strong> <code>bolt</code>, <code>map-pin</code>, <code>star</code>, <code>globe</code>, <code>building</code>, <code>target</code>, <code>eye</code>, <code>sparkles</code>, <code>trophy</code>, <code>code</code>, <code>rocket</code>, <code>heart</code>, <code>user</code>, <code>users</code>, <code>link</code>, <code>database</code>, <code>terminal</code>, <code>cloud</code>, <code>git-branch</code>, <code>lock</code>, <code>shield</code>, <code>mail</code>, <code>bell</code>, <code>calendar</code>, <code>folder</code>, <code>file</code>, <code>bookmark</code>, <code>chart-bar</code>, <code>briefcase</code></p>
+        <p style="color:var(--muted);margin-top:8px;margin-bottom:16px;font-size:13px">
+          <strong>Basics:</strong> <code>bolt</code>, <code>star</code>, <code>rocket</code>, <code>sparkles</code>, <code>trophy</code>, <code>heart</code><br>
+          <strong>Navigation & Status:</strong> <code>map-pin</code>, <code>globe</code>, <code>eye</code>, <code>link</code>, <code>home</code><br>
+          <strong>Common Actions:</strong> <code>check</code>, <code>x</code>, <code>plus</code>, <code>minus</code>, <code>download</code>, <code>upload</code>, <code>copy</code>, <code>trash</code><br>
+          <strong>Information & Warnings:</strong> <code>info</code>, <code>warning</code>, <code>bell</code><br>
+          <strong>Organization:</strong> <code>folder</code>, <code>file</code>, <code>list</code>, <code>bookmark</code>, <code>calendar</code>, <code>chart-bar</code><br>
+          <strong>Workspace:</strong> <code>code</code>, <code>terminal</code>, <code>database</code>, <code>git-branch</code>, <code>book</code>, <code>bug</code><br>
+          <strong>Security & Control:</strong> <code>lock</code>, <code>shield</code>, <code>key</code>, <code>gear</code>, <code>user</code>, <code>users</code>, <code>building</code>, <code>target</code>, <code>briefcase</code>, <code>mail</code>, <code>cloud</code>
+        </p>
 
         <p style="color:var(--muted);margin-bottom:16px"><strong>Tech Stack Icons</strong> — 50+ tech icons with official brand colors. Use in <code>/icon?name=&lt;tech&gt;&amp;color=...</code> or via <code>/stack?techs=&lt;tech1&gt;,&lt;tech2&gt;,...</code></p>
         <div style="columns:2;gap:24px;column-gap:32px;font-size:13px">
