@@ -101,15 +101,15 @@ test.describe('Icon Endpoint', () => {
     expect(svg).toContain('fill="#252F3E"');
   });
 
-  test('circle variant works for multi-color logos (tinted with brand color)', async ({ page }) => {
+  test('circle variant works for multi-color logos (tinted with chosen color)', async ({ page }) => {
     // Regression: raw logos previously fell through and rendered with no circle.
-    const response = await page.request.get(`${baseUrl}/icon?name=AWS&size=64&circle=1`);
+    const response = await page.request.get(`${baseUrl}/icon?name=AWS&color=ff5511&size=64&circle=1`);
     const svg = await response.text();
 
-    // Square canvas with a brand-tinted circle and the logo nested at its own viewBox.
+    // Square canvas with a circle in the chosen color and the logo nested at its own viewBox.
     expect(svg).toContain('viewBox="0 0 256 256"');
     expect(svg).toContain('<circle');
-    expect(svg).toContain('fill="#FF9900"'); // AWS brand color tints the circle
+    expect(svg).toContain('fill="#ff5511"'); // chosen color tints the circle, even for raw logos
     expect(svg).toContain('<svg x="32" y="32"');
     expect(svg).toContain('viewBox="0 0 256 153"'); // nested logo keeps its native box
   });

@@ -22,11 +22,11 @@ import {
   siFlutter, siDart, siElectron, siTauri, siWebassembly, siSolidity,
 } from 'simple-icons';
 import { default as logosAws } from '@iconify-icons/logos/aws';
-import { default as logosAzure } from '@iconify-icons/logos/azure';
-import { default as logosHeroku } from '@iconify-icons/logos/heroku';
-import { default as logosTurbopack } from '@iconify-icons/logos/turbopack';
+import { default as logosAzureIcon } from '@iconify-icons/logos/azure-icon';
+import { default as logosHerokuIcon } from '@iconify-icons/logos/heroku-icon';
+import { default as logosTurbopackIcon } from '@iconify-icons/logos/turbopack-icon';
 import { default as logosPlaywright } from '@iconify-icons/logos/playwright';
-import { default as logosCloudfareWorkers } from '@iconify-icons/logos/cloudflare-workers';
+import { default as logosCloudflareWorkersIcon } from '@iconify-icons/logos/cloudflare-workers-icon';
 import { normalizeHex } from './utils';
 
 // spoko.space color palette & shared design tokens
@@ -313,7 +313,7 @@ export const TECH_ICONS: Record<string, TechIcon> = {
   'Sanity':     { path: siSanity.path,       color: `#${siSanity.hex}` },
   'MDX':        { path: siMdx.path,          color: `#${siMdx.hex}` },
   // JS ecosystem (build, package managers, testing)
-  'Turbopack':  { path: logosTurbopack.body, color: '#000000', viewBox: '0 0 512 79', raw: true },
+  'Turbopack':  { path: logosTurbopackIcon.body, color: '#000000', viewBox: '0 0 256 293', raw: true },
   'Turborepo':  { path: siTurborepo.path,    color: `#${siTurborepo.hex}` },
   'pnpm':       { path: siPnpm.path,         color: `#${siPnpm.hex}` },
   'Yarn':       { path: siYarn.path,         color: `#${siYarn.hex}` },
@@ -344,11 +344,11 @@ export const TECH_ICONS: Record<string, TechIcon> = {
   'Elasticsearch': { path: siElasticsearch.path, color: `#${siElasticsearch.hex}` },
   // Cloud & hosting providers
   'AWS':        { path: logosAws.body,       color: '#FF9900', viewBox: '0 0 256 153', raw: true },
-  'Azure':      { path: logosAzure.body,     color: '#0078D4', viewBox: '0 0 512 148', raw: true },
+  'Azure':      { path: logosAzureIcon.body, color: '#0078D4', viewBox: '0 0 256 199', raw: true },
   'GCP':        { path: siGooglecloud.path,  color: `#${siGooglecloud.hex}` },
   'Cloudflare': { path: siCloudflare.path,   color: `#${siCloudflare.hex}` },
-  'Cloudflare Workers': { path: logosCloudfareWorkers.body, color: '#F38020', viewBox: '0 0 512 136', raw: true },
-  'Heroku':     { path: logosHeroku.body,    color: '#430098', viewBox: '0 0 512 144', raw: true },
+  'Cloudflare Workers': { path: logosCloudflareWorkersIcon.body, color: '#F38020', viewBox: '0 0 256 231', raw: true },
+  'Heroku':     { path: logosHerokuIcon.body, color: '#430098', viewBox: '0 0 256 285', raw: true },
   'Railway':    { path: siRailway.path,      color: `#${siRailway.hex}` },
   'Render':     { path: siRender.path,       color: `#${siRender.hex}` },
   'DigitalOcean': { path: siDigitalocean.path, color: `#${siDigitalocean.hex}` },

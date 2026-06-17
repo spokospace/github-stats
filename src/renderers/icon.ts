@@ -76,10 +76,9 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   // Inner markup keeps raw logos' own fills/viewBox; simple-icons become a recolored 24x24 path.
   const { viewBox, inner } = techIconBody(techIcon, c);
   if (circle) {
-    // Square canvas: tinted circle + the icon scaled to 75% and centered via a nested svg.
-    // Recolorable icons tint the circle with the chosen color; raw logos use their brand color.
-    const bg = techIcon.raw ? esc(techIcon.color) : c;
-    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="${bg}" fill-opacity="${op}"/><svg x="32" y="32" width="192" height="192" viewBox="${viewBox}">${inner}</svg></svg>`;
+    // Square canvas: a circle tinted with the chosen color + the icon scaled to
+    // 75% and centered via a nested svg (raw logos keep their own multi-color body).
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/><svg x="32" y="32" width="192" height="192" viewBox="${viewBox}">${inner}</svg></svg>`;
   }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${viewBox}">${inner}</svg>`;
 }
