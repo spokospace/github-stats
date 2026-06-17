@@ -1,5 +1,5 @@
-import type { Theme } from './theme';
-import { THEME as DEFAULT } from './theme';
+import type { Theme, TechIcon } from './theme';
+import { THEME as DEFAULT, techIconBody } from './theme';
 
 // All util functions accept an optional theme param; fallback to DEFAULT
 
@@ -68,17 +68,20 @@ ${text(x + w / 2, y, label, { size: 10, fill: color, anchor: 'middle' }, t)}`;
 }
 
 // spoko.space-style chip: colored icon + monospace label on dark pill
-export function chip(x: number, y: number, label: string, color: string, iconPath: string | null, t: Theme = DEFAULT): string {
-  const ICON = 14, PAD_X = 8, PAD_Y = 5, GAP = iconPath ? 5 : 0;
+export function chip(x: number, y: number, label: string, color: string, icon: TechIcon | null, t: Theme = DEFAULT): string {
+  const ICON = 14, PAD_X = 8, PAD_Y = 5, GAP = icon ? 5 : 0;
   const textW = label.length * 7.2;
-  const w = PAD_X * 2 + (iconPath ? ICON + GAP : 0) + textW;
+  const w = PAD_X * 2 + (icon ? ICON + GAP : 0) + textW;
   const h = ICON + PAD_Y * 2;
-  const iconEl = iconPath
-    ? `<g transform="translate(${x + PAD_X},${y + PAD_Y}) scale(${ICON / 24})"><path d="${iconPath}" fill="${color}"/></g>`
-    : '';
+  let iconEl = '';
+  if (icon) {
+    // Nested svg scales any tech icon (recolored path or raw logo body) into the ICON box.
+    const { viewBox, inner } = techIconBody(icon, color);
+    iconEl = `<svg x="${x + PAD_X}" y="${y + PAD_Y}" width="${ICON}" height="${ICON}" viewBox="${viewBox}">${inner}</svg>`;
+  }
   return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${t.bgCard}" stroke="${color}" stroke-width="0.75" stroke-opacity="0.4"/>
 ${iconEl}
-${text(x + PAD_X + (iconPath ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: t.text, font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
+${text(x + PAD_X + (icon ? ICON + GAP : 0), y + h / 2 + 4, label, { size: 11, fill: t.text, font: 'ui-monospace,SFMono-Regular,monospace' }, t)}`;
 }
 
 export function formatNumber(n: number): string {

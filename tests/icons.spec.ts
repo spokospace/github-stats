@@ -15,8 +15,8 @@ test.describe('Icon Endpoint', () => {
     // Check viewBox is correct for 256x256 coordinate system
     expect(svg).toContain('viewBox="0 0 256 256"');
 
-    // Check that transform is applied to scale icon to 75%
-    expect(svg).toContain('transform="translate(48,48) scale(0.75)"');
+    // Check that transform is applied to scale icon to 75%, centered in the 256 box
+    expect(svg).toContain('transform="translate(32,32) scale(0.75)"');
   });
 
   test('bare icon variant renders without circle background', async ({ page }) => {
@@ -79,5 +79,38 @@ test.describe('Icon Endpoint', () => {
 
       expect(response.ok(), `Tech icon ${tech} should render successfully`).toBe(true);
     }
+  });
+
+  test('simple-icons tech icons use a 24x24 viewBox so they fill the box', async ({ page }) => {
+    // Regression: these were rendered in a 256x256 viewBox and shrank to a speck.
+    const response = await page.request.get(`${baseUrl}/icon?name=React&color=61dafb&size=28`);
+    const svg = await response.text();
+
+    expect(svg).toContain('viewBox="0 0 24 24"');
+    expect(svg).toContain('<path');
+    expect(svg).toContain('fill="#61dafb"');
+  });
+
+  test('multi-color logo icons embed their native body and viewBox', async ({ page }) => {
+    // @iconify-icons/logos entries are full SVG bodies, not single recolored paths.
+    const response = await page.request.get(`${baseUrl}/icon?name=AWS&size=28`);
+    const svg = await response.text();
+
+    // AWS logo is 256x153 and keeps its own brand fills (not our color param).
+    expect(svg).toContain('viewBox="0 0 256 153"');
+    expect(svg).toContain('fill="#252F3E"');
+  });
+
+  test('circle variant works for multi-color logos (tinted with chosen color)', async ({ page }) => {
+    // Regression: raw logos previously fell through and rendered with no circle.
+    const response = await page.request.get(`${baseUrl}/icon?name=AWS&color=ff5511&size=64&circle=1`);
+    const svg = await response.text();
+
+    // Square canvas with a circle in the chosen color and the logo nested at its own viewBox.
+    expect(svg).toContain('viewBox="0 0 256 256"');
+    expect(svg).toContain('<circle');
+    expect(svg).toContain('fill="#ff5511"'); // chosen color tints the circle, even for raw logos
+    expect(svg).toContain('<svg x="32" y="32"');
+    expect(svg).toContain('viewBox="0 0 256 153"'); // nested logo keeps its native box
   });
 });

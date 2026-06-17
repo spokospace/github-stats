@@ -34,7 +34,7 @@ export function renderStack(techs: string[], theme: Theme = DEFAULT_THEME): stri
     row.forEach(({ label, w }) => {
       const icon = TECH_ICONS[label];
       const color = icon?.color ?? langColor(label);
-      chips += chip(cx, cy, label, color, icon?.path ?? null, theme);
+      chips += chip(cx, cy, label, color, icon ?? null, theme);
       cx += w + CHIP_GAP_X;
     });
   });

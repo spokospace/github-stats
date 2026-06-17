@@ -1,5 +1,5 @@
 import { esc } from '../svg/utils';
-import { TECH_ICONS } from '../svg/theme';
+import { TECH_ICONS, techIconBody } from '../svg/theme';
 
 // Single-color SVG icon renderer — viewBox 0 0 256 256
 // Paths sourced from Phosphor Icons (MIT) — thin weight
@@ -73,6 +73,12 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   }
   const techIcon = TECH_ICONS_LOWER[name.toLowerCase()];
   if (!techIcon) return null;
-  const bg = circle ? `<circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/>` : '';
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256">${bg}<path${circle ? ' transform="translate(32,32) scale(0.75)"' : ''} d="${techIcon.path}" fill="${c}"/></svg>`;
+  // Inner markup keeps raw logos' own fills/viewBox; simple-icons become a recolored 24x24 path.
+  const { viewBox, inner } = techIconBody(techIcon, c);
+  if (circle) {
+    // Square canvas: a circle tinted with the chosen color + the icon scaled to
+    // 75% and centered via a nested svg (raw logos keep their own multi-color body).
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="0 0 256 256"><circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/><svg x="32" y="32" width="192" height="192" viewBox="${viewBox}">${inner}</svg></svg>`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${s}" height="${s}" viewBox="${viewBox}">${inner}</svg>`;
 }
