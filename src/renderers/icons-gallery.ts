@@ -129,11 +129,60 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
       cursor: pointer;
     }
 
-    .configurator input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      accent-color: var(--primary);
+    /* Toggle switch (Circle background) */
+    .switch {
+      position: relative;
+      display: inline-flex;
+      width: 40px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
       cursor: pointer;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      transition: background 0.2s, border-color 0.2s;
+      pointer-events: none;
+    }
+
+    .switch-track::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .switch input:checked + .switch-track {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .switch input:checked + .switch-track::before {
+      transform: translateX(18px);
+      background: #fff;
+    }
+
+    .switch input:focus-visible + .switch-track {
+      outline: 2px solid var(--primary);
+      outline-offset: 2px;
     }
 
     .configurator input[type="number"] {
@@ -256,6 +305,29 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
       color: var(--muted);
       font-size: 13px;
     }
+
+    /* ── Mobile ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .container { padding: 32px 16px; }
+
+      /* Compact configurator: tighter rows, hint on its own line */
+      .configurator {
+        gap: 12px 18px;
+        padding: 12px 14px;
+        margin-bottom: 24px;
+      }
+
+      .cfg-hint {
+        margin-left: 0;
+        flex-basis: 100%;
+        font-size: 11px;
+      }
+
+      /* Drop the unreadable HTML snippet column — the Copy button is the action */
+      .icon-usage { display: none; }
+      .icon-name-cell { width: auto; }
+      .icon-table td { padding: 10px 8px; }
+    }
   </style>
 </head>
 <body>
@@ -272,7 +344,7 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
         <span class="cfg-hex" id="cfg-hex">#${colorHex}</span>
       </div>
       <div class="cfg-field">
-        <input type="checkbox" id="cfg-circle">
+        <label class="switch"><input type="checkbox" id="cfg-circle"><span class="switch-track"></span></label>
         <label for="cfg-circle">Circle background</label>
       </div>
       <div class="cfg-field">
