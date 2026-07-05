@@ -14,10 +14,11 @@ export const UI_ICON_GROUPS: IconGroup[] = [
 ];
 
 export const TECH_ICON_GROUPS: IconGroup[] = [
-  { title: 'Frameworks & Languages', names: ['Laravel', 'Vue', 'Astro', 'React', 'TypeScript', 'PHP', 'Node.js', 'Python', 'Next.js', 'Nuxt', 'Svelte', 'Angular', 'Remix', 'Solid', 'Express', 'NestJS', 'FastAPI', 'Django', 'Flask', 'Symfony', 'Rails', 'Ruby', 'Go', 'Rust', 'Kotlin', 'Swift', '.NET'] },
+  { title: 'Frameworks & Languages', names: ['Laravel', 'Vue', 'Astro', 'React', 'TypeScript', 'JavaScript', 'PHP', 'Node.js', 'Python', 'HTML', 'CSS', 'SCSS', 'Next.js', 'Nuxt', 'Svelte', 'Angular', 'Remix', 'Solid', 'Express', 'NestJS', 'FastAPI', 'Django', 'Flask', 'Symfony', 'Rails', 'Ruby', 'Go', 'Rust', 'Kotlin', 'Swift', '.NET'] },
+  { title: 'CSS & UI',               names: ['Tailwind', 'UnoCSS', 'Radix UI', 'shadcn/ui', 'Framer Motion', 'Bootstrap', 'MUI', 'Ant Design', 'Chakra UI', 'daisyUI'] },
   { title: 'Databases',              names: ['MySQL', 'PostgreSQL', 'MongoDB', 'Redis', 'SQLite', 'Prisma', 'Supabase', 'Firebase'] },
   { title: 'Build & Testing',        names: ['Vite', 'Webpack', 'GraphQL', 'Jest', 'Vitest', 'ESLint', 'Storybook', 'Figma', 'Turbopack', 'Turborepo', 'pnpm', 'Yarn', 'Rollup', 'Babel', 'esbuild', 'Playwright', 'Cypress'] },
-  { title: 'Cloud & Hosting',        names: ['AWS', 'Azure', 'GCP', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'] },
+  { title: 'Cloud & Hosting',        names: ['AWS', 'Azure', 'GCP', 'Vercel', 'Netlify', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'] },
   { title: 'Infrastructure',         names: ['Kubernetes', 'Nginx', 'Linux', 'GitHub Actions', 'Terraform', 'Ansible', 'Grafana', 'Prometheus', 'RabbitMQ', 'Elasticsearch'] },
-  { title: 'Other',                  names: ['Docker', 'Git', 'UnoCSS', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'] },
+  { title: 'Other',                  names: ['Docker', 'Git', 'WordPress', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'] },
 ];

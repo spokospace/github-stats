@@ -376,6 +376,7 @@ export function renderDoc(baseUrl: string): string {
         <p>Dynamic SVG stats widgets for GitHub profiles — built on Cloudflare Workers + KV</p>
         <div class="header-links">
           <a class="btn btn-primary" href="https://github.com/spokospace/github-stats">GitHub</a>
+          <a class="btn" href="${baseUrl}/icons">Icons Gallery</a>
           <a class="btn" href="${baseUrl}/stack">Try /stack →</a>
         </div>
       </div>
