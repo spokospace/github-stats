@@ -39,14 +39,14 @@ query($login: String!, $after: String) {
 }
 `;
 
-async function fetchRepoLanguages(token: string, login: string): Promise<LangData> {
+async function fetchRepoLanguages(token: string, login: string, excludeRepos: Set<string>): Promise<LangData> {
   const totals: LangData = {};
   let after: string | null = null;
   do {
     const data = await gql(token, REPOS_QUERY, { login, after });
     const { nodes, pageInfo } = data.owner.repositories;
     for (const repo of nodes) {
-      if (repo.isFork) continue;
+      if (repo.isFork || excludeRepos.has(repo.name.toLowerCase())) continue;
       for (const edge of repo.languages.edges) {
         const lang = edge.node.name;
         if (!LANG_IGNORE.has(lang)) {
@@ -59,8 +59,9 @@ async function fetchRepoLanguages(token: string, login: string): Promise<LangDat
   return totals;
 }
 
-export async function fetchLanguages(token: string, logins: string[]): Promise<LangData> {
-  const results = await Promise.all(logins.map(login => fetchRepoLanguages(token, login)));
+export async function fetchLanguages(token: string, logins: string[], excludeRepos: string[] = []): Promise<LangData> {
+  const excluded = new Set(excludeRepos.map(repo => repo.trim().toLowerCase()).filter(Boolean));
+  const results = await Promise.all(logins.map(login => fetchRepoLanguages(token, login, excluded)));
   const merged: LangData = {};
   for (const result of results) {
     for (const [lang, bytes] of Object.entries(result)) {
