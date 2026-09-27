@@ -20,6 +20,9 @@ import {
   siGooglecloud, siCloudflare, siRailway, siRender, siDigitalocean,
   // Mobile / other
   siFlutter, siDart, siElectron, siTauri, siWebassembly, siSolidity,
+  // Social media
+  siLinkedin, siFacebook, siInstagram, siX, siYoutube, siTiktok,
+  siThreads, siMastodon, siDiscord, siTelegram, siReddit, siBluesky,
 } from 'simple-icons';
 import { default as logosAws } from '@iconify-icons/logos/aws';
 import { default as logosAzureIcon } from '@iconify-icons/logos/azure-icon';
@@ -371,6 +374,19 @@ export const TECH_ICONS: Record<string, TechIcon> = {
   'Tauri':      { path: siTauri.path,        color: iconColor(siTauri.hex)},
   'WebAssembly': { path: siWebassembly.path, color: iconColor(siWebassembly.hex)},
   'Solidity':   { path: siSolidity.path,     color: iconColor(siSolidity.hex)},
+  // Social media
+  'LinkedIn':   { path: siLinkedin.path,       color: iconColor(siLinkedin.hex)},
+  'Facebook':   { path: siFacebook.path,       color: iconColor(siFacebook.hex)},
+  'Instagram':  { path: siInstagram.path,      color: iconColor(siInstagram.hex)},
+  'X':          { path: siX.path,              color: iconColor(siX.hex)},
+  'YouTube':    { path: siYoutube.path,        color: iconColor(siYoutube.hex)},
+  'TikTok':     { path: siTiktok.path,         color: iconColor(siTiktok.hex)},
+  'Threads':    { path: siThreads.path,        color: iconColor(siThreads.hex)},
+  'Mastodon':   { path: siMastodon.path,       color: iconColor(siMastodon.hex)},
+  'Discord':    { path: siDiscord.path,        color: iconColor(siDiscord.hex)},
+  'Telegram':   { path: siTelegram.path,       color: iconColor(siTelegram.hex)},
+  'Reddit':     { path: siReddit.path,         color: iconColor(siReddit.hex)},
+  'Bluesky':    { path: siBluesky.path,        color: iconColor(siBluesky.hex)},
 };
 
 // Lowercase + slug lookup for renderIcon. Built here so any renderer can import

@@ -170,6 +170,8 @@ Single-color SVG icons for inline use in Markdown. Two variants:
 
 **Organization:** `folder`, `file`, `list`, `bookmark`, `calendar`, `chart-bar`
 
+**Social Media:** `LinkedIn`, `Facebook`, `Instagram`, `X`, `YouTube`, `TikTok`, `Threads`, `Mastodon`, `Discord`, `Telegram`, `Reddit`, `Bluesky`
+
 **Workspace:** `code`, `terminal`, `database`, `git-branch`, `book`, `bug`
 
 **Security & Control:** `lock`, `shield`, `key`, `gear`, `user`, `users`, `building`, `target`, `briefcase`, `mail`
