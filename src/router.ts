@@ -64,8 +64,8 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
           .filter(Boolean)
           .filter((repo, index, all) => all.indexOf(repo) === index);
         const cacheKey = excludeRepos.length
-          ? `langs:${excludeRepos.map(repo => repo.toLowerCase()).sort().join(',')}`
-          : 'langs';
+          ? `langs:v2:${excludeRepos.sort().join(',')}`
+          : 'langs:v2';
         const data = await cached(env.KV, cacheKey, () => fetchLanguages(env.GITHUB_TOKEN, OWNERS, excludeRepos));
         return svgResponse(renderLangs(data, theme));
       }
