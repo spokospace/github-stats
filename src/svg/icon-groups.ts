@@ -20,5 +20,6 @@ export const TECH_ICON_GROUPS: IconGroup[] = [
   { title: 'Build & Testing',        names: ['Vite', 'Webpack', 'GraphQL', 'Jest', 'Vitest', 'ESLint', 'Storybook', 'Figma', 'Turbopack', 'Turborepo', 'pnpm', 'Yarn', 'Rollup', 'Babel', 'esbuild', 'Playwright', 'Cypress'] },
   { title: 'Cloud & Hosting',        names: ['AWS', 'Azure', 'GCP', 'Vercel', 'Netlify', 'Cloudflare', 'Cloudflare Workers', 'Heroku', 'Railway', 'Render', 'DigitalOcean'] },
   { title: 'Infrastructure',         names: ['Kubernetes', 'Nginx', 'Linux', 'GitHub Actions', 'Terraform', 'Ansible', 'Grafana', 'Prometheus', 'RabbitMQ', 'Elasticsearch'] },
+  { title: 'Social Media',           names: ['LinkedIn', 'Facebook', 'Instagram', 'X', 'YouTube', 'TikTok', 'Threads', 'Mastodon', 'Discord', 'Telegram', 'Reddit', 'Bluesky'] },
   { title: 'Other',                  names: ['Docker', 'Git', 'WordPress', 'Bun', 'Deno', 'Strapi', 'Sanity', 'Hono', 'tRPC', 'Drizzle', 'Flutter', 'Dart', 'Electron', 'Tauri', 'WebAssembly', 'Solidity', 'MDX'] },
 ];
