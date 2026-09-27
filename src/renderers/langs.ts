@@ -4,9 +4,10 @@ import { svgWrapper, sectionTitle, text, progressBar, formatNumber } from '../sv
 
 export function renderLangs(langs: LangData, theme = THEME): string {
   const W = 460, P = 20;
-  const entries = Object.entries(langs);
-  const total = entries.reduce((s, [, v]) => s + v, 0);
+  const total = Object.values(langs).reduce((s, v) => s + v, 0);
   if (!total) return '<svg xmlns="http://www.w3.org/2000/svg"/>';
+  // Drop languages that would render as "0.0%" — they add noise, not signal.
+  const entries = Object.entries(langs).filter(([, v]) => (v / total) * 100 >= 0.05);
 
   const BAR_H = 8;
   const ROW_H = 24;
