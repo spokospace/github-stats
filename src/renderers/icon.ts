@@ -76,7 +76,7 @@ export function renderIcon(name: string, color: string, size = 16, circle = fals
   const s = Math.min(Math.max(size, 8), 96);
   const c = esc(color);
   const op = Math.min(Math.max(opacity, 0), 1);
-  const icon = ICONS[name];
+  const icon = ICONS[name] ?? ICONS[name.toLowerCase()];
   if (icon) {
     const rule = icon.rule ? ` fill-rule="${icon.rule}" clip-rule="${icon.rule}"` : '';
     const bg = circle ? `<circle cx="128" cy="128" r="128" fill="${c}" fill-opacity="${op}"/>` : '';
