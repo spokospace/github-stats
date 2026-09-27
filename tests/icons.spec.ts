@@ -71,6 +71,15 @@ test.describe('Icon Endpoint', () => {
     expect(svg).toContain('<path');
   });
 
+  test('social media icons render correctly', async ({ page }) => {
+    const socialIcons = ['LinkedIn', 'Facebook', 'Instagram', 'X', 'YouTube', 'TikTok', 'Threads', 'Mastodon', 'Discord', 'Telegram', 'Reddit', 'Bluesky'];
+
+    for (const social of socialIcons) {
+      const response = await page.request.get(`${baseUrl}/icon?name=${social}&color=0d87cd&size=32`);
+      expect(response.ok(), `Social icon ${social} should render successfully`).toBe(true);
+    }
+  });
+
   test('tech stack icons render correctly', async ({ page }) => {
     const techIcons = ['Laravel', 'Vue', 'TypeScript', 'React'];
 
