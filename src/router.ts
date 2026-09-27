@@ -19,7 +19,7 @@ const OWNERS = ['spokospace', 'polo-blue'];
 const PRIMARY = OWNERS[0];
 const TTL = 86400; // 24h cache
 const STACK_TTL = TTL * 7;
-const CACHE_KEYS = ['langs', 'stats:2', 'streak:2', 'streak:3', 'repos', 'contrib'];
+const CACHE_KEYS = ['langs:v2', 'stats:2', 'streak:2', 'streak:3', 'repos', 'contrib'];
 
 function svgResponse(body: string, ttl = TTL): Response {
   return new Response(body, {
