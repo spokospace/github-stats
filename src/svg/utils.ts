@@ -4,9 +4,16 @@ import { THEME as DEFAULT, techIconBody } from './theme';
 // All util functions accept an optional theme param; fallback to DEFAULT
 
 export function svgWrapper(w: number, h: number, inner: string, title?: string, t: Theme = DEFAULT): string {
+  const c = t.chamfer;
+  let shape: string;
+  if (c > 0) {
+    const pts = `0,0 ${w - c},0 ${w},${c} ${w},${h} ${c},${h} 0,${h - c}`;
+    shape = `<polygon points="${pts}" fill="${t.bg}"/>\n<polygon points="${pts}" fill="none" stroke="${t.border}" stroke-width="1"/>`;
+  } else {
+    shape = `<rect width="${w}" height="${h}" rx="${t.radius}" fill="${t.bg}"/>\n<rect x="0" y="0" width="${w}" height="${h}" rx="${t.radius}" fill="none" stroke="${t.border}" stroke-width="1"/>`;
+  }
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" role="img"${title ? ` aria-label="${title}"` : ''}>
-<rect width="${w}" height="${h}" rx="${t.radius}" fill="${t.bg}"/>
-<rect x="0" y="0" width="${w}" height="${h}" rx="${t.radius}" fill="none" stroke="${t.border}" stroke-width="1"/>
+${shape}
 ${inner}
 </svg>`;
 }

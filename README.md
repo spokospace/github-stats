@@ -203,6 +203,7 @@ All endpoints accept query params to override the default color palette:
 | `textMuted` | `6b7db3` | |
 | `border` | `1a2444` | |
 | `radius` | `10` | `?radius=4` |
+| `chamfer` | `0` | `?chamfer=12` — cut corners (top-right & bottom-left), [spoko.space](https://spoko.space) style |
 
 Named presets: `?theme=light`, `?theme=dracula`, `?theme=nord`, `?theme=gruvbox`, `?theme=solarized`, `?theme=monokai`, `?theme=catppuccin`, `?theme=tokyo`, `?theme=rose`, `?theme=forest`
 

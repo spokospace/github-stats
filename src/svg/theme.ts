@@ -47,6 +47,7 @@ export interface Theme {
   warning: string;
   danger: string;
   radius: number;
+  chamfer: number;
   font: string;
 }
 
@@ -64,7 +65,8 @@ export const DEFAULT_THEME: Theme = {
   success: '#22c55e',
   warning: '#f59e0b',
   danger: '#ef4444',
-  radius: 6,
+  radius: 10,
+  chamfer: 0,
   font: 'ui-sans-serif,system-ui,sans-serif',
 };
 
@@ -88,6 +90,7 @@ export function buildTheme(params: URLSearchParams): Theme {
     warning: p('warning', base.warning),
     danger: p('danger', base.danger),
     radius: parseInt(params.get('radius') ?? '') || base.radius,
+    chamfer: parseInt(params.get('chamfer') ?? '') || base.chamfer,
     font: params.get('font') ?? base.font,
   };
 }
@@ -105,7 +108,8 @@ export const LIGHT_THEME: Theme = {
   success: '#16a34a',
   warning: '#d97706',
   danger: '#dc2626',
-  radius: 6,
+  radius: 10,
+  chamfer: 0,
   font: 'ui-sans-serif,system-ui,sans-serif',
 };
 
@@ -117,70 +121,70 @@ export const NAMED_THEMES: Record<string, Theme> = {
     primary: '#7aa2f7', primaryDark: '#5c8ee0',
     text: '#c0caf5', textMuted: '#9aa5ce', textDim: '#565f89',
     success: '#9ece6a', warning: '#e0af68', danger: '#f7768e',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   dracula: {
     bg: '#282a36', bgCard: '#313442', bgBar: '#3c4064', border: '#44475a',
     primary: '#bd93f9', primaryDark: '#9d74d4',
     text: '#f8f8f2', textMuted: '#6272a4', textDim: '#44475a',
     success: '#50fa7b', warning: '#ffb86c', danger: '#ff5555',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   'github-dark': {
     bg: '#0d1117', bgCard: '#161b22', bgBar: '#21262d', border: '#30363d',
     primary: '#58a6ff', primaryDark: '#3785e0',
     text: '#c9d1d9', textMuted: '#8b949e', textDim: '#484f58',
     success: '#3fb950', warning: '#d29922', danger: '#f85149',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   nord: {
     bg: '#2e3440', bgCard: '#3b4252', bgBar: '#434c5e', border: '#4c566a',
     primary: '#88c0d0', primaryDark: '#5e9ab0',
     text: '#eceff4', textMuted: '#d8dee9', textDim: '#7b88a1',
     success: '#a3be8c', warning: '#ebcb8b', danger: '#bf616a',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   radical: {
     bg: '#141321', bgCard: '#1e1c30', bgBar: '#282639', border: '#383838',
     primary: '#fe428e', primaryDark: '#d4226e',
     text: '#a9fef7', textMuted: '#717491', textDim: '#434761',
     success: '#79ff97', warning: '#f8d847', danger: '#ff5555',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   synthwave: {
     bg: '#2b213a', bgCard: '#352a4e', bgBar: '#3f3060', border: '#6b4d8a',
     primary: '#ff6ac1', primaryDark: '#d44d9c',
     text: '#f4f4f7', textMuted: '#a699d0', textDim: '#7257a3',
     success: '#72f1b8', warning: '#fede5d', danger: '#fe4450',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   catppuccin: {
     bg: '#1e1e2e', bgCard: '#313244', bgBar: '#45475a', border: '#585b70',
     primary: '#cba6f7', primaryDark: '#a882d8',
     text: '#cdd6f4', textMuted: '#a6adc8', textDim: '#6c7086',
     success: '#a6e3a1', warning: '#f9e2af', danger: '#f38ba8',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   gruvbox: {
     bg: '#282828', bgCard: '#3c3836', bgBar: '#504945', border: '#665c54',
     primary: '#fabd2f', primaryDark: '#d49e1d',
     text: '#ebdbb2', textMuted: '#a89984', textDim: '#7c6f64',
     success: '#b8bb26', warning: '#fe8019', danger: '#cc241d',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   aura: {
     bg: '#15141b', bgCard: '#1c1b26', bgBar: '#252432', border: '#3d375e',
     primary: '#a277ff', primaryDark: '#7d58d4',
     text: '#edecee', textMuted: '#9590ac', textDim: '#6a6480',
     success: '#61ffca', warning: '#ffca85', danger: '#ff6767',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
   discord: {
     bg: '#2c2f33', bgCard: '#36393f', bgBar: '#424549', border: '#202225',
     primary: '#5865f2', primaryDark: '#3c47c8',
     text: '#dcddde', textMuted: '#96989d', textDim: '#72767d',
     success: '#3ba55c', warning: '#faa61a', danger: '#ed4245',
-    radius: 6, font: 'ui-sans-serif,system-ui,sans-serif',
+    radius: 10, chamfer: 0, font: 'ui-sans-serif,system-ui,sans-serif',
   },
 };
 
