@@ -2,9 +2,12 @@ name = "github-stats"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
 
+# Production runs on the cnk.one Cloudflare account, which owns the spoko.space
+# zone and the github.spoko.space custom domain. This is that account's KV id —
+# `wrangler deploy` must be run while logged in as cnk.one.
 [[kv_namespaces]]
 binding = "KV"
-id = "58765d49024640d4aae8aae7a10bcc0f"
+id = "5a6b7584ef0f4bdb80ec2a542d568f2f"
 
 # Secrets (set via CLI, not stored here):
 # wrangler secret put GITHUB_TOKEN
