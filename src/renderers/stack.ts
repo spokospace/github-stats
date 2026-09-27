@@ -8,6 +8,7 @@ export function renderStack(techs: string[], theme: Theme = DEFAULT_THEME): stri
   const CHIP_GAP_X = 8;
   const CHIP_GAP_Y = 8;
   const MAX_W = W - P * 2;
+  const showTitle = theme.showTitle !== false;
   const titleY = P + 14;
   const ICON = 14, ICON_GAP = 5, PAD_X = 8;
 
@@ -24,7 +25,7 @@ export function renderStack(techs: string[], theme: Theme = DEFAULT_THEME): stri
     }
   }
 
-  const gridY = titleY + 18;
+  const gridY = showTitle ? titleY + 18 : P;
   const H = gridY + rows.length * (CHIP_H + CHIP_GAP_Y) + P - CHIP_GAP_Y;
 
   let chips = '';
@@ -40,7 +41,7 @@ export function renderStack(techs: string[], theme: Theme = DEFAULT_THEME): stri
   });
 
   const inner = `
-${sectionTitle(P, titleY, 'Tech Stack', theme)}
+${showTitle ? sectionTitle(P, titleY, 'Tech Stack', theme) : ''}
 ${chips}`;
 
   return svgWrapper(W, H, inner, 'Tech Stack', theme);

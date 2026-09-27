@@ -5,8 +5,8 @@ import { svgWrapper, sectionTitle, text, formatNumber } from '../svg/utils';
 
 export function renderStats(s: StatsData, theme: Theme = DEFAULT_THEME): string {
   const W = 460, P = 20;
+  const showTitle = theme.showTitle !== false;
   const titleY = P + 14;
-  const H = 220;
 
   const items = [
     { label: 'Total Commits', value: formatNumber(s.totalCommits), color: theme.primary },
@@ -26,7 +26,9 @@ export function renderStats(s: StatsData, theme: Theme = DEFAULT_THEME): string 
   const COLS = 3;
   const COL_W = (W - P * 2) / COLS;
   const ROW_H = 44;
-  const gridY = titleY + 18;
+  const ROWS = Math.ceil(items.length / COLS);
+  const gridY = showTitle ? titleY + 18 : P;
+  const H = gridY + ROWS * ROW_H - 6 + P;
 
   const grid = items.map((item, i) => {
     const col = i % COLS;
@@ -41,7 +43,7 @@ ${text(x + 12, y + 30, item.label, { size: 9, fill: theme.textMuted }, theme)}`;
   }).join('');
 
   const inner = `
-${sectionTitle(P, titleY, 'GitHub Stats', theme)}
+${showTitle ? sectionTitle(P, titleY, 'GitHub Stats', theme) : ''}
 ${grid}`;
 
   return svgWrapper(W, H, inner, 'GitHub Stats', theme);

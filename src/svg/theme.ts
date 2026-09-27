@@ -49,6 +49,9 @@ export interface Theme {
   radius: number;
   chamfer: number;
   font: string;
+  // Suppress the card's internal section title (e.g. when the embedding page
+  // already labels the section with its own heading). Defaults to shown.
+  showTitle?: boolean;
 }
 
 // Default (spoko.space dark)
@@ -92,6 +95,7 @@ export function buildTheme(params: URLSearchParams): Theme {
     radius: parseInt(params.get('radius') ?? '') || base.radius,
     chamfer: parseInt(params.get('chamfer') ?? '') || base.chamfer,
     font: params.get('font') ?? base.font,
+    showTitle: params.get('title') !== '0',
   };
 }
 

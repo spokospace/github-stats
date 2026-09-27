@@ -204,6 +204,7 @@ All endpoints accept query params to override the default color palette:
 | `border` | `1a2444` | |
 | `radius` | `10` | `?radius=4` |
 | `chamfer` | `0` | `?chamfer=12` — cut corners (top-right & bottom-left), [spoko.space](https://spoko.space) style |
+| `title` | `1` | `?title=0` — hide the card's built-in section title when your page already has a heading |
 
 Named presets: `?theme=light`, `?theme=dracula`, `?theme=nord`, `?theme=gruvbox`, `?theme=solarized`, `?theme=monokai`, `?theme=catppuccin`, `?theme=tokyo`, `?theme=rose`, `?theme=forest`
 
