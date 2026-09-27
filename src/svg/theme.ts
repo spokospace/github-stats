@@ -20,8 +20,8 @@ import {
   siGooglecloud, siCloudflare, siRailway, siRender, siDigitalocean,
   // Mobile / other
   siFlutter, siDart, siElectron, siTauri, siWebassembly, siSolidity,
-  // Social media
-  siLinkedin, siFacebook, siInstagram, siX, siYoutube, siTiktok,
+  // Social media (LinkedIn is vendored locally because Simple Icons removed it in v14)
+  siFacebook, siInstagram, siX, siYoutube, siTiktok,
   siThreads, siMastodon, siDiscord, siTelegram, siReddit, siBluesky,
 } from 'simple-icons';
 import { default as logosAws } from '@iconify-icons/logos/aws';
@@ -239,7 +239,7 @@ export function langColor(lang: string): string {
   return LANG_COLORS[lang] ?? LANG_COLORS.default;
 }
 
-// Tech stack icons. simple-icons (MIT) are single 24x24 paths we recolor.
+const siLinkedin = { path: "M216,28H40A12,12,0,0,0,28,40V216a12,12,0,0,0,12,12H216a12,12,0,0,0,12-12V40A12,12,0,0,0,216,28Zm4,188a4,4,0,0,1-4,4H40a4,4,0,0,1-4-4V40a4,4,0,0,1,4-4H216a4,4,0,0,1,4,4ZM92,112v64a4,4,0,0,1-8,0V112a4,4,0,0,1,8,0Zm88,28v36a4,4,0,0,1-8,0V140a24,24,0,0,0-48,0v36a4,4,0,0,1-8,0V112a4,4,0,0,1,8,0v6.87A32,32,0,0,1,180,140ZM96,84a8,8,0,1,1-8-8A8,8,0,0,1,96,84Z", hex: '0A66C2' };\n\n// Tech stack icons. simple-icons (MIT) are single 24x24 paths we recolor.
 // @iconify-icons/logos entries are full multi-color SVG bodies (raw=true) with
 // their own native viewBox — embed as-is, do not recolor or force a 24x24 box.
 export type TechIcon = { path: string; color: string; viewBox?: string; raw?: boolean };
