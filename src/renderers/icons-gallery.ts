@@ -334,7 +334,7 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
   <div class="container">
     <header>
       <h1>github<span>-stats</span> Icons Gallery</h1>
-      <p>44 UI icons + 50+ tech stack icons for your GitHub projects</p>
+      <p>44 UI icons + 50+ tech stack icons + social media icons for your GitHub projects</p>
     </header>
 
     <div class="configurator">
@@ -361,8 +361,8 @@ export function renderIconsGallery(baseUrl: string, theme: Theme): string {
     </section>
 
     <section>
-      <h2>Tech Stack Icons (50+)</h2>
-      <p style="color: var(--muted); margin-bottom: 24px;">Brand-colored logos keep their own colors; the Color option applies to single-color (Phosphor &amp; simple-icons) glyphs.</p>
+      <h2>Tech Stack &amp; Social Icons</h2>
+      <p style="color: var(--muted); margin-bottom: 24px;">Social and tech logos are rendered as single-color SVGs here, so the Color and Circle controls apply consistently to every icon.</p>
       ${techIconsHtml}
     </section>
 
