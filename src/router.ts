@@ -57,10 +57,12 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         });
       }
       case '/langs': {
-        const rawExclude = params.get('exclude_repo');
-        const excludeRepos = rawExclude
-          ? rawExclude.split(',').map(repo => repo.trim()).filter(Boolean)
-          : [];
+        const excludeRepos = params
+          .getAll('exclude_repo')
+          .flatMap(value => value.split(','))
+          .map(repo => repo.trim().toLowerCase())
+          .filter(Boolean)
+          .filter((repo, index, all) => all.indexOf(repo) === index);
         const cacheKey = excludeRepos.length
           ? `langs:${excludeRepos.map(repo => repo.toLowerCase()).sort().join(',')}`
           : 'langs';
