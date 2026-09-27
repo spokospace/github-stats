@@ -57,7 +57,14 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
         });
       }
       case '/langs': {
-        const data = await cached(env.KV, 'langs', () => fetchLanguages(env.GITHUB_TOKEN, OWNERS));
+        const rawExclude = params.get('exclude_repo');
+        const excludeRepos = rawExclude
+          ? rawExclude.split(',').map(repo => repo.trim()).filter(Boolean)
+          : [];
+        const cacheKey = excludeRepos.length
+          ? `langs:${excludeRepos.map(repo => repo.toLowerCase()).sort().join(',')}`
+          : 'langs';
+        const data = await cached(env.KV, cacheKey, () => fetchLanguages(env.GITHUB_TOKEN, OWNERS, excludeRepos));
         return svgResponse(renderLangs(data, theme));
       }
       case '/stats': {
@@ -117,6 +124,8 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
           return new Response('Unauthorized', { status: 401 });
         }
         await Promise.all(CACHE_KEYS.map(k => env.KV.delete(k)));
+        const langVariants = await env.KV.list({ prefix: 'langs:' });
+        await Promise.all(langVariants.keys.map(k => env.KV.delete(k.name)));
         return new Response('Cache cleared', { status: 200 });
       }
       default:
@@ -124,6 +133,7 @@ export async function handleRequest(request: Request, env: Env): Promise<Respons
           endpoints: ['/langs', '/stats', '/streak', '/repos', '/contrib', '/trophies', '/stack', '/profile', '/icon', '/icons'],
           usage: {
             theme: 'All endpoints accept ?primary=0d87cd&bg=030620&text=e5ecf6&radius=10',
+            langs: '/langs?exclude_repo=old-project,legacy-app',
             stack: '/stack?techs=Laravel,Vue,TypeScript',
             icon: '/icon?name=bolt&color=0d87cd&size=20',
             icons: '/icons — full icons gallery',
