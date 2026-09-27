@@ -40,12 +40,12 @@ Commits, PRs, stars, forks, issues, followers and more.
 </picture>
 
 ### Languages
-Most used languages by bytes of code (top 10, forks excluded).
+Most used languages by bytes of code (top 10, forks excluded). Supports `exclude_repo` to remove legacy repositories before calculating percentages.
 
 ```html
 <picture>
   <source media="(prefers-color-scheme: light)" srcset="https://github.spoko.space/langs?theme=light">
-  <img src="https://github.spoko.space/langs" alt="Languages">
+  <img src="https://github.spoko.space/langs?exclude_repo=old-project,legacy-app" alt="Languages">
 </picture>
 ```
 
@@ -216,7 +216,7 @@ Named presets: `?theme=light`, `?theme=dracula`, `?theme=nord`, `?theme=gruvbox`
 |----------|-------------|
 | `/` | API documentation page |
 | `/profile` | Radar HUD with orbit dots, streak & stats |
-| `/langs` | Most used languages (bar chart) |
+| `/langs` | Most used languages (bar chart), supports `?exclude_repo=repo1,repo2` |
 | `/stats` | Commits, PRs, stars, forks, issues, followers |
 | `/streak` | Contribution streak: current, longest, total |
 | `/repos` | Featured repositories |
