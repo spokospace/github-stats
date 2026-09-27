@@ -68,8 +68,10 @@ export async function fetchLanguages(token: string, logins: string[], excludeRep
       merged[lang] = (merged[lang] ?? 0) + bytes;
     }
   }
+  // Keep every language so the renderer can calculate percentages against the
+  // full byte total. The renderer is responsible for limiting the visible list.
   return Object.fromEntries(
-    Object.entries(merged).sort(([, a], [, b]) => b - a).slice(0, 10)
+    Object.entries(merged).sort(([, a], [, b]) => b - a)
   );
 }
 
